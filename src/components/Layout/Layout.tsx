@@ -4,9 +4,9 @@ import { Header } from "../Header/Header";
 
 export const Layout: React.FC = () => {
   const location = useLocation();
-    return (
+  return (
     <>
-        {location.pathname !== "/" ? <Header /> : null}
+      {(location.pathname !== "/" && location.pathname !== "/auth") && <Header />}
       <Outlet />
     </>
   );
