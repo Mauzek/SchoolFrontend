@@ -1,0 +1,364 @@
+.welcome {
+    font-family: 'Roboto', sans-serif;
+    color: #616161;
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        position: sticky; 
+        top: 0; 
+        z-index: 1000; 
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 50px;
+        background: rgba(255, 255, 255, 0.8); 
+        backdrop-filter: blur(10px);  
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        .welcome__logo-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            .welcome__logo-container-img {
+                width: 70px;
+                transition: transform 0.3s ease, filter 0.3s ease;
+              }
+              
+              .welcome__logo-container-img:hover {
+                transform: rotate(15deg);
+                filter: brightness(1.2);
+              }              
+        }
+
+        .welcome__nav {
+            display: flex;
+            align-items: center;
+            gap: 100px;
+            height: 100%;
+
+            .welcome__nav-list {
+                display: flex;
+                align-items: center;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                gap: 100px;
+
+                .welcome__nav-item {
+                    display: flex;
+                    align-items: center;
+
+                    .welcome__nav-link {
+                        padding: 10px;
+                        display: flex;
+                        align-items: center;
+                        height: 100%;
+                        color: #4CAF50;
+                        text-decoration: none;
+                        border-radius: 8px;
+                        transition: box-shadow 0.3s ease;
+                        font-size: 1.2em;
+
+                        &:hover {
+                            box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.2), inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+                        }
+                    }
+                }
+            }
+
+            .welcome__login-button {
+                background-color: #4CAF50;
+                padding: 10px 30px;
+                border-radius: 8px;
+                color: white;
+                text-decoration: none;
+                outline: 1px solid transparent;
+                transition: background-color 0.3s ease,  outline-offset 0.1s ease;
+                outline-offset: -5px;
+                &:hover {
+                   outline: 2px solid var(--color-primary);
+                   outline-offset: 5px;
+                   background-color: transparent;
+                   color: var(--color-primary)     
+                }
+            }
+        }
+    }
+
+    &__content {
+        flex: 1;
+        padding: 20px;
+
+        .welcome__banner {
+            position: relative;
+            background: url('../../assets/images/welcomePage/welcome-page_2.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: flex-end;
+            color: white;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+                z-index: 1;
+            }
+
+            .welcome__banner-text {
+                position: relative;
+                z-index: 2;
+                font-size: 1.2em;
+                display: inline-block;
+                padding: 20px;
+                border-radius: 8px;
+
+                p {
+                    font-size: 1em;
+                    width: 800px;
+                }
+            }
+        }
+
+        .welcome__section {
+            margin: 20px 0;
+
+            .welcome__poster,
+            .welcome__info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                border: 1px solid #4CAF50;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: border-color 0.3s ease;
+
+                &:hover {
+                    border-color: var(--color-secondary-dark);
+                }
+
+                .welcome__poster-image,
+                .welcome__info-image {
+                    width: 40%;
+                    border-radius: 50% 50% 70% 30% / 0% 79% 21% 100%;
+                }
+
+                .welcome__poster-image {
+                    border-radius: 30% 50% 40% 60% / 20% 40% 60% 80%;
+                }
+
+                .welcome__poster-text,
+                .welcome__info-text {
+                    width: 55%;
+                    padding: 20px;
+                    background: rgba(255, 255, 255, 0.8);
+                    border-radius: 12px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    backdrop-filter: blur(5px);
+
+                    h2 {
+                        font-size: 2rem;
+                        color: #4CAF50;
+                        margin-bottom: 15px;
+                        border-bottom: 2px solid #4CAF50;
+                        display: inline-block;
+                        padding-bottom: 5px;
+                    }
+
+                    p {
+                        font-size: 1.1rem;
+                        line-height: 1.6;
+                        margin-bottom: 15px;
+                        color: #555;
+                    }
+                }
+
+                .welcome__list {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        font-size: 1.1rem;
+                        padding: 10px 15px;
+                        background: #E8F5E9;
+                        border-radius: 8px;
+                        margin-bottom: 8px;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                        transition: transform 0.3s ease, background-color 0.3s ease;
+
+                        &:hover {
+                            transform: translatex(-5px);
+                            background-color: var(--color-secondary-light);
+                        }
+
+                        &::before {
+                            content: "✔";
+                            color: #4CAF50;
+                            font-weight: bold;
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .welcome__contact-container {
+            display: flex;
+            justify-content: space-between;
+            background: #F5F5F5;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 40px;
+
+            .welcome__contact-info {
+                width: 50%;
+                text-align: left;
+
+                h2 {
+                    font-size: 3em;
+                    font-family: var(--font-secondary);
+                    margin-bottom: 10px;
+                    color: #388E3C;
+                }
+
+                p {
+                    font-size: 1.5em;
+                    color: #BDBDBD;
+                    margin-bottom: 15px;
+                }
+
+                .welcome__contact-details {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        display: flex;
+                        align-items: center;
+                        font-size: 1.2em;
+                        color: #616161;
+                        margin-bottom: 10px;
+
+                        span {
+                            border-radius: 8px;
+                            padding: 2px 8px;
+                            background-color: #4CAF50;
+                            color: white;
+                            font-size: 1.2em;
+                        }
+                    }
+                }
+            }
+
+            .welcome__contact-form {
+                width: 50%;
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+                .welcome__form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+
+                    .welcome__form-label {
+                        font-size: 1rem;
+                        font-weight: 400;
+                        color: #616161;
+                    }
+
+                    .welcome__form-input,
+                    .welcome__form-textarea {
+                        width: 100%;
+                        padding: 15px;
+                        border-radius: 12px;
+                        font-family: var(--font-primary);
+                        font-size: 1rem;
+                        background: white;
+                        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+                        &::placeholder {
+                            color: #BDBDBD;
+                        }
+                    }
+
+                    .welcome__form-textarea {
+                        min-height: 120px;
+                        max-height: 300px;
+                        resize: none;
+                    }
+
+                    .welcome__form-button {
+                        background: #4CAF50;
+                        color: white;
+                        font-size: 1rem;
+                        padding: 15px;
+                        border: none;
+                        border-radius: 12px;
+                        cursor: pointer;
+                        transition: background 0.3s ease, outline-offset 0.1s ease;
+                        text-transform: uppercase;
+                        outline: 1px solid transparent;
+                        outline-offset: -5px;
+
+                        &:hover {
+                            background: transparent;
+                            outline: 2px solid var(--color-primary);
+                            outline-offset: 5px;
+                            color: var(--color-primary)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        height: 100px;
+
+        .welcome__footer-nav {
+            display: flex;
+            gap: 20px;
+
+            .welcome__footer-link {
+                color: white;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

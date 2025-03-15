@@ -1,11 +1,32 @@
+html {
+  scroll-behavior: smooth;
+}
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-primary: 'Roboto', sans-serif;
+  --font-secondary: 'Montserrat', sans-serif;
+
+  --color-primary: #4CAF50; /* Green */
+  --color-primary-dark: #388E3C;
+  --color-primary-light: #C8E6C9;
+  --color-secondary: #FFC107; /* Amber */
+  --color-secondary-dark: #FFA000;
+  --color-secondary-light: #FFECB3;
+  --color-background: #F5F5F5; /* Light grey */
+  --color-text: #212121; /* Dark grey */
+  --color-text-light: #757575; /* Medium grey */
+  --color-border: #E0E0E0; /* Light grey */
+
+  --border-radius: 8px;
+  --padding: 0.6em 1.2em;
+  --font-size: 1em;
+  --font-weight: 500;
+
+  font-family: var(--font-primary);
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--color-text);
+  background-color: var(--color-background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,13 +34,38 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-scrollbar {
+  width: 12px; /* Ширина полосы прокрутки */
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-background); /* Цвет фона трека */
+  border-radius: var(--border-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary); /* Зеленая полоса прокрутки */
+  border-radius: var(--border-radius);
+  border: 3px solid var(--color-background); /* Создает отступ от трека */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-dark); /* Цвет полосы прокрутки при наведении */
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 a {
-  font-weight: 500;
-  color: #646cff;
+  font-weight: var(--font-weight);
+  color: var(--color-primary);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--color-primary-dark);
 }
 
 body {
@@ -28,41 +74,83 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  font-family: var(--font-secondary);
 }
 
 button {
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  padding: var(--padding);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--color-primary);
+  color: white;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color-primary-dark);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+input{
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  padding: var(--padding);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  font-family: inherit;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+input:focus{
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+  outline: none;
+}
+
+textarea{
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);;
+  padding: var(--padding);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  font-family: inherit;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+textarea:focus{
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+  outline: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-text);
+    background-color: white;
   }
   a:hover {
-    color: #747bff;
+    color: var(--color-primary-dark);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--color-primary-light);
   }
 }
