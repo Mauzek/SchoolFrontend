@@ -27,12 +27,12 @@
             .welcome__logo-container-img {
                 width: 70px;
                 transition: transform 0.3s ease, filter 0.3s ease;
-              }
-              
-              .welcome__logo-container-img:hover {
+            }
+            
+            .welcome__logo-container-img:hover {
                 transform: rotate(15deg);
                 filter: brightness(1.2);
-              }              
+            }              
         }
 
         .welcome__nav {
@@ -80,11 +80,12 @@
                 outline: 1px solid transparent;
                 transition: background-color 0.3s ease,  outline-offset 0.1s ease;
                 outline-offset: -5px;
+
                 &:hover {
-                   outline: 2px solid var(--color-primary);
-                   outline-offset: 5px;
-                   background-color: transparent;
-                   color: var(--color-primary)     
+                    outline: 2px solid var(--color-primary);
+                    outline-offset: 5px;
+                    background-color: transparent;
+                    color: var(--color-primary)     
                 }
             }
         }

@@ -1,49 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Auth.module.scss";
-import { message } from "antd";
-import { login } from "../../api/api-utils";
 import video from "../../assets/video/auth_background.mp4";
+import { message } from "antd";
+import { login, saveUserToLocalStorage } from "../../api/api-utils";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../../store/userSlice";
+import { RootState } from "../../store";
+import { useNavigate } from "react-router-dom";
 
-export const Auth: React.FC = () => {
+export const Auth = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Навигация после обновления состояния
+  useEffect(() => {
+    if (user.isAuth) {
+      navigate("/home");
+    }
+  }, [user.isAuth, navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await login(username, password);
+      dispatch(setUser({
+        user: response.user,
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+        isAuth: true,
+      }));
       messageApi.success(response.message);
-      console.log("Успешный вход:", response);
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      switch (response.user.role.idRole) {
-        case 1:
-          localStorage.setItem(
-            "user",
-            JSON.stringify({id: response.user.additionalInfo.idEmployee, role: response.user.role })
-          );
-          break;
-        case 2:
-          localStorage.setItem(
-            "user",
-            JSON.stringify({id: response.user.additionalInfo.idEmployee, role: response.user.role })
-          );
-          break;
-        case 3:
-          localStorage.setItem(
-            "user",
-            JSON.stringify({id: response.user.additionalInfo.idStudent, role: response.user.role })
-          );
-          break;
-        case 4:
-          localStorage.setItem(
-            "user",
-            JSON.stringify(response.user.additionalInfo.idParent)
-          );
-          break;
-      }
-      // Перенаправление или другие действия после успешного входа
+      saveUserToLocalStorage(response);
     } catch (error) {
       messageApi.error("Неверный логин или пароль");
       console.error("Ошибка при входе:", error);
@@ -63,9 +54,7 @@ export const Auth: React.FC = () => {
           console.error("Ошибка загрузки видео:", e);
           messageApi.error("Не удалось загрузить фоновое видео");
         }}
-      >
-        Ваш браузер не поддерживает видео.
-      </video>
+      />
       <div className={styles.auth__overlay} />
       <section>
         <div className={styles.auth__info}>
