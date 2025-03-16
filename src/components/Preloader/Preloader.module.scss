@@ -1,0 +1,164 @@
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+
+    &__container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__book {
+        position: absolute;
+        width: 60px;
+        height: 40px;
+        background: var(--color-primary, #4285f4);
+        border-radius: 4px;
+        transform-origin: center;
+
+        &:nth-child(1) {
+            animation: book1 1.5s infinite ease-in-out;
+            transform: translateX(-15px) rotateZ(15deg);
+            z-index: 1;
+        }
+
+        &:nth-child(2) {
+            animation: book2 1.5s infinite ease-in-out;
+            transform: translateX(15px) rotateZ(-15deg);
+            background: var(--color-secondary, #34a853);
+            z-index: 0;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: calc(100% - 10px);
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 2px;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 15px;
+            width: calc(100% - 10px);
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 2px;
+        }
+    }
+
+    &__pencil {
+        position: absolute;
+        width: 8px;
+        height: 80px;
+        background: #f4b400;
+        border-radius: 4px;
+        transform-origin: center;
+        animation: pencil 1.5s infinite ease-in-out;
+        z-index: 2;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 10px solid #db4437;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 2px;
+            width: 4px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+    }
+
+    &__text {
+        position: absolute;
+        bottom: -30px;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--color-primary, #4285f4);
+        animation: text-pulse 1.5s infinite ease-in-out;
+    }
+}
+
+@keyframes book1 {
+
+    0%,
+    100% {
+        transform: translateX(-15px) rotateZ(15deg);
+    }
+
+    50% {
+        transform: translateX(-15px) rotateZ(-5deg);
+    }
+}
+
+@keyframes book2 {
+
+    0%,
+    100% {
+        transform: translateX(15px) rotateZ(-15deg);
+    }
+
+    50% {
+        transform: translateX(15px) rotateZ(5deg);
+    }
+}
+
+@keyframes pencil {
+
+    0%,
+    100% {
+        transform: translateY(0) rotateZ(0);
+    }
+
+    25% {
+        transform: translateY(-5px) rotateZ(-5deg);
+    }
+
+    50% {
+        transform: translateY(0) rotateZ(0);
+    }
+
+    75% {
+        transform: translateY(-5px) rotateZ(5deg);
+    }
+}
+
+@keyframes text-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}

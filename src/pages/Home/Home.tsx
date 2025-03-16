@@ -9,7 +9,6 @@ export const Home = () => {
     <main className={styles.home}>
         <h1>Home</h1>
         <h2>{user.user.firstName}</h2>
-
     </main>
   )
 }
