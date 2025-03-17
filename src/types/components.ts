@@ -15,3 +15,12 @@ export interface NewsItem {
     image?: string;
     category: string;
   }
+
+// <-------ProfileHeader.tsx------->
+// Определение типа для свойств компонента ProfileHeader
+export interface ProfileHeaderProps {
+    photo: string | null;
+    name: string;
+    details: React.ReactNode[];
+    photoAlt: string;
+  }

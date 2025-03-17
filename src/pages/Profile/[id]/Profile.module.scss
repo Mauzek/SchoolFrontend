@@ -1,0 +1,13 @@
+.profile {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    &__error {
+        padding: 1.5rem;
+        background-color: #ffebee;
+        color: #c62828;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 500;
+    }
+}

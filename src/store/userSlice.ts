@@ -48,8 +48,11 @@ const userSlice = createSlice({
       state.accessToken = "";
       state.refreshToken = "";
     },
+    updateUserPhoto(state, action: PayloadAction<string>) {
+      state.user.photo = action.payload;
+    }
   },
 });
 
-export const { setUser, logout } = userSlice.actions;
+export const { setUser, logout, updateUserPhoto } = userSlice.actions;
 export default userSlice.reducer;

@@ -48,21 +48,43 @@ export const Header: React.FC = () => {
   };
 
   const isLinkActive = (linkPath: string): boolean => {
-    // Точное совпадение пути (включая проверку профиля)
-    return location.pathname === linkPath;
+    if(location.state?.role === user.role.id && location.pathname === linkPath) {
+      return true;
+    }
+    return false;
   };
 
   // Ссылка на настройки (будет добавлена в конец каждого списка)
   const settingsLink: NavLink = {
     to: "/settings",
     icon: <SettingOutlined />,
-    text: "Настройки"
+    text: "Настройки",
+  };
+
+  const getProfileRouteByRole = (): string => {
+    const { role, additionalInfo } = user;
+
+    switch (role.name) {
+      case "Student":
+        return `/profile/${additionalInfo.idStudent}`;
+      case "Teacher":
+      case "Admin":
+        return `/profile/${additionalInfo.idEmployee}`;
+      case "Parent":
+        return `/profile/${additionalInfo.idParent}`;
+        default:
+          return `/profile/${user.id}`;
+    }
   };
 
   // Общие ссылки для всех ролей (без настроек)
   const commonLinks: NavLink[] = [
     { to: "/home", icon: <HomeOutlined />, text: "Главная" },
-    { to: `/profile/${user.id}`, icon: <UserOutlined />, text: "Профиль" },
+    {
+      to: getProfileRouteByRole(),
+      icon: <UserOutlined />,
+      text: "Профиль",
+    },
     { to: "/schedule", icon: <CalendarOutlined />, text: "Расписание" },
   ];
 
@@ -126,7 +148,7 @@ export const Header: React.FC = () => {
   };
 
   const navLinks = getNavLinks();
-
+  console.log("RENDERED");
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebar__logo}>
@@ -144,6 +166,7 @@ export const Header: React.FC = () => {
             <li key={link.to}>
               <Link
                 to={link.to}
+                state={{role: user.role.id}}
                 className={`${styles["sidebar__nav-link"]} ${
                   isLinkActive(link.to)
                     ? styles["sidebar__nav-link--active"]
@@ -184,7 +207,7 @@ export const Header: React.FC = () => {
             )}
             <Tooltip title={user.email}>
               <p className={styles["sidebar__user-email"]}>
-                <MailOutlined/> {user.email}
+                <MailOutlined /> {user.email}
               </p>
             </Tooltip>
           </div>

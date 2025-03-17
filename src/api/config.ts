@@ -5,9 +5,16 @@ const endpoints = {
     login: `${BASE_URL}/auth/login`, // post {login, password}
     loginWithJWT: `${BASE_URL}/auth`, // post {accessToken, refreshToken}
 
+    //users
+    getStudentById: (id: string) => `${BASE_URL}/students/${id}`,
+    getEmployeById: (id: string) => `${BASE_URL}/employees/${id}`,
+    getParentById: (id: string) => `${BASE_URL}/parents/${id}`,
+
     //statistics
     getTopStudents: `${BASE_URL}/statistics/top-students-by-average-grade`,
     
+    //updates
+    updateUserAvatar: `${BASE_URL}/auth/updateAvatar`, // post {accessToken, photo}
 }
 
 export { endpoints };

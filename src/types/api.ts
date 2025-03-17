@@ -1,5 +1,5 @@
 export interface ApiRole {
-  idRole: number;
+  id: number;
   name: string;
 }
 
@@ -55,9 +55,125 @@ export interface ApiTopStudent {
   class: ApiClass;
   photo: string | null;
   rankingPosition: number;
+  role: ApiRole;
 }
 
 export interface ApiTopStudentsResponse {
   message: string;
   data: ApiTopStudent[];
+}
+
+export interface ApiStudentDetails {
+  student: {
+    idStudent: number;
+    firstName: string;
+    lastName: string;
+    middleName: string | null;
+    phone: string;
+    birthDate: string;
+    login: string;
+    email: string;
+    gender: 'male' | 'female';
+    photo: string | null;
+    documentNumber: string;
+    bloodGroup: string;
+  };
+  class: ApiClass;
+  parents: ApiParent[];
+  distribution: Record<string, number>;
+}
+
+export interface ApiParent {
+  idParent: number;
+  firstName: string;
+  lastName: string;
+  middleName: string | null;
+}
+
+export interface ApiEmployeeDetails {
+  idEmployee: number;
+  idUser: number;
+  login: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  middleName: string | null;
+  gender: 'male' | 'female';
+  photo: string | null;
+  position: {
+    idPosition: number;
+    name: string;
+  };
+  role: {
+    name: string;
+  };
+  maritalStatus: string;
+  birthDate: string;
+  phone: string;
+  isStaff: boolean;
+  passportSeries: string;
+  passportNumber: string;
+  workBookNumber: string;
+  registrationAddress: string;
+  workExperience: number;
+  hireDate: string;
+}
+
+export interface ApiChildren {
+  id: number;
+  firstName: string;
+  lastName: string;
+  middleName: string | null;
+  class: ApiClass;
+  photo: string | null;
+  role: ApiRole;
+}
+
+export interface ApiParentDetailsResponse {
+  id: number;
+  idUser: number;
+  login: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  middleName: string | null;
+  gender: string;
+  photo: string | null;
+  role: ApiRole;
+  parentType: string;
+  phone: string;
+  workPhone: string | null;
+  workplace: string;
+  position: string;
+  childrenCount: number;
+  passportSeries: string;
+  passportNumber: string;
+  registrationAddress: string;
+  children: ApiChildren[];
+}
+
+export interface ApiEmployeeDetailsResponse {
+  message: string;
+  data: ApiEmployeeDetails;
+}
+
+export interface ApiStudentDetailsResponse {
+  message: string;
+  data: ApiStudentDetails;
+}
+
+export interface ApiUpdateAvatarResponse {
+  message: string;
+  photo: string;
+  user: {
+    id: number;
+    email: string;
+    login: string
+    role: ApiRole;
+    firstName: string;
+    lastName: string;
+    middleName: string | null;
+    photo: string | null;
+    additionalInfo: ApiAdditionalInfo;
+  };
 }

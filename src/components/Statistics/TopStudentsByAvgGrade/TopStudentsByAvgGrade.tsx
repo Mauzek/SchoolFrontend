@@ -58,7 +58,7 @@ export const TopStudentsByAvgGrade: React.FC = () => {
                   key={student.rankingPosition}
                   className={styles.topStudents__card}
                 >
-                  <Link to={`/profile/${student.uid}`} className={styles.topStudents__link}>
+                  <Link to={`/profile/${student.id}`} state={{role: student.role.id}} className={styles.topStudents__link}>
                     <div className={styles.topStudents__rank}>
                       {student.rankingPosition}
                     </div>
