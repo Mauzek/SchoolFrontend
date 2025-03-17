@@ -4,6 +4,7 @@ import { Welcome } from "./pages/Welcome/Welcome";
 import "./App.css";
 import { Auth } from "./pages/Auth/Auth";
 import { Home } from "./pages/Home/Home";
+import { Profile } from "./pages/Profile/[id]/Profile";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <Route index element={<Welcome />} />
           <Route path="/auth" element={<Auth/>} />
           <Route path="/home" element={<Home/>} />
-          <Route path="/profile" element={<>Profile</>}/>
+          <Route path="/profile/:id" element={<Profile/>}/>
         </Route>
       </Routes>
   );

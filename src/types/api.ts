@@ -3,6 +3,12 @@ export interface ApiRole {
   name: string;
 }
 
+export interface ApiClass {
+  idClass: number;
+  classNumber: number;
+  classLetter: string;
+}
+
 export interface ApiPosition {
   id: number;
   name: string;
@@ -37,4 +43,21 @@ export interface ApiAuthResponse {
   accessToken: string;
   refreshToken: string;
   tokenRefreshed?: boolean;
+}
+
+export interface ApiTopStudent {
+  idUser: number;
+  idStudent: number;
+  firstName: string;
+  lastName: string;
+  middleName: string | null;
+  averageGrade: number;
+  class: ApiClass;
+  photo: string | null;
+  rankingPosition: number;
+}
+
+export interface ApiTopStudentsResponse {
+  message: string;
+  data: ApiTopStudent[];
 }

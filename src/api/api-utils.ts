@@ -1,6 +1,6 @@
 import axios from "axios";
 import { endpoints } from "./config";
-import { ApiAuthResponse, AuthResponse } from "../types";
+import { ApiAuthResponse, ApiTopStudent, ApiTopStudentsResponse, AuthResponse, TopStudent } from "../types";
 
 // Запросы к API
 const login = async (login: string, password: string ): Promise<AuthResponse> => {
@@ -17,6 +17,11 @@ const loginWithJWT = async (accessToken: string, refreshToken: string): Promise<
     refreshToken,
   });
   return normalizeAuthResponse(response);
+};
+
+const getTopStudents = async (token: string): Promise<TopStudent[]> => {
+  const response = await axiosRequest("get", endpoints.getTopStudents, token);
+  return normalizeTopStudentsResponse(response);
 };
 
 
@@ -60,6 +65,24 @@ const normalizeAuthResponse = (data: ApiAuthResponse): AuthResponse => {
     accessToken: data.accessToken,
     refreshToken: data.refreshToken,
   };
+};
+
+const normalizeTopStudentsResponse = (data: ApiTopStudentsResponse): TopStudent[] => {
+  return data.data.map((student: ApiTopStudent) => ({
+    uid: student.idUser,
+    id: student.idStudent,
+    firstName: student.firstName,
+    lastName: student.lastName,
+    middleName: student.middleName,
+    averageGrade: student.averageGrade,
+    class: {
+      id: student.class.idClass,
+      number: student.class.classNumber,
+      letter: student.class.classLetter,
+    },
+    photo: student.photo,
+    rankingPosition: student.rankingPosition,
+  }));
 };
 
 const saveUserToLocalStorage = (userData: AuthResponse) => {
@@ -118,7 +141,7 @@ export {
   // api
   login, 
   loginWithJWT,
-  
+  getTopStudents,
   // api-utils
   saveUserToLocalStorage, 
   getAccessToken, 

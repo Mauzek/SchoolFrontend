@@ -47,17 +47,22 @@ export const Header: React.FC = () => {
     return "U";
   };
 
+  const isLinkActive = (linkPath: string): boolean => {
+    // Точное совпадение пути (включая проверку профиля)
+    return location.pathname === linkPath;
+  };
+
   // Ссылка на настройки (будет добавлена в конец каждого списка)
-  const settingsLink: NavLink = { 
-    to: "/settings", 
-    icon: <SettingOutlined />, 
-    text: "Настройки" 
+  const settingsLink: NavLink = {
+    to: "/settings",
+    icon: <SettingOutlined />,
+    text: "Настройки"
   };
 
   // Общие ссылки для всех ролей (без настроек)
   const commonLinks: NavLink[] = [
     { to: "/home", icon: <HomeOutlined />, text: "Главная" },
-    { to: "/profile", icon: <UserOutlined />, text: "Профиль" },
+    { to: `/profile/${user.id}`, icon: <UserOutlined />, text: "Профиль" },
     { to: "/schedule", icon: <CalendarOutlined />, text: "Расписание" },
   ];
 
@@ -140,7 +145,7 @@ export const Header: React.FC = () => {
               <Link
                 to={link.to}
                 className={`${styles["sidebar__nav-link"]} ${
-                  location.pathname === link.to
+                  isLinkActive(link.to)
                     ? styles["sidebar__nav-link--active"]
                     : ""
                 }`}
@@ -179,7 +184,7 @@ export const Header: React.FC = () => {
             )}
             <Tooltip title={user.email}>
               <p className={styles["sidebar__user-email"]}>
-                <MailOutlined /> {user.email}
+                <MailOutlined/> {user.email}
               </p>
             </Tooltip>
           </div>

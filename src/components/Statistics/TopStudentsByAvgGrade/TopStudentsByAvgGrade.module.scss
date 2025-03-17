@@ -1,0 +1,192 @@
+.topStudents {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 24px;
+    margin: 20px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    }
+    
+    &__header {
+        margin-bottom: 20px;
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+    }
+    
+    &__loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+
+        p {
+            margin-top: 15px;
+            color: #666;
+        }
+    }
+    
+    &__loadingSpinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top-color: #4776E6;
+        animation: spin 1s ease-in-out infinite;
+    }
+    
+    &__error {
+        padding: 20px;
+        background-color: rgba(255, 0, 0, 0.05);
+        border-radius: 8px;
+    }
+    
+    &__errorMessage {
+        color: #e53935;
+        margin: 0;
+    }
+    
+    &__list {
+        padding: 10px 0;
+    }
+    
+    &__items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    &__card {
+        display: flex;
+        align-items: center;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+
+        &:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    
+    &__link {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    &__rank {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #4776E6, #8E54E9);
+        color: white;
+        border-radius: 50%;
+        font-weight: bold;
+        margin-right: 16px;
+        flex-shrink: 0;
+    }
+    
+    &__info {
+        flex: 1;
+    }
+    
+    &__name {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    
+    &__grade {
+        display: flex;
+        align-items: center;
+    }
+    
+    &__gradeLabel {
+        font-size: 0.9rem;
+        color: #666;
+        margin-right: 8px;
+    }
+    
+    &__gradeValue {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #4776E6;
+        background-color: rgba(71, 118, 230, 0.1);
+        padding: 2px 8px;
+        border-radius: 4px;
+    }
+    
+    &__noData {
+        padding: 30px;
+        text-align: center;
+        color: #666;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Special styling for top 5 students
+.topStudents__items li:nth-child(1) .topStudents__rank {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.topStudents__items li:nth-child(2) .topStudents__rank {
+    background: linear-gradient(135deg, #C0C0C0, #A9A9A9);
+    box-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+}
+
+.topStudents__items li:nth-child(3) .topStudents__rank {
+    background: linear-gradient(135deg, #CD7F32, #8B4513);
+    box-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+}
+
+.topStudents__items li:nth-child(4) .topStudents__rank {
+    background: linear-gradient(135deg, #20B2AA, #008080);
+    box-shadow: 0 0 10px rgba(32, 178, 170, 0.5);
+}
+
+.topStudents__items li:nth-child(5) .topStudents__rank {
+    background: linear-gradient(135deg, #9370DB, #483D8B);
+    box-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+}

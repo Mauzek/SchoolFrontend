@@ -1,14 +1,23 @@
-import { useSelector} from "react-redux";
-import { RootState } from "../../store";
 import styles from "./Home.module.scss";
+import { TopStudentsByAvgGrade } from "../../components/Statistics/TopStudentsByAvgGrade/TopStudentsByAvgGrade";
+import { Clock } from "../../components/Clock/Clock";
+import { NewsSection } from "../../components/News/NewsSection";
 
 export const Home = () => {
-    const user = useSelector((state: RootState) => state.user);
-    console.log(user);
   return (
     <main className={styles.home}>
-        <h1>Home</h1>
-        <h2>{user.user.firstName}</h2>
+      
+      <div className={styles.contentContainer}>
+        <section className={styles.newsContainer}>
+          <NewsSection />
+        </section>
+        
+        <section className={styles.dashboardContainer}>
+          <Clock/>
+          <TopStudentsByAvgGrade />
+          {/* You can add more dashboard components here */}
+        </section>
+      </div>
     </main>
-  )
-}
+  );
+};

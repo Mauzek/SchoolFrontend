@@ -3,6 +3,7 @@
     flex-direction: column;
     height: 100%;
     color: #333;
+    background-color: #ffffff;
     overflow: hidden; 
 
     &__logo {
@@ -168,6 +169,7 @@
         cursor: pointer;
         transition: all 0.3s;
         font-weight: 500;
+        color: #ddd;
 
         &:hover {
             background-color: rgba(255, 77, 79, 0.1);

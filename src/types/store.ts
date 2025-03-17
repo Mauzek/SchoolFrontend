@@ -8,6 +8,12 @@ export interface Position {
   name: string;
 }
 
+export interface Class {
+  id: number;
+  number: number;
+  letter: string;
+}
+
 export interface AdditionalInfo {
   idEmployee?: number;
   idParent?: number;
@@ -39,6 +45,21 @@ export interface AuthResponse {
   tokenRefreshed?: boolean;
 }
 
+
+export interface TopStudent {
+  uid: number;
+  id: number;
+  firstName: string;
+  lastName: string;
+  middleName: string | null;
+  averageGrade: number;
+  class: Class;
+  photo: string | null;
+  rankingPosition: number;
+}
+
+
+//State
 export interface AuthState {
   user: User;
   accessToken: string;

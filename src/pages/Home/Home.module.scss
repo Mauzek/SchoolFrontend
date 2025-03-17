@@ -1,4 +1,59 @@
 .home {
-    padding: 20px 40px 0;
-    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    max-width: 1900px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 16px;
+        color: #333;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 24px;
+        color: #555;
+    }
+}
+
+.welcomeHeader {
+    margin-bottom: 24px;
+}
+
+.contentContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 100%; // Use 100% instead of fixed width
+    
+    @media (max-width: 1200px) {
+        flex-direction: column;
+    }
+}
+
+.newsContainer {
+    flex: 1;
+    min-width: 0; // Important for flex behavior
+}
+
+.dashboardContainer {
+    width: 350px;
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-content: start;
+    
+    @media (max-width: 1200px) {
+        width: 100%;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+    
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 }
