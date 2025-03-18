@@ -1,4 +1,9 @@
 .profile {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    animation: fadeIn 0.2s ease-in-out forwards;
+    
     &__title {
         color: var(--color-primary-dark);
         font-size: 2rem;
@@ -54,5 +59,14 @@
         &__detailsGrid {
             grid-template-columns: 1fr;
         }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

@@ -81,9 +81,11 @@ export interface StudentDetails {
   };
   parents: {
     id: number;
+    type: string;
     firstName: string;
     lastName: string;
     middleName: string | null;
+    photo: string | null;
   }[];
   distribution: Record<string, number>;
 }

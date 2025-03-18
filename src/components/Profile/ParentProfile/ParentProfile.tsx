@@ -14,14 +14,13 @@ export const ParentProfile: React.FC<ParentProfileProps> = ({ profile }) => {
   }`;
 
   const headerDetails = [
-    `Role: Parent (${profile.parentType})`,
+    `Роль: Родитель (${profile.parentType})`,
     `Email: ${profile.email}`,
-    `Phone: ${profile.phone}`,
+    `Телефон: ${profile.phone}`,
   ];
-  console.log(profile);
   return (
     <section className={styles.profile}>
-      <h1 className={styles.profile__title}>Parent Profile</h1>
+      <h1 className={styles.profile__title}>Профиль родителя</h1>
 
       <div className={styles.profile__content}>
         <ProfileHeader
@@ -32,10 +31,10 @@ export const ParentProfile: React.FC<ParentProfileProps> = ({ profile }) => {
         />
 
         <div className={styles.profile__details}>
-          <h3>Personal Information</h3>
+          <h3>Личная информация</h3>
           <div className={styles.profile__detailsGrid}>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Gender:</span>
+              <span className={styles.profile__label}>Пол:</span>
               <span>{profile.gender}</span>
             </div>
             <div className={styles.profile__detailItem}>
@@ -43,8 +42,8 @@ export const ParentProfile: React.FC<ParentProfileProps> = ({ profile }) => {
               <span>{profile.login}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Work Phone:</span>
-              <span>{profile.workPhone || "Not specified"}</span>
+              <span className={styles.profile__label}>Рабочий телефон:</span>
+              <span>{profile.workPhone || "Не указано"}</span>
             </div>
             <div className={styles.profile__detailItem}>
               <span className={styles.profile__label}>Children Count:</span>
@@ -52,37 +51,37 @@ export const ParentProfile: React.FC<ParentProfileProps> = ({ profile }) => {
             </div>
           </div>
 
-          <h3>Employment Information</h3>
+          <h3>Информация о месте работы</h3>
           <div className={styles.profile__detailsGrid}>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Workplace:</span>
+              <span className={styles.profile__label}>Место работы:</span>
               <span>{profile.workplace}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Position:</span>
+              <span className={styles.profile__label}>Должность:</span>
               <span>{profile.position}</span>
             </div>
           </div>
 
-          <h3>Document Information</h3>
+          <h3>Документы</h3>
           <div className={styles.profile__detailsGrid}>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Passport Series:</span>
+              <span className={styles.profile__label}>Серия паспорта:</span>
               <span>{profile.passportSeries}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Passport Number:</span>
+              <span className={styles.profile__label}>Номер паспорта:</span>
               <span>{profile.passportNumber}</span>
             </div>
             <div className={styles.profile__detailItem}>
               <span className={styles.profile__label}>
-                Registration Address:
+                Адрес регистрации:
               </span>
               <span>{profile.registrationAddress}</span>
             </div>
           </div>
 
-          <h3>Children</h3>
+          <h3>Дети</h3>
           <div className={styles.profile__childrenList}>
             {profile.children.map((child) => (
               <Link
@@ -108,7 +107,7 @@ export const ParentProfile: React.FC<ParentProfileProps> = ({ profile }) => {
                   <h4>{`${child.lastName} ${child.firstName} ${
                     child.middleName || ""
                   }`}</h4>
-                  <p>Class: {`${child.class.number}${child.class.letter}`}</p>
+                  <p>Класс: {`${child.class.number}${child.class.letter}`}</p>
                 </div>
               </Link>
             ))}

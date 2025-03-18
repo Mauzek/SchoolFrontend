@@ -85,9 +85,11 @@ export interface ApiStudentDetails {
 
 export interface ApiParent {
   idParent: number;
+  type: string;
   firstName: string;
   lastName: string;
   middleName: string | null;
+  photo: string | null;
 }
 
 export interface ApiEmployeeDetails {

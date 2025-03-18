@@ -15,15 +15,15 @@ export const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
   }`;
 
   const headerDetails = [
-    `Position: ${profile.position.name}`,
-    `Role: ${profile.role.name}`,
+    `Должность: ${profile.position.name}`,
+    `Роль: ${profile.role.name}`,
     `Email: ${profile.email}`,
-    `Phone: ${profile.phone}`,
+    `Телефон: ${profile.phone}`,
   ];
 
   return (
     <section className={styles.profile}>
-      <h1 className={styles.profile__title}>Employee Profile</h1>
+      <h1 className={styles.profile__title}>Профиль сотрудника</h1>
 
       <div className={styles.profile__content}>
         <ProfileHeader
@@ -34,18 +34,18 @@ export const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
         />
 
         <div className={styles.profile__details}>
-          <h3>Personal Information</h3>
+          <h3>Личная информация</h3>
           <div className={styles.profile__detailsGrid}>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Birth Date:</span>
+              <span className={styles.profile__label}>Дата рождения:</span>
               <span>{new Date(profile.birthDate).toLocaleDateString()}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Gender:</span>
+              <span className={styles.profile__label}>Пол:</span>
               <span>{profile.gender}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Marital Status:</span>
+              <span className={styles.profile__label}>Семейное положение:</span>
               <span>{profile.maritalStatus}</span>
             </div>
             <div className={styles.profile__detailItem}>
@@ -54,39 +54,39 @@ export const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
             </div>
           </div>
 
-          <h3>Employment Details</h3>
+          <h3>Информация о сотруднике</h3>
           <div className={styles.profile__detailsGrid}>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Work Experience:</span>
+              <span className={styles.profile__label}>Опыт работы:</span>
               <span>{profile.workExperience} years</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Hire Date:</span>
+              <span className={styles.profile__label}>Дата найма:</span>
               <span>{new Date(profile.hireDate).toLocaleDateString()}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Staff Status:</span>
-              <span>{profile.isStaff ? "Staff Member" : "Contractor"}</span>
+              <span className={styles.profile__label}>Статус:</span>
+              <span>{profile.isStaff ? "В штате" : "Уволен"}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Work Book Number:</span>
+              <span className={styles.profile__label}>Номер трудовой книжки:</span>
               <span>{profile.workBookNumber}</span>
             </div>
           </div>
 
-          <h3>Document Information</h3>
+          <h3>Документы</h3>
           <div className={styles.profile__detailsGrid}>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Passport Series:</span>
+              <span className={styles.profile__label}>Серия паспорта:</span>
               <span>{profile.passportSeries}</span>
             </div>
             <div className={styles.profile__detailItem}>
-              <span className={styles.profile__label}>Passport Number:</span>
+              <span className={styles.profile__label}>Номер паспорта:</span>
               <span>{profile.passportNumber}</span>
             </div>
             <div className={styles.profile__detailItem}>
               <span className={styles.profile__label}>
-                Registration Address:
+                Адрес регистрации:
               </span>
               <span>{profile.registrationAddress}</span>
             </div>

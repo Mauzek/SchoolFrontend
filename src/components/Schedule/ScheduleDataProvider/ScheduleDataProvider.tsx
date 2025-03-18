@@ -84,7 +84,7 @@ export const ScheduleDataProvider: React.FC<ScheduleDataProviderProps> = ({
       setIsLoading(false);
     } catch (error) {
       console.error("Error loading children:", error);
-      setError("Failed to load children");
+      setError("Ошибка загрузки данных");
       setIsLoading(false);
     }
   };
@@ -113,7 +113,7 @@ export const ScheduleDataProvider: React.FC<ScheduleDataProviderProps> = ({
           (child) => child.student.idStudent === selectedStudentId
         );
         if (!selectedChild) {
-          setError("Student information not available");
+          setError("Информация о ребенке не найдена");
           setIsLoading(false);
           return;
         }
@@ -143,7 +143,7 @@ export const ScheduleDataProvider: React.FC<ScheduleDataProviderProps> = ({
       setIsLoading(false);
     } catch (error) {
       console.error("Error loading schedule:", error);
-      setError("Failed to load schedule");
+      setError("Ошибка загрузки расписания");
       setIsLoading(false);
     }
   };

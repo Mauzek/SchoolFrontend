@@ -21,7 +21,7 @@ export const TopStudentsByAvgGrade: React.FC = () => {
         }
       } catch (err) {
         console.error("Failed to fetch top students:", err);
-        setError("Failed to load top students data");
+        setError("Ошибка при загрузке рейтинга студентов.");
       } finally {
         setLoading(false);
       }
@@ -33,13 +33,13 @@ export const TopStudentsByAvgGrade: React.FC = () => {
   return (
     <div className={styles.topStudents}>
       <div className={styles.topStudents__header}>
-        <h3>Top Students by Average Grade</h3>
+        <h3>Лучшие студенты по средним оценкам</h3>
       </div>
 
       {loading && (
         <div className={styles.topStudents__loading}>
           <div className={styles.topStudents__loadingSpinner}></div>
-          <p>Loading top students...</p>
+          <p>Загрузка рейтинга студетов...</p>
         </div>
       )}
 

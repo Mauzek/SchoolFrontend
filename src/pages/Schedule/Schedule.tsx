@@ -62,7 +62,8 @@ export const Schedule = () => {
         if (isLoading) {
           return (
             <div className={styles.schedule__loading}>
-              Загрузка расписания...
+              <div className={styles.schedule__loadingSpinner}/>
+              <p>Загрузка расписания...</p>
             </div>
           );
         }

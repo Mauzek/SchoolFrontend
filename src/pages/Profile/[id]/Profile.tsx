@@ -38,7 +38,7 @@ export const Profile: React.FC = () => {
         }
       } catch (err) {
         console.error('Failed to fetch profile:', err);
-        setError('Failed to load profile data');
+        setError('Ошибка при загрузке данных профиля');
       } finally {
         setLoading(false);
       }
@@ -62,8 +62,9 @@ export const Profile: React.FC = () => {
 
   if (loading) {
     return (
-      <div className={styles.profile}>
-        <p>Loading profile...</p>
+      <div className={styles.profile__loading}>
+        <div className={styles.profile__loadingSpinner}/>
+        <p>Загрузка профиля...</p>
       </div>
     );
   }

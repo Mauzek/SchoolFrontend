@@ -223,9 +223,11 @@ const normalizeStudentDetailsResponse = (
     },
     parents: parents.map((parent: ApiParent) => ({
       id: parent.idParent,
+      type: parent.type,
       firstName: parent.firstName,
       lastName: parent.lastName,
       middleName: parent.middleName,
+      photo: parent.photo,
     })),
     distribution,
   };
