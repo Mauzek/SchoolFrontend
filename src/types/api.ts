@@ -177,3 +177,46 @@ export interface ApiUpdateAvatarResponse {
     additionalInfo: ApiAdditionalInfo;
   };
 }
+
+export interface ApiScheduleItem {
+  idSchedule: number;
+  subject: {
+    idSubject: number;
+    subjectName: string;
+  };
+  date: string;
+  weekDay: string;
+  startTime: string;
+  endTime: string;
+  roomNumber: string;
+  class: {
+    idClass: number;
+    classNumber: number;
+    classLetter: string;
+  };
+  employee: {
+    idEmployee: number;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
+}
+
+export interface ApiChildrensResponse {
+  student: {
+    idStudent: number;
+    firstName: string;
+    lastName: string;
+    middleName: string | null;
+    phone: string;
+    birthDate: string;
+    login: string;
+    email: string;
+    gender: 'male' | 'female';
+    photo: string | null;
+    documentNumber: string;
+    bloodGroup: string;
+  };
+  class: ApiClass;
+  parents: ApiParent[];
+}

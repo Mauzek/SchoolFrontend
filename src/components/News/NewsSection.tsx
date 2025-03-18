@@ -181,10 +181,10 @@ export const NewsSection: React.FC = () => {
       : news.filter((item) => item.category === activeCategory);
 
   return (
-    <div className={styles["news"]}>
-      <div className={styles["news__header"]}>
+    <section className={styles["news"]}>
+      <header className={styles["news__header"]}>
         <h2 className={styles["news__title"]}>Школьные новости</h2>
-        <div className={styles["news__filter"]}>
+        <nav className={styles["news__filter"]}>
           {categories.map((category) => (
             <button
               key={category}
@@ -196,38 +196,38 @@ export const NewsSection: React.FC = () => {
               {category}
             </button>
           ))}
-        </div>
-      </div>
+        </nav>
+      </header>
 
-      <div className={styles["news__grid"]}>
+      <section className={styles["news__grid"]}>
         {filteredNews.length > 0 ? (
           filteredNews.map((item) => (
-            <div key={item.id} className={styles["news__card"]}>
+            <article key={item.id} className={styles["news__card"]}>
               {item.image && (
-                <div className={styles["news__image-wrapper"]}>
+                <figure className={styles["news__image-wrapper"]}>
                   <img
                     src={item.image}
                     alt={item.title}
                     className={styles["news__image"]}
                   />
-                  <div className={styles["news__category-tag"]}>{item.category}</div>
-                </div>
+                  <figcaption className={styles["news__category-tag"]}>{item.category}</figcaption>
+                </figure>
               )}
               <div className={styles["news__content"]}>
                 <h3 className={styles["news__item-title"]}>{item.title}</h3>
                 <p className={styles["news__item-date"]}>{formatDate(item.date)}</p>
                 <p className={styles["news__item-text"]}>{item.content}</p>
-                <button className={styles["news__read-more"]}>Читать далее</button>
+                <a href="/" className={styles["news__read-more"]}>Читать далее</a>
               </div>
-            </div>
+            </article>
           ))
         ) : (
           <div className={styles["news__empty"]}>
             <p>Загрузка новостей...</p>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </section>
   );
 };
 

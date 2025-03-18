@@ -155,6 +155,36 @@ export interface updateAvatarDetails{
   photo: string;
 }
 
+export interface ScheduleItem {
+  idSchedule: number;
+  subject: {
+    idSubject: number;
+    subjectName: string;
+  };
+  date: string;
+  weekDay: string;
+  startTime: string;
+  endTime: string;
+  roomNumber: string;
+  class: {
+    idClass: number;
+    classNumber: number;
+    classLetter: string;
+  };
+  employee: {
+    idEmployee: number;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
+}
+
+export interface ScheduleDetailsRessponse {
+  data:{
+    [date: string]: ScheduleItem[];
+  }
+}
+
 //State
 export interface AuthState {
   user: User;

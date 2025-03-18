@@ -9,6 +9,10 @@ const endpoints = {
     getStudentById: (id: string) => `${BASE_URL}/students/${id}`,
     getEmployeById: (id: string) => `${BASE_URL}/employees/${id}`,
     getParentById: (id: string) => `${BASE_URL}/parents/${id}`,
+    getStudentsByParentId: (id: number) => `${BASE_URL}/students/parent/${id}`,
+    //schedule
+    getClassScheduleByWeekInterval: (id: number, startDate: string, endDate: string) => `${BASE_URL}/schedules/class/${id}/week/${startDate}/${endDate}`,
+    getEmployeeScheduleByWeekInterval: (id: number, startDate: string, endDate: string) => `${BASE_URL}/schedules/employee/${id}/week/${startDate}/${endDate}`,
 
     //statistics
     getTopStudents: `${BASE_URL}/statistics/top-students-by-average-grade`,

@@ -1,0 +1,63 @@
+.scheduleDay {
+    background-color: var(--color-background);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+
+    // Модификатор для текущего дня
+    &_today {
+
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+        outline: 3px dashed var(--color-primary); ;
+    }
+
+    &__header {
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    &__name {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--color-primary-dark);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__todayBadge {
+        background-color: var(--color-secondary);
+        color: white;
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-weight: normal;
+        margin-left: 10px;
+    }
+
+    &__date {
+        margin: 5px 0 0;
+        color: var(--color-text-light);
+        font-size: 14px;
+    }
+
+    &__lessons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__noLessons {
+        text-align: center;
+        padding: 20px;
+        color: var(--color-text-light);
+        font-style: italic;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-radius: 6px;
+    }
+}

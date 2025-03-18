@@ -16,6 +16,8 @@ import {
   ApiParentDetailsResponse,
   updateAvatarDetails,
   ApiUpdateAvatarResponse,
+  ScheduleDetailsRessponse,
+  ApiChildrensResponse,
 } from "../types";
 
 // Запросы к API
@@ -76,6 +78,39 @@ const updateAvatar = async (token: string, photo: File): Promise<updateAvatarDet
   return normalizeAvatarResponse(response);
 }
 
+const getClassScheduleByWeekInterval = async (
+  id: number,
+  startDate: string,
+  endDate: string,
+  token: string
+): Promise<ScheduleDetailsRessponse> => {
+  const response = await axiosRequest(
+    "get",
+    endpoints.getClassScheduleByWeekInterval(id, startDate, endDate),
+    token
+  );
+  return response;
+};
+
+const getEmployeeScheduleByWeekInterval = async (
+  id: number,
+  startDate: string,
+  endDate: string,
+  token: string
+): Promise<ScheduleDetailsRessponse> => {
+  const response = await axiosRequest(
+    "get",
+    endpoints.getEmployeeScheduleByWeekInterval(id, startDate, endDate),
+    token
+  );
+  return response;
+};
+
+const getStudentsByParentId = async (id: number, token: string): Promise<ApiChildrensResponse[]> => {
+  const response = await axiosRequest("get", endpoints.getStudentsByParentId(id), token);
+  return response;
+};
+
 // Api-utils
 const axiosRequest = async (
   method: "get" | "post" | "put" | "delete",
@@ -115,7 +150,6 @@ const axiosRequest = async (
     throw error;
   }
 };
-
 
 const normalizeAuthResponse = (data: ApiAuthResponse): AuthResponse => {
   return {
@@ -351,7 +385,10 @@ export {
   getEmployeeById,
   getParentById,
   updateAvatar,
-
+  getClassScheduleByWeekInterval,
+  getEmployeeScheduleByWeekInterval,
+  getStudentsByParentId,
+  
   // api-utils
   saveUserToLocalStorage,
   getAccessToken,

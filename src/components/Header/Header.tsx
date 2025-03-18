@@ -148,9 +148,9 @@ export const Header: React.FC = () => {
   };
 
   const navLinks = getNavLinks();
-  console.log("RENDERED");
+
   return (
-    <div className={styles.sidebar}>
+    <section className={styles.sidebar}>
       <div className={styles.sidebar__logo}>
         <img src={logo} alt="Logo" className={styles["sidebar__logo-img"]} />
         <ShinyText
@@ -220,6 +220,6 @@ export const Header: React.FC = () => {
           &nbsp;&nbsp;Выйти
         </button>
       </div>
-    </div>
+    </section>
   );
 };
