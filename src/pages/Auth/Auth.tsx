@@ -19,9 +19,9 @@ export const Auth = () => {
   // Навигация после обновления состояния
   useEffect(() => {
     if (user.isAuth) {
-      navigate("/home");
+      navigate("/home", { state: { role: user.user.role.id } });
     }
-  }, [user.isAuth, navigate]);
+  }, [user.isAuth, navigate, user.user.role.id]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

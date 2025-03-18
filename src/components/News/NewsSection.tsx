@@ -165,7 +165,7 @@ export const NewsSection: React.FC = () => {
     // Имитация загрузки данных
     setTimeout(() => {
       setNews(demoNews);
-    }, 500);
+    }, 100);
   }, []);
 
   // Получение уникальных категорий
