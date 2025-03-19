@@ -24,7 +24,7 @@ export const StudentProfile: React.FC<StudentProfileProps> = ({ profile }) => {
   const isEmployee = user.role.id === 1 || user.role.id === 2;
   const isParent = user.role.id === 4;
   const isOwnProfile = user.additionalInfo.idStudent == id;
-  
+
   const headerDetails = [
     `Класс: ${studentClass.number}${studentClass.letter}`,
     `Email: ${student.email}`,
@@ -76,79 +76,77 @@ export const StudentProfile: React.FC<StudentProfileProps> = ({ profile }) => {
           <h3>Родители</h3>
 
           <div className={styles.profile__parentsList}>
-  {parents.map((parent) => {
-    // Если пользователь работник или это его профиль, используем Link
-    if (isEmployee || isOwnProfile || isParent) {
-      return (
-        <Link
-          key={parent.id}
-          to={`/profile/${parent.id}`}
-          state={{ role: 4 }}
-          className={`${styles.profile__parentItem} ${styles.profile__parentItem_clickable}`}
-        >
-          <div className={styles.profile__parentAvatar}>
-            {parent.photo ? (
-              <Avatar 
-                src={parent.photo} 
-                alt={`${parent.lastName} ${parent.firstName}`}
-                className={styles.profile__parentAvatarImg}
-              />
-            ) : (
-              <Avatar className={styles.profile__parentAvatarImg}>
-                {parent.firstName[0]}{parent.lastName[0]}
-              </Avatar>
-            )}
+            {parents.map((parent) => {
+              if (isEmployee || isOwnProfile || isParent) {
+                return (
+                  <Link
+                    key={parent.id}
+                    to={`/profile/${parent.id}`}
+                    state={{ role: 4 }}
+                    className={`${styles.profile__parentItem} ${styles.profile__parentItem_clickable}`}
+                  >
+                    <div className={styles.profile__parentAvatar}>
+                      {parent.photo ? (
+                        <Avatar
+                          src={parent.photo}
+                          alt={`${parent.lastName} ${parent.firstName}`}
+                          className={styles.profile__parentAvatarImg}
+                        />
+                      ) : (
+                        <Avatar className={styles.profile__parentAvatarImg}>
+                          {parent.firstName[0]}
+                          {parent.lastName[0]}
+                        </Avatar>
+                      )}
+                    </div>
+                    <div className={styles.profile__parentInfo}>
+                      <span className={styles.profile__parentName}>
+                        {`${parent.lastName} ${parent.firstName}`}
+                      </span>
+                      {parent.middleName && (
+                        <span className={styles.profile__parentMiddleName}>
+                          {parent.middleName}
+                        </span>
+                      )}
+                      <span className={styles.profile__viewProfileHint}>
+                        Просмотреть профиль
+                      </span>
+                    </div>
+                  </Link>
+                );
+              }
+
+              // Иначе используем обычный div
+              return (
+                <div key={parent.id} className={styles.profile__parentItem}>
+                  <div className={styles.profile__parentAvatar}>
+                    {parent.photo ? (
+                      <Avatar
+                        src={parent.photo}
+                        alt={`${parent.lastName} ${parent.firstName}`}
+                        className={styles.profile__parentAvatarImg}
+                      />
+                    ) : (
+                      <Avatar className={styles.profile__parentAvatarImg}>
+                        {parent.firstName[0]}
+                        {parent.lastName[0]}
+                      </Avatar>
+                    )}
+                  </div>
+                  <div className={styles.profile__parentInfo}>
+                    <span className={styles.profile__parentName}>
+                      {`${parent.lastName} ${parent.firstName}`}
+                    </span>
+                    {parent.middleName && (
+                      <span className={styles.profile__parentMiddleName}>
+                        {parent.middleName}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          <div className={styles.profile__parentInfo}>
-            <span className={styles.profile__parentName}>
-              {`${parent.lastName} ${parent.firstName}`}
-            </span>
-            {parent.middleName && (
-              <span className={styles.profile__parentMiddleName}>
-                {parent.middleName}
-              </span>
-            )}
-            <span className={styles.profile__viewProfileHint}>
-              Просмотреть профиль
-            </span>
-          </div>
-        </Link>
-      );
-    }
-    
-    // Иначе используем обычный div
-    return (
-      <div
-        key={parent.id}
-        className={styles.profile__parentItem}
-      >
-        <div className={styles.profile__parentAvatar}>
-          {parent.photo ? (
-            <Avatar 
-              src={parent.photo} 
-              alt={`${parent.lastName} ${parent.firstName}`}
-              className={styles.profile__parentAvatarImg}
-            />
-          ) : (
-            <Avatar className={styles.profile__parentAvatarImg}>
-              {parent.firstName[0]}{parent.lastName[0]}
-            </Avatar>
-          )}
-        </div>
-        <div className={styles.profile__parentInfo}>
-          <span className={styles.profile__parentName}>
-            {`${parent.lastName} ${parent.firstName}`}
-          </span>
-          {parent.middleName && (
-            <span className={styles.profile__parentMiddleName}>
-              {parent.middleName}
-            </span>
-          )}
-        </div>
-      </div>
-    );
-  })}
-</div>
 
           <h3>Статистика оценок</h3>
           <div className={styles.profile__gradeSection}>

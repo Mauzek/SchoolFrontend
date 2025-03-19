@@ -1,0 +1,110 @@
+.subjectsHeader {
+    text-align: center;
+    margin-bottom: 40px;
+
+    &__title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--color-primary-dark);
+        margin-bottom: 8px;
+        position: relative;
+        display: inline-block;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-radius: 2px;
+        }
+    }
+
+    &__subtitle {
+        font-size: 16px;
+        color: var(--color-text-light);
+        margin-bottom: 24px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 24px;
+    }
+
+    &__searchContainer {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    &__searchWrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        background-color: white;
+
+        &:focus-within {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.2);
+        }
+    }
+
+    &__searchIcon {
+        color: var(--color-text-light);
+        font-size: 18px;
+        margin-left: 12px;
+    }
+
+    &__searchInput {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 12px;
+        font-size: 16px;
+        background: transparent;
+        width: 100%;
+
+        &::placeholder {
+            color: var(--color-text-light);
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    &__clearButton {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--color-text-light);
+        font-size: 20px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        &:hover {
+            color: var(--color-text);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .subjectsHeader {
+        &__title {
+            font-size: 24px;
+        }
+
+        &__subtitle {
+            font-size: 14px;
+        }
+    }
+}

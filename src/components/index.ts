@@ -4,6 +4,8 @@ export { Preloader } from "./Preloader/Preloader";
 export { Clock } from "./Clock/Clock";
 export { NewsSection } from "./News/NewsSection";
 export { TopStudentsByAvgGrade } from "./Statistics/TopStudentsByAvgGrade/TopStudentsByAvgGrade";
+export { EmptyState } from "./EmptyState/EmptyState";
 export * from "./Profile";
 export * from "./Schedule";
 export * from "./CreateSchedule";
+export * from "./Subjects";

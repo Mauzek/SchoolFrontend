@@ -144,3 +144,11 @@ export interface LessonFormValues {
   date?: Dayjs | null;
   classId?: number;
 }
+
+// <-------Subject.tsx------->
+// Определение типа для свойств компонента Subjects
+export interface Subject {
+  idSubject: number;
+  name: string;
+  description: string;
+}

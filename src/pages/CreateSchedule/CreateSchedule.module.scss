@@ -5,7 +5,8 @@
 
     &__title {
         color: var(--color-primary-dark);
-        font-size: 24px;
+        font-size: 32px;
+        font-weight: 700;
         margin-bottom: 24px;
         text-align: center;
         position: relative;
@@ -13,13 +14,13 @@
         &::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
-            border-radius: 3px;
+            border-radius: 2px;
         }
     }
 
@@ -38,7 +39,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            background:  var(--color-primary);
         }
     }
 }
