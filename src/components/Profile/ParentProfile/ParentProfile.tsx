@@ -104,9 +104,9 @@ export const ParentProfile: React.FC<ParentProfileProps> = ({ profile }) => {
                   )}
                 </div>
                 <div className={styles.profile__childInfo}>
-                  <h4>{`${child.lastName} ${child.firstName} ${
-                    child.middleName || ""
-                  }`}</h4>
+                  <span className={styles.profile__childName}>
+                  {`${child.lastName} ${child.firstName}`} {child.middleName || ""}
+                  </span>
                   <p>Класс: {`${child.class.number}${child.class.letter}`}</p>
                 </div>
               </Link>

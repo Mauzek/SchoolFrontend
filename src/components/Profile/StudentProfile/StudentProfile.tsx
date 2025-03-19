@@ -22,6 +22,7 @@ export const StudentProfile: React.FC<StudentProfileProps> = ({ profile }) => {
   const { id } = useParams();
 
   const isEmployee = user.role.id === 1 || user.role.id === 2;
+  const isParent = user.role.id === 4;
   const isOwnProfile = user.additionalInfo.idStudent == id;
   
   const headerDetails = [
@@ -77,7 +78,7 @@ export const StudentProfile: React.FC<StudentProfileProps> = ({ profile }) => {
           <div className={styles.profile__parentsList}>
   {parents.map((parent) => {
     // Если пользователь работник или это его профиль, используем Link
-    if (isEmployee || isOwnProfile) {
+    if (isEmployee || isOwnProfile || isParent) {
       return (
         <Link
           key={parent.id}

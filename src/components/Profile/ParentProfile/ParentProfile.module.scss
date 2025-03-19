@@ -70,7 +70,6 @@
         border: 1px solid var(--color-border);
         border-radius: 8px;
         text-decoration: none;
-        color: var(--color-text);
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
         position: relative;
@@ -130,18 +129,7 @@
 
     &__childInfo {
         flex: 1;
-        transition: transform 0.3s ease;
-
-        h4 {
-            margin: 0 0 0.5rem;
-            font-size: 1.125rem;
-            color: var(--color-text);
-            transition: color 0.3s ease;
-
-            .profile__childItem:hover & {
-                color: var(--color-primary-dark);
-            }
-        }
+        transition: transform 0.3s ease;    
 
         p {
             margin: 0;
@@ -149,6 +137,14 @@
             color: var(--color-text-light);
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
+    }
+
+    &__childName {
+        font-weight: 600;
+        color: var(--color-primary-dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 

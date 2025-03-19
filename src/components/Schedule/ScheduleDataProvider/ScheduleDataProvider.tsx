@@ -45,7 +45,7 @@ export const ScheduleDataProvider: React.FC<ScheduleDataProviderProps> = ({
     useState<boolean>(false);
 
   const userRole = user.user.role.id;
-  const isEmployee = userRole === 2;
+  const isEmployee = userRole === 2 || userRole === 1;
   const isParent = userRole === 4;
 
   // Function to get week date range for display
@@ -99,10 +99,10 @@ export const ScheduleDataProvider: React.FC<ScheduleDataProviderProps> = ({
 
       let response;
 
-      if (isEmployee && user.user?.id) {
+      if (isEmployee && user.user.additionalInfo.idEmployee) {
         // Fetch employee's schedule
         response = await getEmployeeScheduleByWeekInterval(
-          user.user.id,
+          user.user.additionalInfo.idEmployee,
           startDate,
           endDate,
           user.accessToken
