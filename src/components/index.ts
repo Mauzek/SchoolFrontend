@@ -6,3 +6,4 @@ export { NewsSection } from "./News/NewsSection";
 export { TopStudentsByAvgGrade } from "./Statistics/TopStudentsByAvgGrade/TopStudentsByAvgGrade";
 export * from "./Profile";
 export * from "./Schedule";
+export * from "./CreateSchedule";

@@ -1,5 +1,5 @@
 // <-------Header.tsx------->
-
+import type { Dayjs } from "dayjs";
 import { ApiChildrensResponse } from "./api";
 
 // Определение типа для навигационных ссылок 
@@ -114,4 +114,33 @@ export interface ScheduleContentProps {
   formatTime: (time: string) => string;
   getDayName: (date: string) => string;
   isToday: (date: string) => boolean;
+}
+
+
+// <-------CreateSchedule.tsx------->
+// Определение типа для свойств компонента CreateSchedule
+export interface TimeSlot {
+  startTime: string;
+  endTime: string;
+}
+
+export interface CreateScheduleItem {
+  idClass: number;
+  idSubject: number;
+  idEmployee: number;
+  date: string;
+  weekDay: string;
+  startTime: string;
+  endTime: string;
+  roomNumber: string;
+  subjectName?: string;
+  teacherName?: string;
+}
+
+export interface LessonFormValues {
+  subjectId?: number;
+  employeeId?: number;
+  roomNumber?: string;
+  date?: Dayjs | null;
+  classId?: number;
 }

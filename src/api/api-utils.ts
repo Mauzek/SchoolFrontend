@@ -18,6 +18,10 @@ import {
   ApiUpdateAvatarResponse,
   ScheduleDetailsRessponse,
   ApiChildrensResponse,
+  ApiAllClassesResponse,
+  ApiAllSubjectsResponse,
+  ApiCreateSchedule,
+  ApiEmployeeDetails,
 } from "../types";
 
 // Запросы к API
@@ -110,6 +114,27 @@ const getStudentsByParentId = async (id: number, token: string): Promise<ApiChil
   const response = await axiosRequest("get", endpoints.getStudentsByParentId(id), token);
   return response;
 };
+
+const getAllClasses = async (token: string): Promise<ApiAllClassesResponse> => {
+  const response = await axiosRequest("get", endpoints.getAllClasses, token);
+  return response;
+}
+
+const getAllSubjects = async (token: string): Promise<ApiAllSubjectsResponse> => {
+  const response = await axiosRequest("get", endpoints.getAllSubjects, token);
+  console.log("getAllSubjects Response:", response);
+  return response;
+}
+
+const getAllEmployees = async (token: string): Promise<ApiEmployeeDetails[]> => {
+  const response = await axiosRequest("get", endpoints.getAllEmployees, token);
+  return response;
+}
+
+const createScheduleItem = async (data: ApiCreateSchedule, token: string) => {
+  const response = await axiosRequest("post", endpoints.createShedule, token, data);
+  return response;
+}
 
 // Api-utils
 const axiosRequest = async (
@@ -390,7 +415,11 @@ export {
   getClassScheduleByWeekInterval,
   getEmployeeScheduleByWeekInterval,
   getStudentsByParentId,
-  
+  getAllClasses,
+  getAllSubjects,
+  getAllEmployees,
+  createScheduleItem,
+
   // api-utils
   saveUserToLocalStorage,
   getAccessToken,

@@ -107,6 +107,7 @@ export interface ApiEmployeeDetails {
     name: string;
   };
   role: {
+    id: number;
     name: string;
   };
   maritalStatus: string;
@@ -221,4 +222,41 @@ export interface ApiChildrensResponse {
   };
   class: ApiClass;
   parents: ApiParent[];
+}
+
+export interface ApiAllClassesResponse {
+  message: string;
+  classes: {
+    idClass: number;
+    classNumber: number;
+    classLetter: string;
+    stydyYear: number;
+    classTeacher: {
+      idEmployee: number;
+      firstName: string;
+      lastName: string;
+      middleName: string | null;
+    } | null;
+    studentsCount: number;
+  }[];
+}
+
+export interface ApiAllSubjectsResponse {
+  message: string;
+  subjects: {
+    idSubject: number;
+    name: string;
+    description: string;
+  }[];
+}
+
+export interface ApiCreateSchedule {
+  idClass: number;
+  idSubject: number;
+  idEmployee: number;
+  date: string;
+  weekDay: string;
+  startTime: string;
+  endTime: string;
+  roomNumber: string;
 }

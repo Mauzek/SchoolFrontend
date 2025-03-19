@@ -39,7 +39,7 @@ export const Schedule = () => {
 
   // Handler to navigate to schedule creation page
   const handleNavigateToCreateSchedule = () => {
-    navigate("/admin/create-schedule");
+    navigate("/admin/schedule/create-schedule");
   };
 
   return (

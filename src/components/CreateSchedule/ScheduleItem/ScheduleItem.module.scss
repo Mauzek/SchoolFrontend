@@ -1,0 +1,33 @@
+.scheduleItem {
+    border-left: 4px solid var(--color-primary);
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &__time {
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--color-primary-dark);
+        margin-bottom: 8px;
+    }
+
+    &__details {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 14px;
+
+        strong {
+            color: var(--color-text-dark);
+        }
+    }
+
+    &__removeButton {
+        &:hover {
+            color: #ff4d4f;
+        }
+    }
+}

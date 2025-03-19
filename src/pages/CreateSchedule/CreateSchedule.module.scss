@@ -1,0 +1,44 @@
+.createSchedule {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+
+    &__title {
+        color: var(--color-primary-dark);
+        font-size: 24px;
+        margin-bottom: 24px;
+        text-align: center;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-radius: 3px;
+        }
+    }
+
+    &__form {
+        background-color: white;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+        }
+    }
+}

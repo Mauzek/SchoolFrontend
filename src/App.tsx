@@ -8,20 +8,29 @@ import { Profile } from "./pages/Profile/[id]/Profile";
 import { Schedule } from "./pages/Schedule/Schedule";
 import { Subject } from "./pages/Subject/[id]/Subject";
 import { Subjects } from "./pages/Subject/Subjects";
+import { AdminRoute } from "./components/AdminRoute/AdminRoute";
+import { CreateSchedule } from "./pages/CreateSchedule/CreateSchedule";
 
 function App() {
   return (
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Welcome />} />
-          <Route path="/auth" element={<Auth/>} />
-          <Route path="/home" element={<Home/>} />
-          <Route path="/profile/:id" element={<Profile/>}/>
-          <Route path="/schedule" element={<Schedule/>}/>
-          <Route path="/subjects" element={<Subjects/>}/>
-          <Route path="/subject/:id" element={<Subject/>}/>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Welcome />} />
+        <Route path="/auth" element={<Auth/>} />
+        <Route path="/home" element={<Home/>} />
+        <Route path="/profile/:id" element={<Profile/>}/>
+        <Route path="/schedule" element={<Schedule/>} />
+        
+        {/* Защищенные маршруты для администраторов */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/schedule/create-schedule" element={<CreateSchedule/>}/>
+          {/* Другие маршруты, доступные только администраторам */}
         </Route>
-      </Routes>
+        
+        <Route path="/subjects" element={<Subjects/>}/>
+        <Route path="/subject/:id" element={<Subject/>}/>
+      </Route>
+    </Routes>
   );
 }
 
