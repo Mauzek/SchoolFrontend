@@ -33,8 +33,8 @@ export const Schedule = () => {
   };
 
   // Handler for lesson click
-  const handleLessonClick = (subjectId: number) => {
-    navigate(`/subject/${subjectId}`);
+  const handleLessonClick = (subjectId: number, classId: number) => {
+    navigate(`/subject/${subjectId}`, {state: {idClass: classId}});
   };
 
   // Handler to navigate to schedule creation page

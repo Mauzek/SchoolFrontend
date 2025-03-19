@@ -74,7 +74,7 @@ export const SubjectCard = ({ subject }: SubjectCardProps) => {
       to={`/subject/${subject.idSubject}`}
       className={styles.subjectCard__link}
     >
-      <div
+      <article
         className={styles.subjectCard}
         style={{ borderTopColor: subjectColor }}
       >
@@ -91,7 +91,7 @@ export const SubjectCard = ({ subject }: SubjectCardProps) => {
         <div className={styles.subjectCard__footer}>
           <span className={styles.subjectCard__more}>Подробнее</span>
         </div>
-      </div>
+      </article>
     </Link>
   );
 };

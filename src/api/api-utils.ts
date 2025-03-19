@@ -22,6 +22,10 @@ import {
   ApiAllSubjectsResponse,
   ApiCreateSchedule,
   ApiEmployeeDetails,
+  ApiTextbooksResponse,
+  ApiAssignmentsResponse,
+  ApiAssignmentResponse,
+  ApiSubjectResponse,
 } from "../types";
 
 // Запросы к API
@@ -133,6 +137,37 @@ const getAllEmployees = async (token: string): Promise<ApiEmployeeDetails[]> => 
 
 const createScheduleItem = async (data: ApiCreateSchedule, token: string) => {
   const response = await axiosRequest("post", endpoints.createShedule, token, data);
+  return response;
+}
+
+const getSubjectById = async (id: number, token: string): Promise<ApiSubjectResponse> => {
+  const response = await axiosRequest("get", endpoints.getSubjectById(id), token);
+  return response;
+}
+
+const getTextbooksBySubjectId = async (id: number, token: string): Promise<ApiTextbooksResponse> => {
+  const response = await axiosRequest("get", endpoints.getTextbooksBySubjectId(id), token);
+  return response;
+}
+
+const getAssignmentById = async (id: number, token: string): Promise<ApiAssignmentResponse> => {
+  const response = await axiosRequest("get", endpoints.getAssignmentById(id), token);
+  return response;
+}
+
+const getAssignmentsBySubjectId = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAssignmentsBySubjectId(id), token);
+  return response;
+}
+
+const getAssignmentsBySubjectIdAndClassId = async (subjectId: number, classId: number, token: string): Promise<ApiAssignmentsResponse> => {
+  const response = await axiosRequest("get", endpoints.getAssignmentsBySubjectIdAndClassId(subjectId, classId), token);
+  return response;
+}
+
+
+const getAllAssignmentAnswersByAssignmentID = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAllAssignmentAnswersByAssignmentID(id), token);
   return response;
 }
 
@@ -419,6 +454,12 @@ export {
   getAllSubjects,
   getAllEmployees,
   createScheduleItem,
+  getSubjectById,
+  getTextbooksBySubjectId,
+  getAssignmentById,
+  getAssignmentsBySubjectId,
+  getAssignmentsBySubjectIdAndClassId,
+  getAllAssignmentAnswersByAssignmentID,
 
   // api-utils
   saveUserToLocalStorage,

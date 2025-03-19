@@ -19,7 +19,7 @@ export const SubjectsMainHeader = ({
   };
 
   return (
-    <div className={styles.subjectsHeader}>
+    <header className={styles.subjectsHeader}>
       <h1 className={styles.subjectsHeader__title}>Учебные предметы</h1>
       <p className={styles.subjectsHeader__subtitle}>
         Полный список предметов, доступных в нашей школе
@@ -46,6 +46,6 @@ export const SubjectsMainHeader = ({
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };

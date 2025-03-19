@@ -260,3 +260,71 @@ export interface ApiCreateSchedule {
   endTime: string;
   roomNumber: string;
 }
+
+export interface ApiSubjectResponse{
+  message: string;
+  subject: {
+    idSubject: number;
+    name: string;
+    description: string;
+  }
+}
+
+export interface ApiTextbook {
+  idTextbook: number;
+  name: string;
+  year: number;
+  authors: string;
+  isbn: string;
+  fileLink: string;
+  subject: {
+    idSubject: number;
+    name: string;
+  };
+}
+
+export interface ApiTextbooksResponse {
+  message: string;
+  textbooks: ApiTextbook[];
+}
+
+export interface ApiAssignment {
+  idAssignment: number;
+  description: string;
+  deadline: string;
+  fileLink: string;
+  subject: {
+    idSubject: number;
+    name: string;
+  };
+  class: {
+    idClass: number;
+    classNumber: number;
+    classLetter: string;
+  };
+  employee: {
+    idEmployee: number;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
+  title: string;
+  desctiption: string;
+  openTime: string;
+  closeTime: string;
+  testing?: {
+    idTesting: number;
+    fileLink: string;
+    attemptsCount: number;
+  }
+}
+
+export interface ApiAssignmentResponse {
+    message: string;
+    data: ApiAssignment;
+  }
+
+export interface ApiAssignmentsResponse {
+  message: string;
+  data: ApiAssignment[];
+}

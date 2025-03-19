@@ -69,12 +69,12 @@ export const Subjects = () => {
   };
 
   return (
-    <div className={styles.subjects}>
+    <section className={styles.subjects}>
       <SubjectsMainHeader
         searchValue={searchValue}
         onSearch={handleSearch}
       />
       {renderContent()}
-    </div>
+    </section>
   );
 };

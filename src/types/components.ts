@@ -75,7 +75,7 @@ export interface ScheduleDayProps {
   date: string;
   dayName: string;
   lessons: ScheduleItem[];
-  onLessonClick: (subjectId: number) => void;
+  onLessonClick: (subjectId: number, classId: number) => void;
   formatTime: (time: string) => string;
   isToday: boolean;
 }
@@ -84,7 +84,7 @@ export interface ScheduleDayProps {
 // Определение типа для свойств компонента ScheduleLesson
 export interface ScheduleLessonProps {
   lesson: ScheduleItem;
-  onLessonClick: (subjectId: number) => void;
+  onLessonClick: (subjectId: number, classId: number) => void;
   formatTime: (time: string) => string;
 }
 
@@ -110,7 +110,7 @@ export interface ScheduleControlsProps {
 export interface ScheduleContentProps {
   weekDates: string[];
   scheduleData: ScheduleData;
-  onLessonClick: (subjectId: number) => void;
+  onLessonClick: (subjectId: number, classId: number) => void;
   formatTime: (time: string) => string;
   getDayName: (date: string) => string;
   isToday: (date: string) => boolean;

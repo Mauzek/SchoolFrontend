@@ -15,7 +15,23 @@ const endpoints = {
     getAllClasses: `${BASE_URL}/classes/all`,
 
     //subjects
+    getSubjectById: (id: number) => `${BASE_URL}/subjects/${id}`,
     getAllSubjects: `${BASE_URL}/subjects/all`,
+
+    //textbooks
+    getTextbooksBySubjectId: (id: number) => `${BASE_URL}/textbooks/subject/${id}`,
+
+    //assignments
+    getAssignmentById: (id: number) => `${BASE_URL}/assignments/${id}`,
+    getAssignmentsBySubjectId: (id: number) => `${BASE_URL}/assignments/subject/${id}`,
+    getAssignmentsBySubjectIdAndClassId: ( idSubject: number, idClass: number) => `${BASE_URL}/assignments/class/${idClass}/subject/${idSubject}`,
+    
+    //answers
+    getAllAssignmentAnswersByAssignmentID: (id: number) => `${BASE_URL}/answers/assignment/${id}`,
+    getAllTestingAnswersByTestingID: (id: number) => `${BASE_URL}/answers/testing/${id}`,
+    getAnswerById: (id: number) => `${BASE_URL}/answers/${id}`,
+    getStudentAssignmentAnswers: (idStudent: number, idAssignment: number) => `${BASE_URL}/answers/assignment/${idAssignment}/student/${idStudent}`,
+    getStudentTestingAnswers: (idStudent: number, idTesting: number) => `${BASE_URL}/answers/testing/${idTesting}/student/${idStudent}`,
 
     //employees
     getAllEmployees: `${BASE_URL}/employees/all`,

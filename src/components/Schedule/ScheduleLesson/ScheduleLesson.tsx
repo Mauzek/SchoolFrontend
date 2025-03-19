@@ -18,7 +18,7 @@ export const ScheduleLesson: React.FC<ScheduleLessonProps> = ({
   return (
     <article
       className={styles.scheduleLesson}
-      onClick={() => onLessonClick(lesson.subject.idSubject)}
+      onClick={() => onLessonClick(lesson.subject.idSubject, lesson.class.idClass)}
     >
       <div className={styles.scheduleLesson__time}>
         {formatTime(lesson.startTime)} - {formatTime(lesson.endTime)}

@@ -16,6 +16,9 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
+    &:hover &__title {
+        color: var(--color-primary-dark);
+    }
 
     &__link {
         text-decoration: none;
@@ -34,6 +37,7 @@
         font-weight: 600;
         margin-bottom: 12px;
         color: var(--color-text-dark);
+        transition: color 0.2s ease;
     }
 
     &__description {
