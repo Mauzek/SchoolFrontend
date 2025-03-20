@@ -1,0 +1,136 @@
+.assignmentsSection {
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0;
+        color: var(--color-text-dark);
+        position: relative;
+        padding-bottom: 0.5rem;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-radius: 2px;
+        }
+    }
+
+    &__selectedClass {
+        font-size: 1rem;
+        font-weight: 500;
+        color: white;
+        background-color: var(--color-primary);
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        margin-left: 0.8rem;
+    }
+
+    &__headerActions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    &__addButton {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background-color: var(--color-primary);
+        color: white;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+        text-decoration: none;
+
+        &:hover {
+            background-color: var(--color-primary-dark);
+            color: white;
+        }
+    }
+
+    &__loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 0;
+        color: var(--color-text-light);
+    }
+
+    &__spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(var(--color-primary-rgb), 0.2);
+        border-top-color: var(--color-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+    }
+
+    &__group {
+        margin-bottom: 2rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__groupTitle {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--color-text-dark);
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 0.5rem;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+    .assignmentsSection {
+        &__header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        &__headerActions {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        &__addButton {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,3 +1,9 @@
 export { SubjectCard } from "./SubjectCard/SubjectCard";
 export { SubjectsMainHeader } from "./SubjectsMainHeader/SubjectsMainHeader";
 export { SubjectsList } from "./SubjectsList/SubjectsList";
+export { ClassSelector } from "./ClassSelector/ClassSelector";
+export { TextbooksSection } from "./TextbooksSection/TextbooksSection";
+export { AssignmentsSection } from "./AssignmentsSection/AssignmentsSection";
+export { SubjectHeader } from "./SubjectHeader/SubjectHeader";
+export { TextbookItem } from "./TextbookItem/TextbookItem";
+export { AssignmentItem } from "./AssignmentItem/AssignmentItem";

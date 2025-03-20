@@ -135,6 +135,7 @@ textarea{
   color: var(--color-text);
   cursor: pointer;
   transition: border-color 0.25s;
+  resize: none;
 }
 
 textarea:focus{

@@ -10,6 +10,7 @@ import { Subject } from "./pages/Subject/[id]/Subject";
 import { Subjects } from "./pages/Subject/Subjects";
 import { AdminRoute } from "./components/AdminRoute/AdminRoute";
 import { CreateSchedule } from "./pages/CreateSchedule/CreateSchedule";
+import { Assignment } from "./pages/Assignments/Assignment";
 
 function App() {
   return (
@@ -26,9 +27,12 @@ function App() {
           <Route path="/admin/schedule/create-schedule" element={<CreateSchedule/>}/>
           {/* Другие маршруты, доступные только администраторам */}
         </Route>
-        
+
+        <Route path="/assignment/:id" element={<Assignment/>}/>
         <Route path="/subjects" element={<Subjects/>}/>
         <Route path="/subject/:id" element={<Subject/>}/>
+        <Route path="/subject/:id/add-textbook" element={<>add-textbook</>}/>
+        <Route path="/subject/:id/create-assignment" element={<>add-assignment</>}/>
       </Route>
     </Routes>
   );

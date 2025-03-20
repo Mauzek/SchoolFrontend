@@ -1,0 +1,61 @@
+.textbooksSection {
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--color-text-dark);
+        position: relative;
+        padding-bottom: 0.5rem;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-radius: 2px;
+        }
+    }
+
+    &__addButton {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background-color: var(--color-primary);
+        color: white;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+        text-decoration: none;
+
+        &:hover {
+            background-color: var(--color-primary-dark);
+            color: white;
+        }
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+    .textbooksSection {
+        &__list {
+            grid-template-columns: 1fr;
+        }
+    }
+}

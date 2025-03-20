@@ -1,0 +1,44 @@
+.subjectHeader {
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border-left: 6px solid;
+
+    &__icon {
+        font-size: 3rem;
+        margin-right: 1.5rem;
+    }
+
+    &__info {
+        flex: 1;
+    }
+
+    &__title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--color-text-dark);
+    }
+
+    &__description {
+        font-size: 1rem;
+        color: var(--color-text);
+        line-height: 1.5;
+    }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+    .subjectHeader {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+
+        &__icon {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+    }
+}

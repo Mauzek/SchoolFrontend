@@ -30,9 +30,11 @@ const endpoints = {
     getAllAssignmentAnswersByAssignmentID: (id: number) => `${BASE_URL}/answers/assignment/${id}`,
     getAllTestingAnswersByTestingID: (id: number) => `${BASE_URL}/answers/testing/${id}`,
     getAnswerById: (id: number) => `${BASE_URL}/answers/${id}`,
-    getStudentAssignmentAnswers: (idStudent: number, idAssignment: number) => `${BASE_URL}/answers/assignment/${idAssignment}/student/${idStudent}`,
-    getStudentTestingAnswers: (idStudent: number, idTesting: number) => `${BASE_URL}/answers/testing/${idTesting}/student/${idStudent}`,
-
+    getStudentAssignmentAnswer: (idStudent: number, idAssignment: number) => `${BASE_URL}/answers/assignment/${idAssignment}/student/${idStudent}`,
+    getStudentTestingAnswer: (idStudent: number, idTesting: number) => `${BASE_URL}/answers/testing/${idTesting}/student/${idStudent}`,
+    updateAssignmentAnswer: (idAnswer: number) => `${BASE_URL}/answers/assignment/answer/${idAnswer}`, // put {grade}
+    createAssignmentAnswer: `${BASE_URL}/answers/assignment`, // post {idAssignment, idStudent, grade, submissionDate, textAnswer ,fileLink}
+    createTestingAnswer: `${BASE_URL}/answers/testing`, // post {idTesting, idStudent, grade, submissionDate, textAnswer ,fileLink}
     //employees
     getAllEmployees: `${BASE_URL}/employees/all`,
 

@@ -73,7 +73,7 @@ export const Welcome: React.FC = () => {
             </p>
           </div>
         </section>
-        <section  className={styles["welcome__section"]}>
+        <section className={styles["welcome__section"]}>
           <div className={styles["welcome__poster"]}>
             <img
               src={images[1]}
@@ -91,14 +91,14 @@ export const Welcome: React.FC = () => {
                 <li>Международная аккредитация</li>
                 <li>Опытные преподаватели</li>
                 <li>Современные образовательные технологии</li>
-                <span id="admission"/>
+                <span id="admission" />
                 <li>Индивидуальный подход к каждому ученику</li>
-                <li >Подготовка к университетам по всему миру</li>            
+                <li>Подготовка к университетам по всему миру</li>
               </ul>
             </div>
           </div>
         </section>
-        <section  className={styles["welcome__section"]}>
+        <section className={styles["welcome__section"]}>
           <div className={styles["welcome__info"]}>
             <div className={styles["welcome__info-text"]}>
               <h2>Поступление</h2>
@@ -123,7 +123,7 @@ export const Welcome: React.FC = () => {
             />
           </div>
         </section>
-        <section id="contact"  className={styles["welcome__section"]}>
+        <section id="contact" className={styles["welcome__section"]}>
           <div className={styles["welcome__contact-container"]}>
             <div className={styles["welcome__contact-info"]}>
               <h2>Свяжитесь с нами</h2>
@@ -133,13 +133,16 @@ export const Welcome: React.FC = () => {
               </p>
               <ul className={styles["welcome__contact-details"]}>
                 <li>
-                  <span>Почта:</span>&nbsp;email@example.com
+                  <span>📍</span> 123 School Street, City, Country
                 </li>
                 <li>
-                  <span>Телефон:</span>&nbsp;+1 (234) 567-890
+                  <span>📞</span> +1 (123) 456-7890
                 </li>
                 <li>
-                  <span>Адрес:</span>&nbsp;123 School St, City, Country
+                  <span>✉️</span> info@schoolname.edu
+                </li>
+                <li>
+                  <span>🕒</span> Monday-Friday: 8:00 AM - 5:00 PM
                 </li>
               </ul>
             </div>

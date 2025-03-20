@@ -26,6 +26,8 @@ import {
   ApiAssignmentsResponse,
   ApiAssignmentResponse,
   ApiSubjectResponse,
+  ApiCreateAssignmentAnswer,
+  ApiCreateTestingAnswer,
 } from "../types";
 
 // Запросы к API
@@ -165,9 +167,33 @@ const getAssignmentsBySubjectIdAndClassId = async (subjectId: number, classId: n
   return response;
 }
 
-
 const getAllAssignmentAnswersByAssignmentID = async (id: number, token: string): Promise<any> => {
   const response = await axiosRequest("get", endpoints.getAllAssignmentAnswersByAssignmentID(id), token);
+  return response;
+}
+
+const getStudentAssignmentAnswer = async (studentId: number, assignmentId: number, token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getStudentAssignmentAnswer(studentId, assignmentId), token);
+  return response;
+}
+
+const getStudentTestingAnswer = async (studentId: number, testingId: number, token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getStudentTestingAnswer(studentId, testingId), token);
+  return response;
+}
+
+const updateAssignmentAnswer = async (grade: number, idAnswer: number, token: string) => {
+  const response = await axiosRequest("put", endpoints.updateAssignmentAnswer(idAnswer), token, {grade: grade});
+  return response;
+}
+
+const createAssignmentAnswer = async (data: FormData, token: string) => {
+  const response = await axiosRequest("post", endpoints.createAssignmentAnswer, token, data);
+  return response;
+}
+
+const createTestingAnswer = async (data: ApiCreateTestingAnswer, token: string) => {
+  const response = await axiosRequest("post", endpoints.createTestingAnswer, token, data);
   return response;
 }
 
@@ -460,7 +486,11 @@ export {
   getAssignmentsBySubjectId,
   getAssignmentsBySubjectIdAndClassId,
   getAllAssignmentAnswersByAssignmentID,
-
+  getStudentAssignmentAnswer,
+  getStudentTestingAnswer,
+  createAssignmentAnswer,
+  createTestingAnswer,
+  updateAssignmentAnswer,
   // api-utils
   saveUserToLocalStorage,
   getAccessToken,

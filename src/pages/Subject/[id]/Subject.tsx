@@ -1,140 +1,235 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  BookOutlined,
-  FileTextOutlined,
-  CheckSquareOutlined,
-  DownloadOutlined,
-  ClockCircleOutlined,
-  UserOutlined,
-  CalendarOutlined,
-} from "@ant-design/icons";
-import styles from "./Subject.module.scss";
+import { BookOutlined, FileTextOutlined } from "@ant-design/icons";
 import { RootState } from "../../../store";
 import {
   getSubjectById,
   getAssignmentsBySubjectIdAndClassId,
   getTextbooksBySubjectId,
+  getAllClasses,
 } from "../../../api/api-utils";
 import { EmptyState } from "../../../components/EmptyState/EmptyState";
-import { formatDate, formatDateTime } from "../../../utils/dateUtils";
-import {
-  ApiTextbook,
-  ApiAssignment,
-  Subject as ApiSubject,
-} from "../../../types";
+import { ApiTextbook, ApiAssignment, Subject as ApiSubject, ApiClassResponse } from "../../../types";
+import { SubjectHeader,TextbooksSection, AssignmentsSection,  } from "../../../components";
+import { getSubjectColor, getSubjectIcon, isTestAssignment } from "../../../utils/subjectUtils";
+import styles from "./Subject.module.scss";
 
-export const Subject = () => {
+export const Subject: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const user = useSelector((state: RootState) => state.user);
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [subject, setSubject] = useState<ApiSubject | null>(null);
   const [textbooks, setTextbooks] = useState<ApiTextbook[]>([]);
   const [assignments, setAssignments] = useState<ApiAssignment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState<"textbooks" | "assignments">(
-    "textbooks"
-  );
+  const [activeTab, setActiveTab] = useState<"textbooks" | "assignments">("textbooks");
+  const [classes, setClasses] = useState<ApiClassResponse[]>([]);
+  const [selectedClass, setSelectedClass] = useState<number | null>(null);
+  const [selectedClassName, setSelectedClassName] = useState<string>("");
+  const [loadingAssignments, setLoadingAssignments] = useState<boolean>(false);
 
+  // Проверяем, является ли пользователь админом или учителем
+  const isAdminOrTeacher = useMemo(() => {
+    return user.user.role.id === 1 || user.user.role.id === 2;
+  }, [user.user.role.id]);
+
+  // Загрузка списка классов
   useEffect(() => {
-    const fetchSubjectData = async () => {
+    if (isAdminOrTeacher) {
+      const fetchClasses = async () => {
+        try {
+          const classesResponse = await getAllClasses(user.accessToken);
+          if (classesResponse && classesResponse.classes) {
+            setClasses(classesResponse.classes);
+          }
+        } catch (error) {
+          console.error("Ошибка при загрузке классов:", error);
+        }
+      };
+
+      fetchClasses();
+    }
+  }, [isAdminOrTeacher, user.accessToken]);
+
+  // Загрузка информации о предмете и учебниках
+  useEffect(() => {
+    const fetchSubjectAndTextbooks = async () => {
       if (!id) return;
 
       try {
         setLoading(true);
 
         // Получаем информацию о предмете
-        const subjectResponse = await getSubjectById(
-          parseInt(id),
-          user.accessToken
-        );
+        const subjectResponse = await getSubjectById(parseInt(id), user.accessToken);
         if (subjectResponse && subjectResponse.subject) {
           setSubject(subjectResponse.subject);
         }
 
         // Получаем учебники по предмету
-        const textbooksResponse = await getTextbooksBySubjectId(
-          parseInt(id),
-          user.accessToken
-        );
+        const textbooksResponse = await getTextbooksBySubjectId(parseInt(id), user.accessToken);
         if (textbooksResponse && textbooksResponse.textbooks) {
           setTextbooks(textbooksResponse.textbooks);
         }
 
-        // Получаем задания по предмету и классу
-        if (user.user.additionalInfo.idClass || location.state?.idClass) {
-          const classId = user.user.additionalInfo.idClass || location.state?.idClass;
+        setLoading(false);
+      } catch (error) {
+        console.error("Ошибка при загрузке данных предмета:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchSubjectAndTextbooks();
+  }, [id, user.accessToken]);
+
+  // Определение выбранного класса и загрузка заданий
+  useEffect(() => {
+    const determineClassAndLoadAssignments = async () => {
+      if (!id || loading) return;
+
+      try {
+        // Определяем ID класса для загрузки заданий
+        let classId: number | null = null;
+
+        // Если есть ID класса в состоянии, используем его
+        if (selectedClass) {
+          classId = selectedClass;
+        }
+        // Иначе используем ID класса из location state или из профиля пользователя
+        else if (location.state?.idClass) {
+          classId = location.state.idClass;
+          setSelectedClass(classId);
+
+          // Находим имя класса
+          if (classes.length > 0) {
+            const classInfo = classes.find((c) => c.idClass === classId);
+            if (classInfo) {
+              setSelectedClassName(`${classInfo.classNumber}${classInfo.classLetter}`);
+            }
+          }
+        } else if (user.user.additionalInfo.idClass) {
+          classId = user.user.additionalInfo.idClass;
+          setSelectedClass(classId);
+
+          // Находим имя класса для студента
+          if (classes.length > 0) {
+            const classInfo = classes.find((c) => c.idClass === classId);
+            if (classInfo) {
+              setSelectedClassName(`${classInfo.classNumber}${classInfo.classLetter}`);
+            }
+          }
+        }
+
+        // Если есть ID класса и активна вкладка заданий, загружаем задания
+        if (classId && activeTab === "assignments") {
+          setLoadingAssignments(true);
+
           const assignmentsResponse = await getAssignmentsBySubjectIdAndClassId(
             parseInt(id),
             classId,
             user.accessToken
           );
-          console.log(assignmentsResponse);
+
           if (assignmentsResponse && assignmentsResponse.data) {
             setAssignments(assignmentsResponse.data);
+          } else {
+            setAssignments([]);
           }
+
+          setLoadingAssignments(false);
         }
       } catch (error) {
-        console.error("Ошибка при загрузке данных предмета:", error);
-      } finally {
-        setLoading(false);
+        console.error("Ошибка при определении класса и загрузке заданий:", error);
+        setLoadingAssignments(false);
       }
     };
 
-    fetchSubjectData();
-  }, [id, user.accessToken, user.user.additionalInfo.idClass]);
+    determineClassAndLoadAssignments();
+  }, [
+    id,
+    classes,
+    selectedClass,
+    user.user.additionalInfo.idClass,
+    location.state,
+    loading,
+    activeTab,
+    user.accessToken,
+  ]);
 
-  // Функция для получения цвета предмета
-  const getSubjectColor = (subjectId: number) => {
-    const colors = [
-      "var(--color-primary)",
-      "#FFC107",
-      "#4caf50",
-      "#ff9800",
-      "#9c27b0",
-      "#3f51b5",
-      "#e91e63",
-      "#009688",
-    ];
+  // Обработчик выбора класса
+  const handleClassSelect = useCallback(
+    async (classId: number) => {
+      if (!id) return;
 
-    return colors[subjectId % colors.length];
-  };
+      setSelectedClass(classId);
 
-  // Функция для получения иконки предмета
-  const getSubjectIcon = (name: string) => {
-    const lowerName = name.toLowerCase();
+      const classInfo = classes.find((c) => c.idClass === classId);
+      if (classInfo) {
+        setSelectedClassName(`${classInfo.classNumber}${classInfo.classLetter}`);
+      }
 
-    if (lowerName.includes("math") || lowerName.includes("матем")) {
-      return "📊";
-    } else if (lowerName.includes("history") || lowerName.includes("истор")) {
-      return "🏛️";
-    } else if (lowerName.includes("physics") || lowerName.includes("физик")) {
-      return "⚛️";
-    } else if (lowerName.includes("chemistry") || lowerName.includes("хими")) {
-      return "🧪";
-    } else if (lowerName.includes("biology") || lowerName.includes("биолог")) {
-      return "🧬";
-    } else if (
-      lowerName.includes("literature") ||
-      lowerName.includes("литерат")
-    ) {
-      return "📚";
-    } else if (
-      lowerName.includes("geography") ||
-      lowerName.includes("географ")
-    ) {
-      return "🌍";
-    }
+      try {
+        setLoadingAssignments(true);
 
-    return "📖";
-  };
+        // Загружаем задания для выбранного класса
+        const assignmentsResponse = await getAssignmentsBySubjectIdAndClassId(
+          parseInt(id),
+          classId,
+          user.accessToken
+        );
 
-  if (loading) {
+        if (assignmentsResponse && assignmentsResponse.data) {
+          setAssignments(assignmentsResponse.data);
+        } else {
+          setAssignments([]);
+        }
+      } catch (error) {
+        console.error("Ошибка при загрузке заданий:", error);
+        setAssignments([]);
+      } finally {
+        setLoadingAssignments(false);
+      }
+
+      // Обновляем URL с параметром класса
+      navigate(`/subject/${id}`, { state: { idClass: classId } });
+    },
+    [id, classes, user.accessToken, navigate]
+  );
+
+  // Мемоизируем фильтрацию тестовых и обычных заданий
+  const testAssignments = useMemo(() => {
+    return assignments.filter(isTestAssignment);
+  }, [assignments]);
+
+  const regularAssignments = useMemo(() => {
+    return assignments.filter((a) => !isTestAssignment(a));
+  }, [assignments]);
+
+  // Обработчик переключения вкладок
+  const handleTabChange = useCallback(
+    (tab: "textbooks" | "assignments") => {
+      setActiveTab(tab);
+
+      // Если переключаемся на вкладку заданий и есть выбранный класс, но нет загруженных заданий
+      if (
+        tab === "assignments" &&
+        selectedClass &&
+        assignments.length === 0 &&
+        !loadingAssignments
+      ) {
+        handleClassSelect(selectedClass);
+      }
+    },
+    [selectedClass, assignments.length, loadingAssignments, handleClassSelect]
+  );
+
+  if (loading && !subject) {
     return (
-      <div className={styles.subjects}>
-        <div className={styles.subjects__spinner} />
-        <p className={styles.subjects__text}>Загрузка...</p>
+      <div className={styles.subject__loading}>
+        <div className={styles.subject__spinner} />
+        <p className={styles.subject__loadingText}>Загрузка...</p>
       </div>
     );
   }
@@ -143,36 +238,20 @@ export const Subject = () => {
     return <EmptyState message="Предмет не найден" />;
   }
 
-  const subjectColor = getSubjectColor(subject.idSubject);
-  const subjectIcon = getSubjectIcon(subject.name);
-
-  // Проверка, является ли задание тестовым
-  const isTestAssignment = (assignment: ApiAssignment) => {
-    return !!assignment.testing;
-  };
-
   return (
     <div className={styles.subject}>
-      <div
-        className={styles.subject__header}
-        style={{
-          backgroundColor: `${subjectColor}15`,
-          borderColor: subjectColor,
-        }}
-      >
-        <div className={styles.subject__icon}>{subjectIcon}</div>
-        <div className={styles.subject__info}>
-          <h1 className={styles.subject__title}>{subject.name}</h1>
-          <p className={styles.subject__description}>{subject.description}</p>
-        </div>
-      </div>
+      <SubjectHeader 
+        subject={subject} 
+        color={getSubjectColor(subject.idSubject)} 
+        icon={getSubjectIcon(subject.name)} 
+      />
 
       <div className={styles.subject__tabs}>
         <button
           className={`${styles.subject__tab} ${
             activeTab === "textbooks" ? styles.subject__tabActive : ""
           }`}
-          onClick={() => setActiveTab("textbooks")}
+          onClick={() => handleTabChange("textbooks")}
         >
           <BookOutlined /> Учебники
         </button>
@@ -180,7 +259,7 @@ export const Subject = () => {
           className={`${styles.subject__tab} ${
             activeTab === "assignments" ? styles.subject__tabActive : ""
           }`}
-          onClick={() => setActiveTab("assignments")}
+          onClick={() => handleTabChange("assignments")}
         >
           <FileTextOutlined /> Задания
         </button>
@@ -188,187 +267,28 @@ export const Subject = () => {
 
       <div className={styles.subject__content}>
         {activeTab === "textbooks" && (
-          <div className={styles.subject__textbooks}>
-            <h2 className={styles.subject__sectionTitle}>
-              Учебники по предмету {}
-            </h2>
-
-            {textbooks.length > 0 ? (
-              <div className={styles.subject__textbooksList}>
-                {textbooks.map((textbook) => (
-                  <div key={textbook.idTextbook} className={styles.textbook}>
-                    <div className={styles.textbook__icon}>
-                      <BookOutlined />
-                    </div>
-                    <div className={styles.textbook__content}>
-                      <h3 className={styles.textbook__title}>
-                        {textbook.name}
-                      </h3>
-                      <p className={styles.textbook__authors}>
-                        {textbook.authors}
-                      </p>
-                      <div className={styles.textbook__details}>
-                        <span className={styles.textbook__year}>
-                          Год издания: {textbook.year}
-                        </span>
-                        {textbook.isbn && (
-                          <span className={styles.textbook__isbn}>
-                            ISBN: {textbook.isbn}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    {textbook.fileLink && (
-                      <a
-                        href={textbook.fileLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.textbook__download}
-                        title="Скачать учебник"
-                      >
-                        <DownloadOutlined />
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="Учебники по данному предмету не найдены" />
-            )}
-          </div>
+          <TextbooksSection 
+            textbooks={textbooks} 
+            subjectId={id || ""} 
+            isAdminOrTeacher={isAdminOrTeacher} 
+          />
         )}
 
         {activeTab === "assignments" && (
-          <div className={styles.subject__assignments}>
-            <h2 className={styles.subject__sectionTitle}>
-              Задания по предмету
-            </h2>
-
-            {assignments.length > 0 ? (
-              <>
-                {/* Тестовые задания */}
-                {assignments.some(isTestAssignment) && (
-                  <div className={styles.subject__assignmentsSection}>
-                    <h3 className={styles.subject__assignmentsSectionTitle}>
-                      <CheckSquareOutlined /> Тестовые задания
-                    </h3>
-                    <div className={styles.subject__assignmentsList}>
-                      {assignments
-                        .filter(isTestAssignment)
-                        .map((assignment) => (
-                          <div
-                            key={assignment.idAssignment}
-                            className={styles.assignment}
-                          >
-                            <div
-                              className={`${styles.assignment__icon} ${styles.assignment__iconTest}`}
-                            >
-                              <CheckSquareOutlined />
-                            </div>
-                            <div className={styles.assignment__content}>
-                              <h3 className={styles.assignment__title}>
-                                {assignment.title}
-                              </h3>
-                              <p className={styles.assignment__description}>
-                                {assignment.description}
-                              </p>
-                              <div className={styles.assignment__details}>
-                                <span className={styles.assignment__deadline}>
-                                  <ClockCircleOutlined /> Доступно до:{" "}
-                                  {formatDate(assignment.closeTime)}
-                                </span>
-                                <span className={styles.assignment__teacher}>
-                                  <UserOutlined />{" "}
-                                  {assignment.employee.lastName}{" "}
-                                  {assignment.employee.firstName.charAt(0)}.
-                                  {assignment.employee.middleName?.charAt(0)}.
-                                </span>
-                                {assignment.testing && (
-                                  <span className={styles.assignment__attempts}>
-                                    Попыток: {assignment.testing.attemptsCount}
-                                  </span>
-                                )}
-                              </div>
-                              <div className={styles.assignment__timeRange}>
-                                <CalendarOutlined /> Период выполнения:{" "}
-                                {formatDateTime(assignment.openTime)} -{" "}
-                                {formatDateTime(assignment.closeTime)}
-                              </div>
-                            </div>
-                            <Link
-                              to={`/assignment/${assignment.idAssignment}`}
-                              className={styles.assignment__action}
-                              title="Перейти к заданию"
-                            >
-                              Пройти тест
-                            </Link>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Обычные задания */}
-                {assignments.some((a) => !isTestAssignment(a)) && (
-                  <div className={styles.subject__assignmentsSection}>
-                    <h3 className={styles.subject__assignmentsSectionTitle}>
-                      <FileTextOutlined /> Обычные задания
-                    </h3>
-                    <div className={styles.subject__assignmentsList}>
-                      {assignments
-                        .filter((a) => !isTestAssignment(a))
-                        .map((assignment) => (
-                          <div
-                            key={assignment.idAssignment}
-                            className={styles.assignment}
-                          >
-                            <div className={styles.assignment__icon}>
-                              <FileTextOutlined />
-                            </div>
-                            <div className={styles.assignment__content}>
-                              <h3 className={styles.assignment__title}>
-                                {assignment.title}
-                              </h3>
-                              <p className={styles.assignment__description}>
-                                {assignment.description}
-                              </p>
-                              <div className={styles.assignment__details}>
-                                <span className={styles.assignment__deadline}>
-                                  <ClockCircleOutlined /> Срок сдачи:{" "}
-                                  {formatDate(assignment.deadline)}
-                                </span>
-                                <span className={styles.assignment__teacher}>
-                                  <UserOutlined />{" "}
-                                  {assignment.employee.lastName}{" "}
-                                  {assignment.employee.firstName.charAt(0)}.
-                                  {assignment.employee.middleName?.charAt(0)}.
-                                </span>
-                              </div>
-                              <div className={styles.assignment__timeRange}>
-                                <CalendarOutlined /> Период выполнения:{" "}
-                                {formatDateTime(assignment.openTime)} -{" "}
-                                {formatDateTime(assignment.closeTime)}
-                              </div>
-                            </div>
-                            <Link
-                              to={`/assignment/${assignment.idAssignment}`}
-                              className={styles.assignment__action}
-                              title="Перейти к заданию"
-                            >
-                              Открыть
-                            </Link>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                )}
-              </>
-            ) : (
-              <EmptyState message="Задания по данному предмету не найдены" />
-            )}
-          </div>
+          <AssignmentsSection
+            assignments={assignments}
+            testAssignments={testAssignments}
+            regularAssignments={regularAssignments}
+            subjectId={id || ""}
+            isAdminOrTeacher={isAdminOrTeacher}
+            selectedClass={selectedClass}
+            selectedClassName={selectedClassName}
+            classes={classes}
+            onClassSelect={handleClassSelect}
+            loadingAssignments={loadingAssignments}
+          />
         )}
-      </div>
+            </div>
     </div>
   );
 };

@@ -71,7 +71,7 @@ export const TopStudentsByAvgGrade: React.FC = () => {
                           Average Grade:
                         </span>
                         <span className={styles.topStudents__gradeValue}>
-                          {student.averageGrade}
+                        {Number(student.averageGrade).toFixed(2)}
                         </span>
                       </div>
                     </div>

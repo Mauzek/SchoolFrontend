@@ -1,0 +1,128 @@
+.assignment {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+  
+    &__icon {
+      font-size: 1.5rem;
+      color: var(--color-primary);
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--color-primary-light);
+    }
+  
+    &__iconTest {
+      color: #ff9800;
+      background-color: rgba(255, 152, 0, 0.1);
+    }
+  
+    &__content {
+      flex: 1;
+    }
+  
+    &__title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--color-text-dark);
+    }
+  
+    &__description {
+      font-size: 0.9rem;
+      color: var(--color-text);
+      margin-bottom: 0.8rem;
+      line-height: 1.5;
+    }
+  
+    &__details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--color-text-light);
+    }
+  
+    &__deadline,
+    &__teacher,
+    &__attempts {
+      display: flex;
+      align-items: center;
+  
+      svg {
+        margin-right: 0.3rem;
+      }
+    }
+  
+    &__attempts {
+      background-color: rgba(var(--color-primary-rgb), 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+  
+    &__timeRange {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+  
+      svg {
+        margin-right: 0.3rem;
+      }
+    }
+  
+    &__action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      background-color: var(--color-primary);
+      color: white;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      align-self: flex-start;
+      margin-left: 1rem;
+  
+      &:hover {
+        background-color: var(--color-primary-dark);
+        color: white;
+        transform: translateY(-2px);
+      }
+    }
+  }
+  
+  // Адаптивность для мобильных устройств
+  @media (max-width: 768px) {
+    .assignment {
+      flex-direction: column;
+  
+      &__icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+  
+      &__action {
+        margin-left: 0;
+        margin-top: 1rem;
+        width: 100%;
+      }
+    }
+  }
+  

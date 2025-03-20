@@ -1,3 +1,5 @@
+import { Subject } from './';
+
 export interface ApiRole {
   id: number;
   name: string;
@@ -224,21 +226,23 @@ export interface ApiChildrensResponse {
   parents: ApiParent[];
 }
 
+export interface ApiClassResponse {
+  idClass: number;
+  classNumber: number;
+  classLetter: string;
+  stydyYear: number;
+  classTeacher: {
+    idEmployee: number;
+    firstName: string;
+    lastName: string;
+    middleName: string | null;
+  } | null;
+  studentsCount: number;
+}
+
 export interface ApiAllClassesResponse {
   message: string;
-  classes: {
-    idClass: number;
-    classNumber: number;
-    classLetter: string;
-    stydyYear: number;
-    classTeacher: {
-      idEmployee: number;
-      firstName: string;
-      lastName: string;
-      middleName: string | null;
-    } | null;
-    studentsCount: number;
-  }[];
+  classes: ApiClassResponse[];
 }
 
 export interface ApiAllSubjectsResponse {
@@ -293,10 +297,7 @@ export interface ApiAssignment {
   description: string;
   deadline: string;
   fileLink: string;
-  subject: {
-    idSubject: number;
-    name: string;
-  };
+  subject: Subject;
   class: {
     idClass: number;
     classNumber: number;
@@ -328,3 +329,76 @@ export interface ApiAssignmentsResponse {
   message: string;
   data: ApiAssignment[];
 }
+
+// API Assignment Response type
+export interface ApiAssignmentResponse {
+  message: string;
+  data: ApiAssignment;
+}
+
+// Student Assignment Answer type
+export interface StudentAssignmentAnswer {
+  message?: string;
+  idAnswer: number;
+  assignment: ApiAssignment;
+  student: {
+    idStudent: number;
+    class: {
+      idClass: number;
+      classNumber: number;
+      classLetter: string;
+    };
+    idUser: number;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
+  grade: number | null;
+  submissionDate: string;
+  textAnswer: string;
+  fileLink: string;
+}
+
+// Student Testing Answer type
+export interface StudentTestingAnswer {
+  idTestingAnswer: number;
+  testing: {
+    idTesting: number;
+    fileLink: string;
+    attemptsCount: number;
+    assignment: ApiAssignment;
+  };
+  student: {
+    idStudent: number;
+    class: {
+      idClass: number;
+      classNumber: number;
+      classLetter: string;
+    };
+    idUser: number;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
+  grade: number | null;
+  submissionDate: string;
+  fileLink: string;
+}
+
+export interface ApiCreateAssignmentAnswer {
+  idAssignment: number;
+  idStudent: number;
+  grade: number | null;
+  submissionDate: string;
+  textAnswer: string;
+  fileLink: File | null;
+}
+
+export interface ApiCreateTestingAnswer {
+  idTesting: number;
+  idStudent: number;
+  grade: number | null;
+  submissionDate: string;
+  fileLink: File | null;
+}
+
