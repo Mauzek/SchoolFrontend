@@ -7,7 +7,7 @@ import { updateAvatar } from "../../../api/api-utils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { updateUserPhoto } from "../../../store/userSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 interface UploadInfo {
   file: File;
@@ -22,6 +22,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const { id } = useParams();
+  const location = useLocation();
   const [localPhoto, setLocalPhoto] = useState<string | null>(photo || null);
   const [messageApi, contextHolder] = message.useMessage();
   const [uploading, setUploading] = useState<boolean>(false);
@@ -29,18 +30,18 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   // Check if this is the user's own profile
   const isOwnProfile = () => {
     const { role, additionalInfo } = user.user;
-    
+
     // Compare based on role
     switch (role.name) {
       case "Student":
-        return additionalInfo.idStudent?.toString() === id;
+        return additionalInfo.idStudent?.toString() === id && location.state.role === user.user.role.id;
       case "Teacher":
       case "Employee":
-        return additionalInfo.idEmployee?.toString() === id;
+        return additionalInfo.idEmployee?.toString() === id && location.state.role === user.user.role.id;
       case "Parent":
-        return additionalInfo.idParent?.toString() === id;
+        return additionalInfo.idParent?.toString() === id && location.state.role === user.user.role.id;
       default:
-        return user.user.id.toString() === id;
+        return user.user.id.toString() === id && location.state.role === user.user.role.id;
     }
   };
 

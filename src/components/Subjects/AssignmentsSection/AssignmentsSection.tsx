@@ -36,6 +36,7 @@ export const AssignmentsSection: React.FC<AssignmentsSectionProps> = ({
   onClassSelect,
   loadingAssignments,
 }) => {
+  
   return (
     <div className={styles.assignmentsSection}>
       <div className={styles.assignmentsSection__header}>
@@ -52,7 +53,7 @@ export const AssignmentsSection: React.FC<AssignmentsSectionProps> = ({
           {isAdminOrTeacher && selectedClass && (
             <Link
               to={`/subject/${subjectId}/create-assignment?classId=${selectedClass}`}
-              state={{ idClass: selectedClass }}
+              state={{ idClass: selectedClass, idSubject: parseInt(subjectId) }}
               className={styles.assignmentsSection__addButton}
             >
               <PlusOutlined /> Создать задание

@@ -23,6 +23,8 @@ const endpoints = {
 
     //assignments
     getAssignmentById: (id: number) => `${BASE_URL}/assignments/${id}`,
+    createAssignment: `${BASE_URL}/assignments`, // post {idSubject, idClass, idEmployee, title, description, fileLink, openTime, closeTime, isTesting, testingFileLink, attemptsCount}
+    createTesting: `${BASE_URL}/assignments`, // post {idTesting, idStudent, answer}
     getAssignmentsBySubjectId: (id: number) => `${BASE_URL}/assignments/subject/${id}`,
     getAssignmentsBySubjectIdAndClassId: ( idSubject: number, idClass: number) => `${BASE_URL}/assignments/class/${idClass}/subject/${idSubject}`,
     
@@ -33,6 +35,7 @@ const endpoints = {
     getStudentAssignmentAnswer: (idStudent: number, idAssignment: number) => `${BASE_URL}/answers/assignment/${idAssignment}/student/${idStudent}`,
     getStudentTestingAnswer: (idStudent: number, idTesting: number) => `${BASE_URL}/answers/testing/${idTesting}/student/${idStudent}`,
     updateAssignmentAnswer: (idAnswer: number) => `${BASE_URL}/answers/assignment/answer/${idAnswer}`, // put {grade}
+    updateTestingAnswer: (idTesting: number) => `${BASE_URL}/answers/testing/answer/${idTesting}`, // put {grade}
     createAssignmentAnswer: `${BASE_URL}/answers/assignment`, // post {idAssignment, idStudent, grade, submissionDate, textAnswer ,fileLink}
     createTestingAnswer: `${BASE_URL}/answers/testing`, // post {idTesting, idStudent, grade, submissionDate, textAnswer ,fileLink}
     //employees

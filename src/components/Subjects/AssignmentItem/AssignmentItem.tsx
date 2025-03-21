@@ -55,6 +55,7 @@ export const AssignmentItem: React.FC<AssignmentItemProps> = React.memo(
       </div>
       <Link
         to={`/assignment/${assignment.idAssignment}`}
+        state={{ isTest: isTest , idTesting: assignment.testing?.idTesting}}
         className={styles.assignment__action}
         title="Перейти к заданию"
       >

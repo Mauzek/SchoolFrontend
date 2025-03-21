@@ -26,8 +26,6 @@ import {
   ApiAssignmentsResponse,
   ApiAssignmentResponse,
   ApiSubjectResponse,
-  ApiCreateAssignmentAnswer,
-  ApiCreateTestingAnswer,
 } from "../types";
 
 // Запросы к API
@@ -172,6 +170,11 @@ const getAllAssignmentAnswersByAssignmentID = async (id: number, token: string):
   return response;
 }
 
+const getAllTestingAnswersByTestingID = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAllTestingAnswersByTestingID(id), token);
+  return response;
+}
+
 const getStudentAssignmentAnswer = async (studentId: number, assignmentId: number, token: string): Promise<any> => {
   const response = await axiosRequest("get", endpoints.getStudentAssignmentAnswer(studentId, assignmentId), token);
   return response;
@@ -187,13 +190,28 @@ const updateAssignmentAnswer = async (grade: number, idAnswer: number, token: st
   return response;
 }
 
+const updateTestingAnswer = async (grade: number, idAnswer: number, token: string) => {
+  const response = await axiosRequest("put", endpoints.updateTestingAnswer(idAnswer), token, {grade: grade});
+  return response;
+}
+
 const createAssignmentAnswer = async (data: FormData, token: string) => {
   const response = await axiosRequest("post", endpoints.createAssignmentAnswer, token, data);
   return response;
 }
 
-const createTestingAnswer = async (data: ApiCreateTestingAnswer, token: string) => {
+const createTestingAnswer = async (data: FormData, token: string) => {
   const response = await axiosRequest("post", endpoints.createTestingAnswer, token, data);
+  return response;
+}
+
+const createAssignment = async (data: FormData, token: string) => {
+  const response = await axiosRequest("post", endpoints.createAssignment, token, data);
+  return response;
+}
+
+const createTesting = async (data: FormData, token: string) => {
+  const response = await axiosRequest("post", endpoints.createTesting, token, data);
   return response;
 }
 
@@ -491,6 +509,10 @@ export {
   createAssignmentAnswer,
   createTestingAnswer,
   updateAssignmentAnswer,
+  updateTestingAnswer,
+  createAssignment,
+  createTesting,
+  getAllTestingAnswersByTestingID,
   // api-utils
   saveUserToLocalStorage,
   getAccessToken,

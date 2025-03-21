@@ -402,3 +402,37 @@ export interface ApiCreateTestingAnswer {
   fileLink: File | null;
 }
 
+export interface ApiCreateAssignment {
+  idSubject: number;
+  idClass: number;
+  idEmployee: number;
+  title: string;
+  description: string;
+  openTime: string;
+  closeTime: string;
+  fileLink: File | null
+  isTesting: boolean;
+  testingFileLink?: File | null;
+  attemptsCount?: number;
+}
+
+export interface ApiAnswer {
+  idAnswer: number;
+  assignment: ApiAssignment;
+  student: {
+    idStudent: number;
+    class: {
+      idClass: number;
+      classNumber: number;
+      classLetter: string;
+    };
+    idUser: number;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
+  grade: number | null;
+  submissionDate: string;
+  textAnswer: string;
+  fileLink: string;
+}

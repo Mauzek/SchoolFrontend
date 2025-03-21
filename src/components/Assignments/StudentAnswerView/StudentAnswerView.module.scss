@@ -1,0 +1,103 @@
+.answer {
+    margin-bottom: 2rem;
+
+    &__title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--color-text);
+        border-bottom: 2px solid var(--color-primary-light);
+        padding-bottom: 0.5rem;
+        display: inline-block;
+    }
+
+    &__container {
+        background-color: var(--color-background);
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+
+    &__subtitle {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--color-text);
+    }
+
+    &__pdfWrapper {
+        margin-bottom: 1.5rem;
+    }
+
+    &__pdfContainer {
+        width: 100%;
+        height: 700px;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    &__details {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    &__text {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    &__textContent {
+        line-height: 1.6;
+        white-space: pre-wrap;
+        color: var(--color-text);
+    }
+
+    &__grade {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    &__gradeValue {
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        display: inline-block;
+
+        &_set {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        &_none {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #FF9800;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .answer {
+        &__pdfContainer {
+            height: 500px;
+        }
+
+        &__details {
+            gap: 1rem;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .answer {
+        &__pdfContainer {
+            height: 400px;
+        }
+    }
+}

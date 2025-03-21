@@ -11,6 +11,7 @@ import { Subjects } from "./pages/Subject/Subjects";
 import { AdminRoute } from "./components/AdminRoute/AdminRoute";
 import { CreateSchedule } from "./pages/CreateSchedule/CreateSchedule";
 import { Assignment } from "./pages/Assignments/Assignment";
+import { CreateAssignment } from "./pages/CreateAssignment/CreateAssignment";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
         <Route path="/subjects" element={<Subjects/>}/>
         <Route path="/subject/:id" element={<Subject/>}/>
         <Route path="/subject/:id/add-textbook" element={<>add-textbook</>}/>
-        <Route path="/subject/:id/create-assignment" element={<>add-assignment</>}/>
+        <Route path="/subject/:id/create-assignment" element={<CreateAssignment/>}/>
       </Route>
     </Routes>
   );

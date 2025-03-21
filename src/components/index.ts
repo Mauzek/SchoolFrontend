@@ -9,3 +9,4 @@ export * from "./Profile";
 export * from "./Schedule";
 export * from "./CreateSchedule";
 export * from "./Subjects";
+export * from "./Assignments";
