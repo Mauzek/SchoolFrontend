@@ -150,6 +150,11 @@ const getTextbooksBySubjectId = async (id: number, token: string): Promise<ApiTe
   return response;
 }
 
+const createTextbook = async (data: FormData, token: string) => {
+  const response = await axiosRequest("post", endpoints.createTextbook, token, data);
+  return response;
+}
+
 const getAssignmentById = async (id: number, token: string): Promise<ApiAssignmentResponse> => {
   const response = await axiosRequest("get", endpoints.getAssignmentById(id), token);
   return response;
@@ -513,6 +518,7 @@ export {
   createAssignment,
   createTesting,
   getAllTestingAnswersByTestingID,
+  createTextbook,
   // api-utils
   saveUserToLocalStorage,
   getAccessToken,

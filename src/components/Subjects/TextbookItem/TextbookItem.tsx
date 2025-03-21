@@ -27,7 +27,7 @@ export const TextbookItem: React.FC<TextbookItemProps> = React.memo(
       </div>
       {textbook.fileLink && (
         <a
-          href={textbook.fileLink}
+          href={`http://localhost:3000${textbook.fileLink}`}
           target="_blank"
           rel="noopener noreferrer"
           className={styles.textbook__download}

@@ -12,6 +12,7 @@ import { AdminRoute } from "./components/AdminRoute/AdminRoute";
 import { CreateSchedule } from "./pages/CreateSchedule/CreateSchedule";
 import { Assignment } from "./pages/Assignments/Assignment";
 import { CreateAssignment } from "./pages/CreateAssignment/CreateAssignment";
+import { CreateTextbook } from "./pages/CreateTextbook/CreateTextbook";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
         <Route path="/assignment/:id" element={<Assignment/>}/>
         <Route path="/subjects" element={<Subjects/>}/>
         <Route path="/subject/:id" element={<Subject/>}/>
-        <Route path="/subject/:id/add-textbook" element={<>add-textbook</>}/>
+        <Route path="/subject/:id/add-textbook" element={<CreateTextbook/>}/>
         <Route path="/subject/:id/create-assignment" element={<CreateAssignment/>}/>
       </Route>
     </Routes>

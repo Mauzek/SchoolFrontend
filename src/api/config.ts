@@ -20,6 +20,7 @@ const endpoints = {
 
     //textbooks
     getTextbooksBySubjectId: (id: number) => `${BASE_URL}/textbooks/subject/${id}`,
+    createTextbook: `${BASE_URL}/textbooks`, // post {idSubject, name, year, authors, isbn, textbookFile}
 
     //assignments
     getAssignmentById: (id: number) => `${BASE_URL}/assignments/${id}`,
