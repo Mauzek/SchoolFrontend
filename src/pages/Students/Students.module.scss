@@ -1,0 +1,334 @@
+.studentsPage {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+// Loading and empty states
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+
+    .loadingText {
+        margin-top: 16px;
+        color: var(--color-text-light);
+    }
+}
+
+.emptyState {
+    margin-top: 40px;
+}
+
+// Classes view
+.classesContainer {
+    .sectionTitle {
+        margin-bottom: 24px;
+        color: var(--color-primary-dark);
+
+        .titleIcon {
+            margin-right: 8px;
+            color: var(--color-primary);
+        }
+    }
+
+    .classCard {
+        height: 100%;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        border-top: 4px solid var(--color-primary);
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .classHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+
+            .classTitle {
+                margin: 0;
+                font-size: 28px;
+                color: var(--color-primary-dark);
+            }
+
+            .classYear {
+                font-size: 14px;
+            }
+        }
+
+        .classInfo {
+            margin-bottom: 16px;
+
+            .studentCount {
+                display: block;
+                margin-bottom: 8px;
+                color: var(--color-text-light);
+            }
+
+            .classTeacherTag {
+                font-size: 12px;
+            }
+        }
+
+        .viewDetailsLink {
+            color: var(--color-primary);
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                transform: translateX(4px);
+            }
+        }
+    }
+}
+
+// Students view
+.studentsContainer {
+    .studentsHeader {
+        display: flex;
+        align-items: center;
+        margin-bottom: 24px;
+
+        .backButton {
+            margin-right: 16px;
+            color: white;
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+
+            &:hover {
+                background-color: var(--color-primary-dark);
+                border-color: var(--color-primary-dark);
+            }
+        }
+
+        .sectionTitle {
+            margin: 0;
+            color: var(--color-primary-dark);
+        }
+    }
+
+    .studentsList {
+        .studentItem {
+            padding: 0;
+            margin-bottom: 24px;
+        }
+
+        .studentCard {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            }
+
+            .studentHeader {
+                display: flex;
+
+                .studentAvatar {
+                    margin-right: 24px;
+
+                    .avatar {
+                        border: 2px solid var(--color-primary-light);
+                    }
+
+                    .defaultAvatar {
+                        background-color: var(--color-primary);
+                        font-size: 24px;
+                        font-weight: bold;
+                    }
+                }
+
+                .studentInfo {
+                    flex: 1;
+
+                    .studentName {
+                        margin: 0 0 8px;
+                        color: var(--color-text-dark);
+                    }
+
+                    .studentMeta {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 8px;
+                        margin-bottom: 16px;
+
+                        .genderTag,
+                        .classTag {
+                            display: flex;
+                            align-items: center;
+                            gap: 4px;
+                        }
+                    }
+
+                    .profileButton {
+                        background-color: var(--color-primary);
+                        border-color: var(--color-primary);
+
+                        &:hover {
+                            background-color: var(--color-primary-dark);
+                            border-color: var(--color-primary-dark);
+                        }
+                    }
+                }
+            }
+
+            .divider {
+                margin: 16px 0;
+            }
+
+            .studentDetails {
+                .detailItem {
+                    display: flex;
+                    align-items: flex-start;
+                    margin-bottom: 8px;
+
+                    .detailIcon {
+                        font-size: 18px;
+                        color: var(--color-primary);
+                        margin-right: 12px;
+                        margin-top: 2px;
+                    }
+                }
+            }
+
+            .parentsDivider {
+                margin: 24px 0 16px;
+                color: var(--color-primary-dark);
+            }
+
+            .parentsContainer {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+
+                .parentItem {
+                    display: flex;
+                    align-items: center;
+                    background-color: var(--color-background-light);
+                    padding: 12px;
+                    border-radius: 8px;
+                    width: calc(50% - 8px);
+
+                    .parentAvatar {
+                        background-color: var(--color-primary-light);
+                        color: var(--color-primary);
+                        margin-right: 12px;
+                    }
+
+                    .parentInfo {
+                        flex: 1;
+
+                        .parentName {
+                            display: block;
+                            margin-bottom: 8px;
+                        }
+
+                        .parentProfileButton {
+                            color: var(--color-primary);
+                            border-color: var(--color-primary);
+
+                            &:hover {
+                                color: var(--color-primary-dark);
+                                border-color: var(--color-primary-dark);
+                                background-color: var(--color-primary-light);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Animation
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+    .studentsPage {
+        padding: 16px;
+    }
+
+    .studentsContainer {
+        .studentsHeader {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .backButton {
+                margin-bottom: 16px;
+            }
+        }
+
+        .studentsList {
+            .studentCard {
+                padding: 16px;
+
+                .studentHeader {
+                    flex-direction: column;
+
+                    .studentAvatar {
+                        margin-right: 0;
+                        margin-bottom: 16px;
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+
+                .parentsContainer {
+                    .parentItem {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .classesContainer {
+        .classCard {
+            .classHeader {
+                flex-direction: column;
+                align-items: flex-start;
+
+                .classTitle {
+                    margin-bottom: 8px;
+                }
+            }
+        }
+    }
+
+    .studentsContainer {
+        .studentsList {
+            .studentCard {
+                .studentDetails {
+                    .detailItem {
+                        margin-bottom: 16px;
+                    }
+                }
+            }
+        }
+    }
+}

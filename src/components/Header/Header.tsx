@@ -123,9 +123,7 @@ export const Header: React.FC = () => {
   // Ссылки для родителя (id роли = 4)
   const parentLinks: NavLink[] = [
     ...commonLinks,
-    { to: "/children", icon: <TeamOutlined />, text: "Мои дети" },
     { to: "/grades", icon: <BarChartOutlined />, text: "Оценки детей" },
-    { to: "/teachers", icon: <SolutionOutlined />, text: "Учителя" },
     settingsLink, // Добавляем настройки в конец
   ];
 

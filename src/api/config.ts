@@ -10,9 +10,11 @@ const endpoints = {
     getEmployeById: (id: string) => `${BASE_URL}/employees/${id}`,
     getParentById: (id: string) => `${BASE_URL}/parents/${id}`,
     getStudentsByParentId: (id: number) => `${BASE_URL}/students/parent/${id}`,
+    getStudentsByClassId: (id: number) => `${BASE_URL}/students/class/${id}`,
 
     //classes
     getAllClasses: `${BASE_URL}/classes/all`,
+    getClassById: (id: number) => `${BASE_URL}/classes/${id}`,
     getClassesByEmployeeId: (id: number) => `${BASE_URL}/classes/employee/${id}`,
 
     //grades

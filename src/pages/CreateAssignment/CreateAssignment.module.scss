@@ -259,10 +259,6 @@
     }
 
     &__checkbox {
-        position: absolute;
-        opacity: 0;
-        width: 0;
-        height: 0;
 
         &:checked+.createAssignment__checkboxLabel .createAssignment__checkboxIcon {
             background-color: var(--color-primary);

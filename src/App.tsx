@@ -14,6 +14,7 @@ import { Assignment } from "./pages/Assignments/Assignment";
 import { CreateAssignment } from "./pages/CreateAssignment/CreateAssignment";
 import { CreateTextbook } from "./pages/CreateTextbook/CreateTextbook";
 import { Grades } from "./pages/Grades/Grades";
+import { Students } from "./pages/Students/Students";
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
           <Route path="/admin/schedule/create-schedule" element={<CreateSchedule/>}/>
           {/* Другие маршруты, доступные только администраторам */}
         </Route>
-         <Route path="/grades" element={<Grades/>}/>
+        <Route path="/students" element={<Students/>}/>
+        <Route path="/grades" element={<Grades/>}/>
         <Route path="/assignment/:id" element={<Assignment/>}/>
         <Route path="/subjects" element={<Subjects/>}/>
         <Route path="/subject/:id" element={<Subject/>}/>

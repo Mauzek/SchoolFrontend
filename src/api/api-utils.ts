@@ -29,6 +29,7 @@ import {
   ApiGradesResponse,
   ApiCreateGrade,
   ApiUpdateGrade,
+  ApiClassResponse,
 } from "../types";
 
 // Запросы к API
@@ -124,6 +125,16 @@ const getStudentsByParentId = async (id: number, token: string): Promise<ApiChil
 
 const getAllClasses = async (token: string): Promise<ApiAllClassesResponse> => {
   const response = await axiosRequest("get", endpoints.getAllClasses, token);
+  return response;
+}
+
+const getClassById = async (id: number, token: string): Promise<ApiClassResponse> => {
+  const response = await axiosRequest("get", endpoints.getClassById(id), token);
+  return response;
+}
+
+const getStudentsByClassId = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getStudentsByClassId(id), token);
   return response;
 }
 
@@ -528,6 +539,8 @@ export {
   getEmployeeScheduleByWeekInterval,
   getStudentsByParentId,
   getAllClasses,
+  getClassById,
+  getStudentsByClassId,
   getClassesByEmployeeId,
   getGradesByClassBySubject,
   createGrade,
