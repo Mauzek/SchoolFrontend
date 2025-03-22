@@ -436,3 +436,40 @@ export interface ApiAnswer {
   textAnswer: string;
   fileLink: string;
 }
+
+export interface ApiGradesResponse {
+  student: {
+    idStudent: number;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  },
+  grades: {
+    idGrade: number;
+    idStudent: number;
+    grade: number;
+    gradeDate: string;
+    gradeType: string;
+    description: string;
+    subject: {
+      idSubject: number;
+      name: string;
+    };
+  }[]
+}
+
+export interface ApiCreateGrade {
+  idStudent: number;
+  idSubject: number;
+  gradeValue: number;
+  gradeDate: string;
+  gradeType: string;
+  description: string;
+}
+
+export interface ApiUpdateGrade {
+  gradeValue: number;
+  gradeDate: string;
+  gradeType: string;
+  description: string;
+}

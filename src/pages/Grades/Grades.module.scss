@@ -1,0 +1,755 @@
+.gradesPage {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.2s ease-in-out forwards;
+
+    .pageTitle {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--color-primary-dark);
+        margin-bottom: 24px;
+        margin-left: 43.4%;
+        position: relative;
+        display: inline-block;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 32%;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-radius: 2px;
+        }
+    }
+
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        font-size: 18px;
+        color: var(--color-text-light);
+
+        :global(.ant-spin) {
+            color: var(--color-primary);
+        }
+    }
+
+    .noData {
+        text-align: center;
+        padding: 40px;
+        font-size: 16px;
+        color: var(--color-text-light);
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+}
+
+// Children list styles
+.childrenList {
+    h2 {
+        margin-bottom: 30px;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary-dark);
+        text-align: center;
+    }
+
+    .cardContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .childCard {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-left: 4px solid var(--color-primary);
+        position: relative;
+        overflow: hidden;
+        margin: 0 auto;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--color-primary-light);
+        }
+        
+        &::after {
+            content: "Перейти к оценкам";
+            position: absolute;
+            bottom: 0.5rem;
+            right: 1rem;
+            font-size: 0.75rem;
+            color: var(--color-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        &:hover::after {
+            opacity: 1;
+        }
+    }
+
+    .childInfo {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .childPhoto {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-primary-light);
+        border: 2px solid var(--color-primary-light);
+
+        .childImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .noPhoto {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-primary);
+            color: white;
+            font-size: 20px;
+            font-weight: 500;
+        }
+    }
+
+    .childName {
+        flex: 1;
+
+        .childNameText {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .childClass {
+            font-size: 14px;
+            color: var(--color-text-light);
+        }
+    }
+}
+
+// Subjects list styles
+.subjectsList {
+    .subjectsTitle {
+        margin-bottom: 30px;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary-dark);
+        position: relative;
+        display: inline-block;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+    }
+
+    .selectedChild {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .backButton {
+            margin-right: 16px;
+            color: var(--color-primary);
+            background-color: var(--color-primary-light);
+            border-color: var(--color-primary-light);
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                color: #fff;
+                background-color: var(--color-primary);
+                border-color: var(--color-primary);
+            }
+        }
+
+        .childName {
+            margin: 0;
+            font-size: 18px;
+            color: var(--color-text-dark);
+        }
+    }
+
+    .cardContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    // Add these styles to your Grades.module.scss file
+
+.subjectCard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    border-top: 4px solid;
+  
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .subjectCardIcon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  
+  .subjectCardTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-text-dark);
+  }
+  
+  .subjectCardDescription {
+    color: var(--color-text-light);
+    font-size: 14px;
+    flex-grow: 1;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  
+  .subjectCardFooter {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--color-border);
+    padding-top: 12px;
+  }
+  
+  .subjectCardMore {
+    color: var(--color-primary);
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  
+    &::after {
+      content: '→';
+      margin-left: 4px;
+      transition: transform 0.2s ease;
+    }
+  
+    &:hover::after {
+      transform: translateX(4px);
+    }
+  }
+  
+}
+
+// Classes list styles
+.classesList {
+    .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+
+        .backButton {
+            margin-right: 16px;
+            color: var(--color-primary);
+            background-color: var(--color-primary-light);
+            border-color: var(--color-primary-light);
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                color: #fff;
+                background-color: var(--color-primary);
+                border-color: var(--color-primary);
+            }
+        }
+
+        .classesTitle {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-primary-dark);
+            position: relative;
+            display: inline-block;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 0;
+                width: 60px;
+                height: 3px;
+                background: var(--color-primary);
+                border-radius: 2px;
+            }
+        }
+    }
+
+    .cardContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .classCard {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        background-color: white;
+        position: relative;
+        
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-primary-light);
+        }
+        
+        &::after {
+            content: "Перейти к оценкам";
+            position: absolute;
+            bottom: 0.5rem;
+            right: 1rem;
+            font-size: 0.75rem;
+            color: var(--color-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        &:hover::after {
+            opacity: 1;
+        }
+
+        .className {
+            margin: 0 0 8px;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-primary-dark);
+        }
+
+        .studentsCount {
+            margin: 0;
+            color: var(--color-text-light);
+            font-size: 14px;
+        }
+    }
+}
+
+// Grades table styles
+.gradesTable {
+    .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+
+        .backButton {
+            margin-right: 16px;
+            color: var(--color-primary);
+            background-color: var(--color-primary-light);
+            border-color: var(--color-primary-light);
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                color: #fff;
+                background-color: var(--color-primary);
+                border-color: var(--color-primary);
+            }
+        }
+
+        .gradesTitle {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-primary-dark);
+            position: relative;
+            display: inline-block;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 0;
+                width: 60px;
+                height: 3px;
+                background: var(--color-primary);
+                border-radius: 2px;
+            }
+        }
+    }
+
+    .monthNavigation {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+
+        .navButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+
+            &:hover {
+                color: var(--color-primary-dark);
+                border-color: var(--color-primary-dark);
+            }
+        }
+
+        .currentMonth {
+            margin: 0 16px;
+            font-size: 18px;
+            font-weight: 500;
+            min-width: 150px;
+            text-align: center;
+            color: var(--color-text-dark);
+        }
+    }
+
+    .monthTable {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+        
+        :global(.ant-table-container) {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        :global(.ant-table-cell) {
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        :global(.ant-table-thead > tr > th) {
+            text-align: center;
+            font-weight: bold;
+            background-color: var(--color-primary-light);
+            color: var(--color-primary-dark);
+        }
+        
+        :global(.ant-table-tbody > tr:hover > td) {
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+    }
+
+    .highlightedStudent {
+        font-weight: 500;
+        color: var(--color-primary);
+    }
+
+    .gradesCell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .gradeItem {
+        position: relative;
+        padding: 6px 8px;
+        border-radius: 4px;
+        background-color: white;
+        width: 100%;
+        border-left: 3px solid var(--color-primary);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            background-color: var(--color-primary-light);
+
+            .gradeActions {
+                opacity: 1;
+            }
+        }
+        
+        // Grade-specific colors
+        &.grade5 {
+            border-left-color: #52c41a; // Success green
+        }
+        
+        &.grade4 {
+            border-left-color: #1890ff; // Info blue
+        }
+        
+        &.grade3 {
+            border-left-color: #faad14; // Warning yellow
+        }
+        
+        &.grade2, &.grade1 {
+            border-left-color: #f5222d; // Error red
+        }
+
+        .gradeValue {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--color-text-dark);
+        }
+
+        .gradeInfo {
+            font-size: 12px;
+            color: var(--color-text-light);
+            margin-top: 2px;
+            cursor: help;
+
+            .gradeType {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                max-width: 100%;
+            }
+        }
+
+        .gradeActions {
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 2px;
+
+            .actionButton {
+                padding: 0 4px;
+                height: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                &:global(.ant-btn-dangerous) {
+                    color: #ff4d4f;
+                    
+                    &:hover {
+                        color: #ff7875;
+                        background-color: #fff1f0;
+                    }
+                }
+            }
+        }
+    }
+
+    .emptyGradeCell {
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .addGradeButton {
+            opacity: 0;
+            transition: opacity 0.2s;
+            color: var(--color-primary);
+
+            &:hover {
+                opacity: 1;
+                color: var(--color-primary-dark);
+            }
+        }
+
+        &:hover {
+            .addGradeButton {
+                opacity: 0.7;
+            }
+        }
+    }
+
+    .addButton {
+        white-space: nowrap;
+        color: white;
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+
+        &:hover {
+            background-color: var(--color-primary-dark);
+            border-color: var(--color-primary-dark);
+        }
+    }
+}
+
+// Grade form styles
+.gradeForm {
+    .formItem {
+        margin-bottom: 16px;
+        
+        :global(.ant-form-item-label) {
+            label {
+                color: var(--color-text-dark);
+                font-weight: 500;
+            }
+        }
+        
+        :global(.ant-select-selector) {
+            &:hover {
+                border-color: var(--color-primary) !important;
+            }
+        }
+        
+        :global(.ant-select-focused .ant-select-selector) {
+            border-color: var(--color-primary) !important;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2) !important;
+        }
+        
+        :global(.ant-picker) {
+            &:hover {
+                border-color: var(--color-primary);
+            }
+            
+            &:global(.ant-picker-focused) {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            }
+        }
+        
+        :global(.ant-input) {
+            &:hover {
+                border-color: var(--color-primary);
+            }
+            
+            &:focus {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            }
+        }
+        
+        :global(.ant-input-affix-wrapper) {
+            &:hover {
+                border-color: var(--color-primary);
+            }
+            
+            &:global(.ant-input-affix-wrapper-focused) {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            }
+        }
+    }
+}
+
+// Animation
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+    .gradesPage {
+        padding: 16px;
+        
+        .pageTitle {
+            font-size: 24px;
+        }
+    }
+    
+    .childrenList, .subjectsList, .classesList {
+        h2, .subjectsTitle, .classesTitle {
+            font-size: 20px;
+        }
+        
+        .cardContainer {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+    }
+    
+    .gradesTable {
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+            
+            .backButton {
+                margin-bottom: 12px;
+                transition: background-color 0.3s ease;
+            }
+            
+            .gradesTitle {
+                font-size: 20px;
+            }
+        }
+        
+        .monthNavigation {
+            .currentMonth {
+                font-size: 16px;
+                min-width: 120px;
+            }
+        }
+        
+        .monthTable {
+            :global(.ant-table-cell) {
+                padding: 6px 2px;
+                font-size: 12px;
+            }
+        }
+        
+        .gradeItem {
+            padding: 4px 6px;
+            
+            .gradeValue {
+                font-size: 12px;
+            }
+            
+            .gradeInfo {
+                font-size: 10px;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .gradesPage {
+        .pageTitle {
+            font-size: 22px;
+        }
+    }
+    
+    .childrenList, .subjectsList, .classesList {
+        .cardContainer {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .gradesTable {
+        .monthTable {
+            overflow-x: auto;
+        }
+    }
+}
+

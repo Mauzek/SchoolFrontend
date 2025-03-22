@@ -26,6 +26,9 @@ import {
   ApiAssignmentsResponse,
   ApiAssignmentResponse,
   ApiSubjectResponse,
+  ApiGradesResponse,
+  ApiCreateGrade,
+  ApiUpdateGrade,
 } from "../types";
 
 // Запросы к API
@@ -121,6 +124,31 @@ const getStudentsByParentId = async (id: number, token: string): Promise<ApiChil
 
 const getAllClasses = async (token: string): Promise<ApiAllClassesResponse> => {
   const response = await axiosRequest("get", endpoints.getAllClasses, token);
+  return response;
+}
+
+const getClassesByEmployeeId = async (id: number, token: string): Promise<ApiAllClassesResponse> => {
+  const response = await axiosRequest("get", endpoints.getClassesByEmployeeId(id), token);
+  return response;
+}
+
+const getGradesByClassBySubject = async (id: number, subjectId: number, token: string): Promise<ApiGradesResponse> => {
+  const response = await axiosRequest("get", endpoints.getGradesByClassBySubject(id, subjectId), token);
+  return response;
+}
+
+const createGrade =  async (data: ApiCreateGrade, token: string) => {
+  const response = await axiosRequest("post", endpoints.createGrade, token, data);
+  return response;
+}
+
+const updateGrade = async (idGrade: number, data: ApiUpdateGrade, token: string) => {
+  const response = await axiosRequest("put", endpoints.updateGrade(idGrade), token, data);
+  return response;
+}
+
+const deleteGrade = async (idGrade: number, token: string) => {
+  const response = await axiosRequest("delete", endpoints.deleteGrade(idGrade), token);
   return response;
 }
 
@@ -500,6 +528,11 @@ export {
   getEmployeeScheduleByWeekInterval,
   getStudentsByParentId,
   getAllClasses,
+  getClassesByEmployeeId,
+  getGradesByClassBySubject,
+  createGrade,
+  updateGrade,
+  deleteGrade,
   getAllSubjects,
   getAllEmployees,
   createScheduleItem,

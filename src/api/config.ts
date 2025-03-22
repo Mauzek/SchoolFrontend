@@ -13,6 +13,13 @@ const endpoints = {
 
     //classes
     getAllClasses: `${BASE_URL}/classes/all`,
+    getClassesByEmployeeId: (id: number) => `${BASE_URL}/classes/employee/${id}`,
+
+    //grades
+    getGradesByClassBySubject: (idClass: number, idSubject: number) => `${BASE_URL}/grades/class/${idClass}/subject/${idSubject}`,
+    createGrade: `${BASE_URL}/grades`, // post {idStudent, idSubject, gradeValue, gradeDate, gradeType, description}
+    updateGrade: (idGrade: number) => `${BASE_URL}/grades/${idGrade}`, // put {gradeValue, gradeDate, gradeType, description}
+    deleteGrade: (idGrade: number) => `${BASE_URL}/grades/${idGrade}`,
 
     //subjects
     getSubjectById: (id: number) => `${BASE_URL}/subjects/${id}`,
@@ -39,6 +46,7 @@ const endpoints = {
     updateTestingAnswer: (idTesting: number) => `${BASE_URL}/answers/testing/answer/${idTesting}`, // put {grade}
     createAssignmentAnswer: `${BASE_URL}/answers/assignment`, // post {idAssignment, idStudent, grade, submissionDate, textAnswer ,fileLink}
     createTestingAnswer: `${BASE_URL}/answers/testing`, // post {idTesting, idStudent, grade, submissionDate, textAnswer ,fileLink}
+    
     //employees
     getAllEmployees: `${BASE_URL}/employees/all`,
 
