@@ -106,7 +106,7 @@ export const Header: React.FC = () => {
   const teacherLinks: NavLink[] = [
     ...commonLinks,
     { to: "/grades", icon: <BarChartOutlined />, text: "Оценки" },
-    { to: "/students", icon: <TeamOutlined />, text: "Мои студенты" },
+    { to: "/my-students", icon: <TeamOutlined />, text: "Мои студенты" },
     { to: "/subjects", icon: <BookOutlined />, text: "Предметы" },
     settingsLink, // Добавляем настройки в конец
   ];

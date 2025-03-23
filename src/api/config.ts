@@ -4,13 +4,17 @@ const endpoints = {
     //auth
     login: `${BASE_URL}/auth/login`, // post {login, password}
     loginWithJWT: `${BASE_URL}/auth`, // post {accessToken, refreshToken}
+    regUser: (role: string)=> `${BASE_URL}/auth/register?role=${role}`, // post {login, password, firstName, lastName, middleName, birthDate, phone, email, gender, documentNumber, bloodGroup}
 
     //users
     getStudentById: (id: string) => `${BASE_URL}/students/${id}`,
     getEmployeById: (id: string) => `${BASE_URL}/employees/${id}`,
     getParentById: (id: string) => `${BASE_URL}/parents/${id}`,
     getStudentsByParentId: (id: number) => `${BASE_URL}/students/parent/${id}`,
-    getStudentsByClassId: (id: number) => `${BASE_URL}/students/class/${id}`,
+    getStudentsByClassId: (id: number) => `${BASE_URL}/students/class/${id}`, 
+    getAllStudents: `${BASE_URL}/students/all`,
+    deleteStudent: (id: number) => `${BASE_URL}/students/${id}`,
+    updateStudent: (id: number) => `${BASE_URL}/students/${id}`,
 
     //classes
     getAllClasses: `${BASE_URL}/classes/all`,

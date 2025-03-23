@@ -25,6 +25,7 @@
 
 // Classes view
 .classesContainer {
+    animation: fadeIn 0.3s ease-in-out;
     .sectionTitle {
         margin-bottom: 24px;
         color: var(--color-primary-dark);
@@ -95,6 +96,7 @@
 
 // Students view
 .studentsContainer {
+    animation: fadeIn 0.3s ease-in-out;
     .studentsHeader {
         display: flex;
         align-items: center;

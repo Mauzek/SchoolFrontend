@@ -58,6 +58,7 @@
         color: var(--color-primary-dark);
         text-align: center;
     }
+    animation: fadeIn 0.2s ease-in-out forwards;
 
     .cardContainer {
         display: grid;
@@ -156,6 +157,7 @@
 
 // Subjects list styles
 .subjectsList {
+    animation: fadeIn 0.2s ease-in-out forwards;
     .subjectsTitle {
         margin-bottom: 30px;
         font-size: 24px;
@@ -274,6 +276,7 @@
 
 // Classes list styles
 .classesList {
+    animation: fadeIn 0.2s ease-in-out forwards;
     .header {
         display: flex;
         align-items: center;
@@ -366,6 +369,7 @@
 
 // Grades table styles
 .gradesTable {
+    animation: fadeIn 0.2s ease-in-out forwards;
     .header {
         display: flex;
         align-items: center;

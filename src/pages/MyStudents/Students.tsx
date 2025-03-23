@@ -238,13 +238,14 @@ export const Students: React.FC = () => {
     return (
       <div className={styles.studentsContainer}>
         <div className={styles.studentsHeader}>
-          <Button
-            icon={<ArrowLeftOutlined />}
+          <button
+
             onClick={() => setView("classes")}
             className={styles.backButton}
           >
+            <ArrowLeftOutlined /> {""}
             Назад к списку классов
-          </Button>
+          </button>
           <Title level={2} className={styles.sectionTitle}>
             Класс {selectedClass.classNumber}
             {selectedClass.classLetter}

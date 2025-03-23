@@ -60,6 +60,11 @@ const loginWithJWT = async (
   return normalizeAuthResponse(response);
 };
 
+const registrationUser = (data: FormData, role: string, token: string) => {
+  const response = axiosRequest("post", endpoints.regUser(role), token, data);
+  return response;
+}
+
 const getTopStudents = async (token: string): Promise<TopStudent[]> => {
   const response = await axiosRequest("get", endpoints.getTopStudents, token);
   return normalizeTopStudentsResponse(response);
@@ -135,6 +140,16 @@ const getClassById = async (id: number, token: string): Promise<ApiClassResponse
 
 const getStudentsByClassId = async (id: number, token: string): Promise<any> => {
   const response = await axiosRequest("get", endpoints.getStudentsByClassId(id), token);
+  return response;
+}
+
+const getAllStudents = async (token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAllStudents, token);
+  return response;
+}
+
+const deleteStudentById = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("delete", endpoints.deleteStudent(id), token);
   return response;
 }
 
@@ -530,6 +545,7 @@ export {
   // api
   login,
   loginWithJWT,
+  registrationUser,
   getTopStudents,
   getStudentById,
   getEmployeeById,
@@ -538,6 +554,8 @@ export {
   getClassScheduleByWeekInterval,
   getEmployeeScheduleByWeekInterval,
   getStudentsByParentId,
+  getAllStudents,
+  deleteStudentById,
   getAllClasses,
   getClassById,
   getStudentsByClassId,
