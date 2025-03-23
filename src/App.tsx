@@ -22,6 +22,7 @@ import { Roles } from "./pages/Roles/Roles";
 import { Positions } from "./pages/Positions/Positions";
 import { Classes } from "./pages/Classes/Classes";
 import { Statistics } from "./pages/Statistics/Statistics";
+import { Settings } from "./pages/Settings/Settings";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/statistics" element={<Statistics/>}/>
           {/* Другие маршруты, доступные только администраторам */}
         </Route>
+        <Route path="/settings" element={<Settings/>}/>
         <Route path="/my-students" element={<Students/>}/>
         <Route path="/grades" element={<Grades/>}/>
         <Route path="/assignment/:id" element={<Assignment/>}/>
