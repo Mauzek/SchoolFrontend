@@ -56,6 +56,10 @@ const endpoints = {
     //employees
     getAllEmployees: `${BASE_URL}/employees/all`,
 
+    //parents
+    getAllParents: `${BASE_URL}/parents/all`,
+    deleteParent: (id: number) => `${BASE_URL}/parents/${id}`,
+
     //schedule
     getClassScheduleByWeekInterval: (id: number, startDate: string, endDate: string) => `${BASE_URL}/schedules/class/${id}/week/${startDate}/${endDate}`,
     getEmployeeScheduleByWeekInterval: (id: number, startDate: string, endDate: string) => `${BASE_URL}/schedules/employee/${id}/week/${startDate}/${endDate}`,

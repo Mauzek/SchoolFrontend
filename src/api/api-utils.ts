@@ -153,6 +153,16 @@ const deleteStudentById = async (id: number, token: string): Promise<any> => {
   return response;
 }
 
+const getAllParents = async (token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAllParents, token);
+  return response;
+}
+
+const deleteParentById = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("delete", endpoints.deleteParent(id), token);
+  return response;
+}
+
 const getClassesByEmployeeId = async (id: number, token: string): Promise<ApiAllClassesResponse> => {
   const response = await axiosRequest("get", endpoints.getClassesByEmployeeId(id), token);
   return response;
@@ -583,6 +593,8 @@ export {
   createTesting,
   getAllTestingAnswersByTestingID,
   createTextbook,
+  getAllParents,
+  deleteParentById,
   // api-utils
   saveUserToLocalStorage,
   getAccessToken,
