@@ -20,6 +20,7 @@ import { Parents } from "./pages/Parents/Parents";
 import { Employees } from "./pages/Employees/Employees";
 import { Roles } from "./pages/Roles/Roles";
 import { Positions } from "./pages/Positions/Positions";
+import { Classes } from "./pages/Classes/Classes";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/employees" element={<Employees/>}/>
           <Route path="/roles" element={<Roles/>}/>
           <Route path="/positions" element={<Positions/>}/>
+          <Route path="/classes" element={<Classes/>}/>
           {/* Другие маршруты, доступные только администраторам */}
         </Route>
         <Route path="/my-students" element={<Students/>}/>

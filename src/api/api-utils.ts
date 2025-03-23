@@ -144,6 +144,16 @@ const getStudentsByClassId = async (id: number, token: string): Promise<any> => 
   return response;
 }
 
+const createClass = async (data: ApiCreateSchedule, token: string): Promise<any> => {
+  const response = await axiosRequest("post", endpoints.createClass, token, data);
+  return response;
+}
+
+const deleteClassById = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("delete", endpoints.deleteClass(id), token);
+  return response;
+}
+
 const getAllStudents = async (token: string): Promise<any> => {
   const response = await axiosRequest("get", endpoints.getAllStudents, token);
   return response;
@@ -620,6 +630,8 @@ export {
   getAllClasses,
   getClassById,
   getStudentsByClassId,
+  createClass,
+  deleteClassById,
   getClassesByEmployeeId,
   getGradesByClassBySubject,
   createGrade,

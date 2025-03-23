@@ -20,6 +20,8 @@ const endpoints = {
     getAllClasses: `${BASE_URL}/classes/all`,
     getClassById: (id: number) => `${BASE_URL}/classes/${id}`,
     getClassesByEmployeeId: (id: number) => `${BASE_URL}/classes/employee/${id}`,
+    createClass: `${BASE_URL}/classes`, // post {classNumber, classLetter, studyYear ,idEmployee}
+    deleteClass: (id: number) => `${BASE_URL}/classes/${id}`,
 
     //grades
     getGradesByClassBySubject: (idClass: number, idSubject: number) => `${BASE_URL}/grades/class/${idClass}/subject/${idSubject}`,
