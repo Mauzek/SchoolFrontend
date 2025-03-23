@@ -51,8 +51,6 @@ import {
   createEducation,
   getAllEducationSettings,
   getEmployeeEducationByEmployeeId,
-  getClassesByEmployeeId,
-  getEmployeeScheduleByWeekInterval,
 } from "../../api/api-utils";
 
 const { Title, Text } = Typography;

@@ -74,6 +74,11 @@ const endpoints = {
     //statistics
     getTopStudents: `${BASE_URL}/statistics/top-students-by-average-grade`,
     
+    //roles
+    getAllRoles: `${BASE_URL}/roles/all`,
+    createRole: `${BASE_URL}/roles`, // post {name}
+    deleteRole: (id: number) => `${BASE_URL}/roles/${id}`,
+
     //updates
     updateUserAvatar: `${BASE_URL}/auth/updateAvatar`, // post {accessToken, photo}
 }

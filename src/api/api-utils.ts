@@ -220,6 +220,21 @@ const getEmployeeEducationByEmployeeId = async (id: number, token: string): Prom
   return response;
 }
 
+const getAllRoles = async (token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAllRoles, token);
+  return response;
+}
+
+const createRole = async (data: any, token: string) => {
+  const response = await axiosRequest("post", endpoints.createRole, token, data);
+  return response;
+}
+
+const deleteRoleById = async (id: number, token: string) => {
+  const response = await axiosRequest("delete", endpoints.deleteRole(id), token);
+  return response;
+}
+
 const createScheduleItem = async (data: ApiCreateSchedule, token: string) => {
   const response = await axiosRequest("post", endpoints.createShedule, token, data);
   return response;
@@ -595,6 +610,9 @@ export {
   createGrade,
   updateGrade,
   deleteGrade,
+  getAllRoles,
+  createRole,
+  deleteRoleById,
   getAllSubjects,
   getAllEmployees,
   getEmployeeEducationByEmployeeId,
