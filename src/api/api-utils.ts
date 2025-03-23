@@ -70,6 +70,36 @@ const getTopStudents = async (token: string): Promise<TopStudent[]> => {
   return normalizeTopStudentsResponse(response);
 };
 
+const getAvgGradesByClass = async ( token: string): Promise<ApiGradesResponse> => {
+  const response = await axiosRequest("get", endpoints.getAvgGradesByClass, token);
+  return response;
+}
+
+const getAvgGradesBySubject = async (token: string): Promise<ApiGradesResponse> => {
+  const response = await axiosRequest("get", endpoints.getAvgGradesBySubject, token);
+  return response;
+}
+
+const getAvgGradesByStudent = async (token: string): Promise<ApiGradesResponse> => {
+  const response = await axiosRequest("get", endpoints.getAvgGradesByStudent, token);
+  return response;
+}
+
+const getGradeDistributionByClass = async (token: string): Promise<ApiGradesResponse> => {
+  const response = await axiosRequest("get", endpoints.getGradeDistributionByClass, token);
+  return response;
+}
+
+const getGradeDistributionBySubject = async (token: string): Promise<ApiGradesResponse> => {
+  const response = await axiosRequest("get", endpoints.getGradeDistributionBySubject, token);
+  return response;
+}
+
+const getGradeDistributionByStudent = async (token: string): Promise<ApiGradesResponse> => {
+  const response = await axiosRequest("get", endpoints.getGradeDistributionByStudent, token);
+  return response;
+}
+
 const getStudentById = async (id: string, token: string): Promise<StudentDetails> => {
   const response = await axiosRequest("get", endpoints.getStudentById(id), token);
   console.log("API Response:", response); 
@@ -618,6 +648,12 @@ export {
   loginWithJWT,
   registrationUser,
   getTopStudents,
+  getAvgGradesByClass,
+  getAvgGradesByStudent,
+  getAvgGradesBySubject,
+  getGradeDistributionByClass,
+  getGradeDistributionByStudent,
+  getGradeDistributionBySubject,
   getStudentById,
   getEmployeeById,
   getParentById,

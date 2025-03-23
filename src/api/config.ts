@@ -75,6 +75,12 @@ const endpoints = {
 
     //statistics
     getTopStudents: `${BASE_URL}/statistics/top-students-by-average-grade`,
+    getAvgGradesByClass: `${BASE_URL}/statistics/average-grades-by-class`,
+    getAvgGradesByStudent: `${BASE_URL}/statistics/average-grades-by-student`,
+    getAvgGradesBySubject: `${BASE_URL}/statistics/average-grades-by-subject`,
+    getGradeDistributionByClass: `${BASE_URL}/statistics/grade-distribution-by-class`,
+    getGradeDistributionByStudent: `${BASE_URL}/statistics/grade-distribution-by-student`,
+    getGradeDistributionBySubject: `${BASE_URL}/statistics/grade-distribution-by-subject`,
     
     //roles
     getAllRoles: `${BASE_URL}/roles/all`,

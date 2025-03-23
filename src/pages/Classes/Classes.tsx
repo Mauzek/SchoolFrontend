@@ -999,13 +999,7 @@ export const Classes: React.FC = () => {
         onClose={() => setIsStudentsDrawerVisible(false)}
         visible={isStudentsDrawerVisible}
         className={styles.classes__drawer}
-        extra={
-          <Space>
-            <Button onClick={() => setIsStudentsDrawerVisible(false)}>
-              Закрыть
-            </Button>
-          </Space>
-        }
+
       >
         {studentsLoading ? (
           <div className={styles.classes__drawerLoading}>

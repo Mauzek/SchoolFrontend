@@ -21,6 +21,7 @@ import { Employees } from "./pages/Employees/Employees";
 import { Roles } from "./pages/Roles/Roles";
 import { Positions } from "./pages/Positions/Positions";
 import { Classes } from "./pages/Classes/Classes";
+import { Statistics } from "./pages/Statistics/Statistics";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/roles" element={<Roles/>}/>
           <Route path="/positions" element={<Positions/>}/>
           <Route path="/classes" element={<Classes/>}/>
+          <Route path="/statistics" element={<Statistics/>}/>
           {/* Другие маршруты, доступные только администраторам */}
         </Route>
         <Route path="/my-students" element={<Students/>}/>
