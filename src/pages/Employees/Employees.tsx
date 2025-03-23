@@ -51,6 +51,8 @@ import {
   createEducation,
   getAllEducationSettings,
   getEmployeeEducationByEmployeeId,
+  getAllPositions,
+  getAllRoles,
 } from "../../api/api-utils";
 
 const { Title, Text } = Typography;
@@ -130,11 +132,23 @@ interface EmployeeEducation {
   graduationYear: number;
 }
 
+interface Position {
+  idPosition: number;
+  name: string;
+}
+
+interface Role {
+  id: number;
+  name: string;
+}
+
 export const Employees: React.FC = () => {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState<EmployeeData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [positions, setPositions] = useState<Position[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [isEducationModalVisible, setIsEducationModalVisible] =
     useState<boolean>(false);
   const [form] = Form.useForm();
@@ -173,7 +187,11 @@ export const Employees: React.FC = () => {
         setLoading(true);
         const employeesResponse = await getAllEmployees(token);
         const educationSettingsResponse = await getAllEducationSettings(token);
+        const positionsResponse = await getAllPositions(token);
+        const rolesResponse = await getAllRoles(token);
 
+        setPositions(positionsResponse.positions);
+        setRoles(rolesResponse);
         setEmployees(employeesResponse);
         setFilteredEmployees(employeesResponse);
         setEducationSettings(educationSettingsResponse);
@@ -829,11 +847,11 @@ export const Employees: React.FC = () => {
                   className={styles.employees__formItem}
                 >
                   <Select>
-                    <Option value="1">Teacher</Option>
-                    <Option value="2">Administrator</Option>
-                    <Option value="3">Principal</Option>
-                    <Option value="4">Vice Principal</Option>
-                    <Option value="5">Counselor</Option>
+                    {positions.map((position) => (
+                      <Option key={position.idPosition} value={position.idPosition}>
+                        {position.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
 
@@ -844,8 +862,11 @@ export const Employees: React.FC = () => {
                   className={styles.employees__formItem}
                 >
                   <Select>
-                    <Option value="1">Admin</Option>
-                    <Option value="2">Teacher</Option>
+                    {roles.map((role) => (
+                      <Option key={role.id} value={role.id}>
+                        {role.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
 

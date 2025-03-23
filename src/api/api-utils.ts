@@ -235,6 +235,21 @@ const deleteRoleById = async (id: number, token: string) => {
   return response;
 }
 
+const getAllPositions = async (token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAllPositions, token);
+  return response;
+}
+
+const createPosition = async (data: any, token: string) => {
+  const response = await axiosRequest("post", endpoints.createPosition, token, data);
+  return response;
+}
+
+const deletePositionById = async (id: number, token: string) => {
+  const response = await axiosRequest("delete", endpoints.deletePosition(id), token);
+  return response;
+}
+
 const createScheduleItem = async (data: ApiCreateSchedule, token: string) => {
   const response = await axiosRequest("post", endpoints.createShedule, token, data);
   return response;
@@ -638,6 +653,9 @@ export {
   createTextbook,
   getAllParents,
   deleteParentById,
+  getAllPositions,
+  createPosition,
+  deletePositionById,
   // api-utils
   saveUserToLocalStorage,
   getAccessToken,

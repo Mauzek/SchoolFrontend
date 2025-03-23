@@ -79,6 +79,11 @@ const endpoints = {
     createRole: `${BASE_URL}/roles`, // post {name}
     deleteRole: (id: number) => `${BASE_URL}/roles/${id}`,
 
+    //postions
+    getAllPositions: `${BASE_URL}/positions/all`,
+    createPosition: `${BASE_URL}/positions`, // post {name, description}
+    deletePosition: (id: number) => `${BASE_URL}/positions/${id}`,
+
     //updates
     updateUserAvatar: `${BASE_URL}/auth/updateAvatar`, // post {accessToken, photo}
 }
