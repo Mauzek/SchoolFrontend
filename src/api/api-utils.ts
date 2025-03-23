@@ -82,6 +82,7 @@ const getEmployeeById = async (id: string, token: string): Promise<EmployeeDetai
   return normalizeEmployeeDetailsResponse(response);
 };
 
+
 const getParentById = async (id: string, token: string): Promise<ParentDetails> => {
   const response = await axiosRequest("get", endpoints.getParentById(id), token);
   return normalizeParentResponse(response);
@@ -196,6 +197,26 @@ const getAllSubjects = async (token: string): Promise<ApiAllSubjectsResponse> =>
 
 const getAllEmployees = async (token: string): Promise<ApiEmployeeDetails[]> => {
   const response = await axiosRequest("get", endpoints.getAllEmployees, token);
+  return response;
+}
+
+const deleteEmployeeById = async (id: number, token: string) => {
+  const response = await axiosRequest("put", endpoints.deleteEmployee(id), token);
+  return response;
+}
+
+const createEducation = async (data: any, token: string) => {
+  const response = await axiosRequest("post", endpoints.createEducation, token, data);
+  return response;
+}
+
+const getAllEducationSettings = async (token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getAllEducationSettings, token);
+  return response;
+}
+
+const getEmployeeEducationByEmployeeId = async (id: number, token: string): Promise<any> => {
+  const response = await axiosRequest("get", endpoints.getEmployeeEducationByEmployeeId(id), token);
   return response;
 }
 
@@ -576,6 +597,10 @@ export {
   deleteGrade,
   getAllSubjects,
   getAllEmployees,
+  getEmployeeEducationByEmployeeId,
+  deleteEmployeeById,
+  createEducation,
+  getAllEducationSettings,
   createScheduleItem,
   getSubjectById,
   getTextbooksBySubjectId,

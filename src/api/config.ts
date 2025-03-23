@@ -55,6 +55,12 @@ const endpoints = {
     
     //employees
     getAllEmployees: `${BASE_URL}/employees/all`,
+    deleteEmployee: (id: number) => `${BASE_URL}/employees/${id}/status`,
+
+    //education
+    createEducation: `${BASE_URL}/education`, // post {idEmployee, idEducatinLevel, idEducationalInstitution, idSpecialty, graduationYear}
+    getAllEducationSettings: `${BASE_URL}/education/settings/all`,
+    getEmployeeEducationByEmployeeId: (id: number) => `${BASE_URL}/education/${id}`,
 
     //parents
     getAllParents: `${BASE_URL}/parents/all`,

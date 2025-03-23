@@ -407,6 +407,9 @@ export const Parents: React.FC = () => {
           columns={columns}
           rowKey={(record) => record.idParent.toString()}
           loading={loading}
+          pagination={{
+            showTotal: (total) => `Всего ${total} родителей`,
+          }}
           className={styles.parents__table}
           scroll={{ x: 1200 }}
         />

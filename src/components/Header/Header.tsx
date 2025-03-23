@@ -93,7 +93,7 @@ export const Header: React.FC = () => {
     ...commonLinks,
     { to: "/students", icon: <TeamOutlined />, text: "Студенты" },
     { to: "/parents", icon: <UsergroupAddOutlined />, text: "Родители" },
-    { to: "/staff", icon: <SolutionOutlined />, text: "Сотрудники" },
+    { to: "/employees", icon: <SolutionOutlined />, text: "Сотрудники" },
     { to: "/subjects", icon: <BookOutlined />, text: "Предметы" },
     { to: "/roles", icon: <IdcardOutlined />, text: "Роли" },
     { to: "/positions", icon: <ApartmentOutlined />, text: "Должности" },

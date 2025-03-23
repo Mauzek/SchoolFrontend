@@ -406,7 +406,9 @@ const handleSubmit = async () => {
           columns={columns}
           rowKey={(record) => record.student.idStudent.toString()}
           loading={loading}
-
+          pagination={{
+            showTotal: (total) => `Всего ${total} учащихся`,
+          }}
           className={styles.students__table}
           scroll={{ x: 1200 }}
         />
