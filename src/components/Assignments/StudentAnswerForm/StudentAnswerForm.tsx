@@ -64,17 +64,19 @@ export const StudentAnswerForm: React.FC<StudentAnswerFormProps> = ({
     }
   };
 
+  const now = new Date();
+  const isOverdue = now > new Date(assignment.closeTime) || now < new Date(assignment.openTime);
+
   return (
     <section className={styles.form}>
       <h2 className={styles.form__title}>Отправить ответ</h2>
-      
       {error && (
         <div className={styles.form__error}>
           <div className={styles.form__errorIcon}>⚠️</div>
           <p>{error}</p>
         </div>
       )}
-      
+      { !isOverdue ? (
       <form onSubmit={handleSubmitAnswer} className={styles.form__container}>
         <div className={styles.form__group}>
           <label htmlFor="file" className={styles.form__label}>Загрузить PDF файл:</label>
@@ -128,6 +130,12 @@ export const StudentAnswerForm: React.FC<StudentAnswerFormProps> = ({
           )}
         </button>
       </form>
+      ) : (
+        <div className={styles.form__error}>
+          <div className={styles.form__errorIcon}>⚠️</div>
+          <p>Задание закрыто. Вы не можете отправлять ответы.</p>
+        </div>
+      )}
     </section>
   );
 };

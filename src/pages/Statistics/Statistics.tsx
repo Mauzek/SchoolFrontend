@@ -1270,14 +1270,6 @@ export const Statistics = () => {
                       color: "#faad14",
                     },
                     {
-                      name: "Оценка 3",
-                      value:
-                        studentDistribution.find(
-                          (student) => student.studentId === selectedStudent
-                        )?.distribution["3"] || 0,
-                      color: "#faad14",
-                    },
-                    {
                       name: "Оценка 2",
                       value:
                         studentDistribution.find(

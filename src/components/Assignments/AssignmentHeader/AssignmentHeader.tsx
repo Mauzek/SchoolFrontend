@@ -21,7 +21,8 @@ export const AssignmentHeader: React.FC<AssignmentHeaderProps> = ({
     return date.toLocaleDateString("ru-RU", options);
   };
 
-  const isOverdue = new Date(assignment.closeTime) < new Date();
+  const now = new Date();
+  const isOverdue = now > new Date(assignment.closeTime) || now < new Date(assignment.openTime);
 
   return (
     <header className={styles.header}>

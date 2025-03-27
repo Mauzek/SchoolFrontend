@@ -38,7 +38,7 @@ function App() {
         <Route element={<AdminRoute />}>
           <Route path="/admin/schedule/create-schedule" element={<CreateSchedule/>}/>
           <Route path="/students" element={<AllStudents/>}/>
-          <Route path="/parents" element={<Parents/>}/>"
+          <Route path="/parents" element={<Parents/>}/>
           <Route path="/employees" element={<Employees/>}/>
           <Route path="/roles" element={<Roles/>}/>
           <Route path="/positions" element={<Positions/>}/>
