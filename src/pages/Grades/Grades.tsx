@@ -492,7 +492,7 @@ export const Grades = () => {
         <div className={styles.cardContainer}>
           {subjects.map((subject) => (
             // In your renderSubjectsList function, modify only the Card component:
-            <Card
+            <div
               key={subject.idSubject}
               className={styles.subjectCard}
               hoverable
@@ -514,7 +514,7 @@ export const Grades = () => {
                   Перейти к оценкам
                 </span>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </div>

@@ -23,7 +23,7 @@
     &__content {
         flex: 1;      
         transition: margin-left 0.3s ease;
-        overflow: auto;
+        // overflow: auto;
         width: calc(100% - 250px); // Explicitly set width accounting for sidebar
         box-sizing: border-box; // Include padding in width calculation
 

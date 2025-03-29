@@ -9,7 +9,7 @@ const demoNews: NewsItem[] = [
     title: "Школьная олимпиада по математике",
     content:
       "В следующую пятницу состоится школьная олимпиада по математике. Приглашаем всех учеников принять участие!",
-    date: "2023-10-15",
+    date: "2025-10-15",
     image:
       "https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80",
     category: "События",
@@ -19,7 +19,7 @@ const demoNews: NewsItem[] = [
     title: "Родительское собрание",
     content:
       "Уважаемые родители! Приглашаем вас на родительское собрание, которое состоится в четверг в 18:00.",
-    date: "2023-10-12",
+    date: "2025-10-12",
     image:
       "https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80",
     category: "Объявления",
@@ -29,7 +29,7 @@ const demoNews: NewsItem[] = [
     title: "Новые книги в библиотеке",
     content:
       "Наша школьная библиотека пополнилась новыми учебниками и художественной литературой. Приглашаем всех посетить!",
-    date: "2023-10-10",
+    date: "2025-10-10",
     image:
       "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80",
     category: "Новости",
@@ -39,7 +39,7 @@ const demoNews: NewsItem[] = [
     title: "Спортивные соревнования",
     content:
       "В эту субботу состоятся межшкольные соревнования по волейболу. Приходите поддержать нашу команду!",
-    date: "2023-10-08",
+    date: "2025-10-08",
     image:
       "https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80",
     category: "События",

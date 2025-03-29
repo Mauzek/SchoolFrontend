@@ -63,14 +63,14 @@ export const Header: React.FC = () => {
 
   const getProfileRouteByRole = (): string => {
     const { role, additionalInfo } = user;
-
-    switch (role.name) {
-      case "Student":
+    console.log(role, additionalInfo);
+    switch (role.id) {
+      case 3:
         return `/profile/${additionalInfo.idStudent}`;
-      case "Teacher":
-      case "Admin":
+      case 2:
+      case 1:
         return `/profile/${additionalInfo.idEmployee}`;
-      case "Parent":
+      case 4:
         return `/profile/${additionalInfo.idParent}`;
         default:
           return `/profile/${user.id}`;
