@@ -33,12 +33,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
     // Compare based on role
     switch (role.name) {
-      case "Student":
+      case "Ученик":
         return additionalInfo.idStudent?.toString() === id && location.state.role === user.user.role.id;
-      case "Teacher":
-      case "Employee":
+      case "Учитель":
+      case "Админ":
         return additionalInfo.idEmployee?.toString() === id && location.state.role === user.user.role.id;
-      case "Parent":
+      case "Родитель":
         return additionalInfo.idParent?.toString() === id && location.state.role === user.user.role.id;
       default:
         return user.user.id.toString() === id && location.state.role === user.user.role.id;
