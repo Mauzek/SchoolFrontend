@@ -1,5 +1,6 @@
 # 🎓 Education Platform (Frontend)
-<img src="./src/assets/images/logo.svg" alt="Education Platform Logo" width="100px"/>
+<img src="./src/assets/images/logo.png" alt="Education Platform Logo" width="100px"/>
+
 ---
 
 ## 📚 Описание
