@@ -13,13 +13,11 @@ import {
   Typography,
   Card,
   Tag,
-  Tooltip,
   Badge,
   Avatar,
   Tabs,
   Drawer,
   Empty,
-  Divider,
   Statistic,
   Row,
   Col,
@@ -145,34 +143,45 @@ export const Classes: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("all");
 
   // Function to convert ApiClassResponse to ClassData
-  const convertApiClassToClassData = (apiClass: ApiClassResponse): ClassData => {
-    return {
-      idClass: apiClass.idClass,
-      classNumber: apiClass.classNumber,
-      classLetter: apiClass.classLetter,
-      studyYear: apiClass.stydyYear, // Note: API has typo "stydyYear"
-      classTeacher: apiClass.classTeacher ? {
-        id: apiClass.classTeacher.idEmployee,
-        firstName: apiClass.classTeacher.firstName,
-        lastName: apiClass.classTeacher.lastName,
-        middleName: apiClass.classTeacher.middleName,
-      } : null,
-      studentCount: apiClass.studentsCount.toString(),
-    };
+// Function to convert ApiClassResponse to ClassData
+const convertApiClassToClassData = (apiClass: ApiClassResponse): ClassData => {
+  console.log("Converting API class:", apiClass); // Добавим логирование для отладки
+  
+  return {
+    idClass: apiClass.idClass,
+    classNumber: apiClass.classNumber,
+    classLetter: apiClass.classLetter,
+    studyYear: apiClass.stydyYear, // Note: API has typo "stydyYear"
+    classTeacher: apiClass.classTeacher ? {
+      id: apiClass.classTeacher.idEmployee,
+      firstName: apiClass.classTeacher.firstName,
+      lastName: apiClass.classTeacher.lastName,
+      middleName: apiClass.classTeacher.middleName,
+    } : null,
+    studentCount: (apiClass.studentCount ?? 0).toString(), // Используем nullish coalescing
   };
+};
+
 
   // Load classes and employees data
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        console.log("Fetching classes and employees...");
+        
         const [classesResponse, employeesResponse] = await Promise.all([
           getAllClasses(token),
           getAllEmployees(token),
         ]);
 
+        console.log("Classes response:", classesResponse);
+        console.log("Employees response:", employeesResponse);
+
         // Convert API response to ClassData format
         const convertedClasses = classesResponse.classes.map(convertApiClassToClassData);
+        console.log("Converted classes:", convertedClasses);
+        
         setClasses(convertedClasses);
         setFilteredClasses(convertedClasses);
 
@@ -194,17 +203,19 @@ export const Classes: React.FC = () => {
 
   // Filter classes based on search text
   useEffect(() => {
-    let filtered = classes;
+    console.log("Filtering classes. Active tab:", activeTab, "Search text:", searchText, "Classes:", classes);
+    
+    let filtered = [...classes]; // Create a copy
 
     // First apply tab filter
     if (activeTab === "withTeacher") {
-      filtered = classes.filter((cls) => cls.classTeacher !== null);
+      filtered = filtered.filter((cls) => cls.classTeacher !== null);
     } else if (activeTab === "withoutTeacher") {
-      filtered = classes.filter((cls) => cls.classTeacher === null);
+      filtered = filtered.filter((cls) => cls.classTeacher === null);
     } else if (activeTab === "withStudents") {
-      filtered = classes.filter((cls) => parseInt(cls.studentCount) > 0);
+      filtered = filtered.filter((cls) => parseInt(cls.studentCount) > 0);
     } else if (activeTab === "withoutStudents") {
-      filtered = classes.filter((cls) => parseInt(cls.studentCount) === 0);
+      filtered = filtered.filter((cls) => parseInt(cls.studentCount) === 0);
     }
 
     // Then apply search text filter
@@ -223,6 +234,7 @@ export const Classes: React.FC = () => {
       );
     }
 
+    console.log("Filtered classes:", filtered);
     setFilteredClasses(filtered);
   }, [searchText, classes, activeTab]);
 
@@ -453,7 +465,7 @@ export const Classes: React.FC = () => {
         </div>
       ),
       sorter: (a: ClassData, b: ClassData) => {
-        if (!a.classTeacher && !b.classTeacher) return 0;
+                if (!a.classTeacher && !b.classTeacher) return 0;
         if (!a.classTeacher) return 1;
         if (!b.classTeacher) return -1;
         return a.classTeacher.lastName.localeCompare(b.classTeacher.lastName);
@@ -464,7 +476,7 @@ export const Classes: React.FC = () => {
       dataIndex: "studentCount",
       key: "studentCount",
       width: 120,
-            render: (count: string) => (
+      render: (count: string) => (
         <Badge
           count={count}
           showZero
@@ -669,6 +681,15 @@ export const Classes: React.FC = () => {
     );
   };
 
+  // Debug: Add console logs to see what's happening
+  console.log("Current state:", {
+    loading,
+    classes: classes.length,
+    filteredClasses: filteredClasses.length,
+    activeTab,
+    searchText
+  });
+
   return (
     <div className={styles.classes}>
       <div className={styles.classes__header}>
@@ -714,7 +735,11 @@ export const Classes: React.FC = () => {
         className={styles.classes__tabs}
       >
         <TabPane tab="Все классы" key="all">
-          {filteredClasses.length === 0 ? (
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+              <span>Загрузка...</span>
+            </div>
+          ) : filteredClasses.length === 0 ? (
             <Empty
               description="Классы не найдены"
               image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -736,7 +761,11 @@ export const Classes: React.FC = () => {
           )}
         </TabPane>
         <TabPane tab="С классным руководителем" key="withTeacher">
-          {filteredClasses.length === 0 ? (
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+              <span>Загрузка...</span>
+            </div>
+          ) : filteredClasses.length === 0 ? (
             <Empty
               description="Классы не найдены"
               image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -758,7 +787,11 @@ export const Classes: React.FC = () => {
           )}
         </TabPane>
         <TabPane tab="Без классного руководителя" key="withoutTeacher">
-          {filteredClasses.length === 0 ? (
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+              <span>Загрузка...</span>
+            </div>
+          ) : filteredClasses.length === 0 ? (
             <Empty
               description="Классы не найдены"
               image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -780,7 +813,11 @@ export const Classes: React.FC = () => {
           )}
         </TabPane>
         <TabPane tab="С учениками" key="withStudents">
-          {filteredClasses.length === 0 ? (
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+              <span>Загрузка...</span>
+            </div>
+          ) : filteredClasses.length === 0 ? (
             <Empty
               description="Классы не найдены"
               image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -802,7 +839,11 @@ export const Classes: React.FC = () => {
           )}
         </TabPane>
         <TabPane tab="Без учеников" key="withoutStudents">
-          {filteredClasses.length === 0 ? (
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+              <span>Загрузка...</span>
+            </div>
+          ) : filteredClasses.length === 0 ? (
             <Empty
               description="Классы не найдены"
               image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -825,7 +866,11 @@ export const Classes: React.FC = () => {
         </TabPane>
         {selectedTeacherId && (
           <TabPane tab="Классы выбранного учителя" key="teacherClasses">
-            {teacherClasses.length === 0 ? (
+            {loading ? (
+              <div style={{ textAlign: 'center', padding: '50px' }}>
+                <span>Загрузка...</span>
+              </div>
+            ) : teacherClasses.length === 0 ? (
               <Empty
                 description="У выбранного учителя нет классов"
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -849,93 +894,6 @@ export const Classes: React.FC = () => {
         )}
       </Tabs>
 
-      {/* Class Cards View (Alternative to Table) */}
-      <div className={styles.classes__cardsContainer}>
-        {filteredClasses.map((classItem) => (
-          <Card
-            key={classItem.idClass}
-            className={styles.classes__classCard}
-            actions={[
-              <Tooltip title="Просмотреть учеников" key="students">
-                <Button
-                  type="text"
-                  icon={<TeamOutlined />}
-                  onClick={() => handleViewStudents(classItem.idClass)}
-                  disabled={parseInt(classItem.studentCount) === 0}
-                />
-              </Tooltip>,
-              <Popconfirm
-                key="delete"
-                title="Вы уверены, что хотите удалить этот класс?"
-                onConfirm={() => handleDeleteClass(classItem.idClass)}
-                okText="Да"
-                cancelText="Нет"
-              >
-                <Button type="text" icon={<DeleteOutlined />} danger />
-              </Popconfirm>,
-            ]}
-          >
-            <div className={styles.classes__cardContent}>
-              <div>
-                <div className={styles.classes__cardHeader}>
-                  <Tag
-                    color={getClassColor(classItem.classNumber)}
-                    className={styles.classes__cardClassTag}
-                  >
-                    {classItem.classNumber}
-                    {classItem.classLetter}
-                  </Tag>
-                  <div className={styles.classes__cardYear}>
-                    <CalendarOutlined className={styles.classes__cardIcon} />
-                    <Text>{classItem.studyYear}</Text>
-                  </div>
-                </div>
-                <Divider className={styles.classes__cardDivider} />
-                <div className={styles.classes__cardTeacher}>
-                  <Text strong>Классный руководитель:</Text>
-                  {classItem.classTeacher ? (
-                    <div className={styles.classes__cardTeacherInfo}>
-                      <Avatar
-                        size={32}
-                        icon={<UserOutlined />}
-                        className={styles.classes__avatar}
-                      >
-                        {getInitials(
-                          classItem.classTeacher.firstName,
-                          classItem.classTeacher.lastName
-                        )}
-                      </Avatar>
-                      <div>
-                        <Text>
-                          {classItem.classTeacher.lastName}{" "}
-                          {classItem.classTeacher.firstName}
-                        </Text>
-                        {classItem.classTeacher.middleName && (
-                          <Text
-                                                        type="secondary"
-                            className={styles.classes__teacherMiddleName}
-                          >
-                            {classItem.classTeacher.middleName}
-                          </Text>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <Text type="secondary" italic>
-                      Не назначен
-                    </Text>
-                  )}
-                </div>
-              </div>
-              <div className={styles.classes__cardStudents}>
-                <TeamOutlined className={styles.classes__cardIcon} />
-                <Text>{classItem.studentCount} учеников</Text>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-
       {/* Add Class Modal */}
       <Modal
         title="Добавить новый класс"
@@ -956,7 +914,7 @@ export const Classes: React.FC = () => {
                 {
                   type: "number",
                   min: 1,
-                  max: 11,
+                                    max: 11,
                   message: "Номер класса должен быть от 1 до 11",
                 },
               ]}

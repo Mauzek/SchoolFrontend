@@ -237,7 +237,7 @@ export interface ApiClassResponse {
     lastName: string;
     middleName: string | null;
   } | null;
-  studentsCount: number;
+  studentCount: number;
 }
 
 export interface ApiAllClassesResponse {

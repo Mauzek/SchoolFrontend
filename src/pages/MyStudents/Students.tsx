@@ -97,7 +97,7 @@ const convertApiClassToClassData = (apiClass: ApiClassResponse): ClassData => {
       lastName: "",
       middleName: null,
     },
-    studentCount: apiClass.studentsCount.toString(),
+    studentCount: apiClass.studentCount.toString(),
   };
 };
 
