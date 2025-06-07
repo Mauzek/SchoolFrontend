@@ -48,8 +48,30 @@ import {
   RocketOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
+import type { ColumnsType } from 'antd/es/table';
 
 const { Option } = Select;
+
+// Define interfaces for table data
+interface GradeRecord {
+  student: {
+    idStudent: number;
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+  };
+  grades: any[];
+}
+
+interface StudentColumn {
+  title: string;
+  dataIndex: string | string[];
+  key: string;
+  fixed?: 'left' | 'right';
+  width?: number;
+  align?: 'left' | 'right' | 'center';
+  render?: (value: any, record: GradeRecord, index: number) => React.ReactNode;
+}
 
 export const Grades = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -491,8 +513,7 @@ export const Grades = () => {
         )}
         <div className={styles.cardContainer}>
           {subjects.map((subject) => (
-            // In your renderSubjectsList function, modify only the Card component:
-            <div
+            <Card
               key={subject.idSubject}
               className={styles.subjectCard}
               hoverable
@@ -514,14 +535,13 @@ export const Grades = () => {
                   Перейти к оценкам
                 </span>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
     );
   };
 
-  // Render classes list for teachers
   // Render classes list for teachers
   const renderClassesList = () => {
     return (
@@ -580,14 +600,14 @@ export const Grades = () => {
     const monthStart = currentMonth.startOf("month");
 
     // Generate columns for the table
-    const columns = [
+    const columns: ColumnsType<GradeRecord> = [
       {
         title: "Ученик",
         dataIndex: "student",
         key: "student",
-        fixed: "left" as "left",
+        fixed: "left",
         width: 200,
-        render: (student: any) => {
+        render: (student: any, record: GradeRecord) => {
           const isCurrentUser =
             user.user.additionalInfo.idStudent === student.idStudent;
           const isSelectedChild =
@@ -618,11 +638,11 @@ export const Grades = () => {
       const currentDate = monthStart.date(i);
       columns.push({
         title: i.toString(),
-        dataIndex: ["grades"],
+        dataIndex: "grades",
         key: `day-${i}`,
         width: 60,
-        align: "center" as "center",
-        render: (grades: any[], record: any) => {
+        align: "center",
+        render: (grades: any[], record: GradeRecord) => {
           // Find grades for this day
           const dayGrades = grades.filter((grade) => {
             const gradeDate = dayjs(grade.gradeDate);
@@ -718,9 +738,9 @@ export const Grades = () => {
       columns.push({
         title: "Действия",
         key: "actions",
-        fixed: "right" as "right",
+        fixed: "right",
         width: 120,
-        render: (text: any, record: any) => (
+        render: (_, record: GradeRecord) => (
           <Button
             type="primary"
             icon={<PlusOutlined />}
@@ -769,8 +789,8 @@ export const Grades = () => {
           />
         </div>
 
-        <Table
-          dataSource={grades}
+        <Table<GradeRecord>
+          dataSource={grades as GradeRecord[]}
           columns={columns}
           rowKey={(record) =>
             record.student?.idStudent?.toString() || Math.random().toString()
@@ -862,7 +882,7 @@ export const Grades = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item
+                    <Form.Item
             name="description"
             label="Комментарий"
             className={styles.formItem}
@@ -894,3 +914,4 @@ export const Grades = () => {
     </div>
   );
 };
+

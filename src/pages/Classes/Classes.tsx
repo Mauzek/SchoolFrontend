@@ -49,6 +49,7 @@ import {
   deleteClassById,
   getAllEmployees,
 } from "../../api/api-utils";
+import { ApiClassResponse } from "../../types/api";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -115,6 +116,13 @@ interface StudentData {
   }[];
 }
 
+interface CreateClassData {
+  classNumber: number;
+  classLetter: string;
+  studyYear: number;
+  idEmployee?: number;
+}
+
 export const Classes: React.FC = () => {
   const navigate = useNavigate();
   const [classes, setClasses] = useState<ClassData[]>([]);
@@ -136,6 +144,23 @@ export const Classes: React.FC = () => {
   const token = localStorage.getItem("accessToken") || "";
   const [activeTab, setActiveTab] = useState<string>("all");
 
+  // Function to convert ApiClassResponse to ClassData
+  const convertApiClassToClassData = (apiClass: ApiClassResponse): ClassData => {
+    return {
+      idClass: apiClass.idClass,
+      classNumber: apiClass.classNumber,
+      classLetter: apiClass.classLetter,
+      studyYear: apiClass.stydyYear, // Note: API has typo "stydyYear"
+      classTeacher: apiClass.classTeacher ? {
+        id: apiClass.classTeacher.idEmployee,
+        firstName: apiClass.classTeacher.firstName,
+        lastName: apiClass.classTeacher.lastName,
+        middleName: apiClass.classTeacher.middleName,
+      } : null,
+      studentCount: apiClass.studentsCount.toString(),
+    };
+  };
+
   // Load classes and employees data
   useEffect(() => {
     const fetchData = async () => {
@@ -146,8 +171,10 @@ export const Classes: React.FC = () => {
           getAllEmployees(token),
         ]);
 
-        setClasses(classesResponse.classes);
-        setFilteredClasses(classesResponse.classes);
+        // Convert API response to ClassData format
+        const convertedClasses = classesResponse.classes.map(convertApiClassToClassData);
+        setClasses(convertedClasses);
+        setFilteredClasses(convertedClasses);
 
         // Filter only teachers and active staff
         const teachersOnly = employeesResponse.filter(
@@ -210,7 +237,9 @@ export const Classes: React.FC = () => {
       try {
         setLoading(true);
         const response = await getClassesByEmployeeId(selectedTeacherId, token);
-        setTeacherClasses(response.classes);
+        // Convert API response to ClassData format
+        const convertedClasses = response.classes.map(convertApiClassToClassData);
+        setTeacherClasses(convertedClasses);
       } catch (error) {
         console.error("Error fetching teacher classes:", error);
         message.error("Не удалось загрузить классы учителя");
@@ -253,23 +282,23 @@ export const Classes: React.FC = () => {
       const values = await form.validateFields();
 
       setLoading(true);
-      await createClass(
-        {
-          classNumber: values.classNumber,
-          classLetter: values.classLetter,
-          studyYear: values.studyYear,
-          idEmployee: values.idEmployee || null,
-        },
-        token
-      );
+      const createClassData: CreateClassData = {
+        classNumber: values.classNumber,
+        classLetter: values.classLetter,
+        studyYear: values.studyYear,
+        idEmployee: values.idEmployee || undefined,
+      };
+
+      await createClass(createClassData, token);
 
       message.success("Класс успешно добавлен");
       setIsModalVisible(false);
 
       // Refresh classes list
       const classesResponse = await getAllClasses(token);
-      setClasses(classesResponse.classes);
-      setFilteredClasses(classesResponse.classes);
+      const convertedClasses = classesResponse.classes.map(convertApiClassToClassData);
+      setClasses(convertedClasses);
+      setFilteredClasses(convertedClasses);
     } catch (error) {
       console.error("Error adding class:", error);
       message.error("Не удалось добавить класс");
@@ -287,8 +316,9 @@ export const Classes: React.FC = () => {
 
       // Refresh classes list
       const classesResponse = await getAllClasses(token);
-      setClasses(classesResponse.classes);
-      setFilteredClasses(classesResponse.classes);
+      const convertedClasses = classesResponse.classes.map(convertApiClassToClassData);
+      setClasses(convertedClasses);
+      setFilteredClasses(convertedClasses);
     } catch (error) {
       console.error("Error deleting class:", error);
       message.error("Не удалось удалить класс");
@@ -410,7 +440,7 @@ export const Classes: React.FC = () => {
                 icon={<EyeOutlined />}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleViewTeacherProfile(record.classTeacher.id);
+                  handleViewTeacherProfile(record.classTeacher!.id);
                 }}
                 className={styles.classes__viewButton}
               />
@@ -434,7 +464,7 @@ export const Classes: React.FC = () => {
       dataIndex: "studentCount",
       key: "studentCount",
       width: 120,
-      render: (count: string) => (
+            render: (count: string) => (
         <Badge
           count={count}
           showZero
@@ -826,7 +856,7 @@ export const Classes: React.FC = () => {
             key={classItem.idClass}
             className={styles.classes__classCard}
             actions={[
-              <Tooltip title="Просмотреть учеников">
+              <Tooltip title="Просмотреть учеников" key="students">
                 <Button
                   type="text"
                   icon={<TeamOutlined />}
@@ -835,6 +865,7 @@ export const Classes: React.FC = () => {
                 />
               </Tooltip>,
               <Popconfirm
+                key="delete"
                 title="Вы уверены, что хотите удалить этот класс?"
                 onConfirm={() => handleDeleteClass(classItem.idClass)}
                 okText="Да"
@@ -881,7 +912,7 @@ export const Classes: React.FC = () => {
                         </Text>
                         {classItem.classTeacher.middleName && (
                           <Text
-                            type="secondary"
+                                                        type="secondary"
                             className={styles.classes__teacherMiddleName}
                           >
                             {classItem.classTeacher.middleName}
@@ -999,7 +1030,6 @@ export const Classes: React.FC = () => {
         onClose={() => setIsStudentsDrawerVisible(false)}
         visible={isStudentsDrawerVisible}
         className={styles.classes__drawer}
-
       >
         {studentsLoading ? (
           <div className={styles.classes__drawerLoading}>
@@ -1062,3 +1092,5 @@ export const Classes: React.FC = () => {
     </div>
   );
 };
+
+

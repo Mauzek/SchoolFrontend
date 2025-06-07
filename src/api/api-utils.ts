@@ -174,7 +174,7 @@ const getStudentsByClassId = async (id: number, token: string): Promise<any> => 
   return response;
 }
 
-const createClass = async (data: ApiCreateSchedule, token: string): Promise<any> => {
+const createClass = async (data: any, token: string): Promise<any> => {
   const response = await axiosRequest("post", endpoints.createClass, token, data);
   return response;
 }

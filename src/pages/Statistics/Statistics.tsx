@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Tabs,
   Card,
@@ -53,7 +53,6 @@ import {
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-// Define interfaces for data structures
 interface GradeDistribution {
   "2": number;
   "3": number;
@@ -117,8 +116,12 @@ interface SubjectDistribution {
   distribution: GradeDistribution;
 }
 
+interface ApiStatisticsResponse {
+  data?: any[];
+  [key: string]: any;
+}
+
 export const Statistics = () => {
-  // State for data
   const [classAvgGrades, setClassAvgGrades] = useState<ClassAvgGrade[]>([]);
   const [studentAvgGrades, setStudentAvgGrades] = useState<StudentAvgGrade[]>(
     []
@@ -136,7 +139,6 @@ export const Statistics = () => {
     SubjectDistribution[]
   >([]);
 
-  // UI state
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [selectedClass, setSelectedClass] = useState<number>(0);
@@ -144,18 +146,13 @@ export const Statistics = () => {
   const [selectedSubject, setSelectedSubject] = useState<number>(0);
   const [chartType, setChartType] = useState<string>("column");
 
-  // Get token from localStorage
   const token = localStorage.getItem("accessToken") || "";
 
-  // Load data on component mount
   useEffect(() => {
     const fetchData = async () => {
-      // In your fetchData function
-      // In your fetchData function
       try {
         setLoading(true);
 
-        // Fetch all data in parallel
         const [
           classGradesResponse,
           studentGradesResponse,
@@ -172,25 +169,30 @@ export const Statistics = () => {
           getGradeDistributionBySubject(token),
         ]);
 
-        console.log("API Responses:", {
-          classGrades: classGradesResponse,
-          studentGrades: studentGradesResponse,
-          subjectGrades: subjectGradesResponse,
-          classDistribution: classDistributionResponse,
-          studentDistribution: studentDistributionResponse,
-          subjectDistribution: subjectDistributionResponse,
-        });
+        const classGrades = Array.isArray(classGradesResponse)
+          ? classGradesResponse
+          : (classGradesResponse as ApiStatisticsResponse)?.data || [];
 
-        // Extract the array data from the responses
-        // You'll need to adjust these based on the actual structure of your responses
-        const classGrades = classGradesResponse?.data || [];
-        const studentGrades = studentGradesResponse?.data || [];
-        const subjectGrades = subjectGradesResponse?.data || [];
-        const classDistrib = classDistributionResponse?.data || [];
-        const studentDistrib = studentDistributionResponse?.data || [];
-        const subjectDistrib = subjectDistributionResponse?.data || [];
+        const studentGrades = Array.isArray(studentGradesResponse)
+          ? studentGradesResponse
+          : (studentGradesResponse as ApiStatisticsResponse)?.data || [];
 
-        // Set state with extracted data
+        const subjectGrades = Array.isArray(subjectGradesResponse)
+          ? subjectGradesResponse
+          : (subjectGradesResponse as ApiStatisticsResponse)?.data || [];
+
+        const classDistrib = Array.isArray(classDistributionResponse)
+          ? classDistributionResponse
+          : (classDistributionResponse as ApiStatisticsResponse)?.data || [];
+
+        const studentDistrib = Array.isArray(studentDistributionResponse)
+          ? studentDistributionResponse
+          : (studentDistributionResponse as ApiStatisticsResponse)?.data || [];
+
+        const subjectDistrib = Array.isArray(subjectDistributionResponse)
+          ? subjectDistributionResponse
+          : (subjectDistributionResponse as ApiStatisticsResponse)?.data || [];
+
         setClassAvgGrades(classGrades);
         setStudentAvgGrades(studentGrades);
         setSubjectAvgGrades(subjectGrades);
@@ -198,7 +200,6 @@ export const Statistics = () => {
         setStudentDistribution(studentDistrib);
         setSubjectDistribution(subjectDistrib);
 
-        // Set initial selections if data exists
         if (classDistrib.length > 0) {
           setSelectedClass(classDistrib[0].idClass);
         }
@@ -208,15 +209,6 @@ export const Statistics = () => {
         if (subjectDistrib.length > 0) {
           setSelectedSubject(subjectDistrib[0].idSubject);
         }
-
-        console.log("State after setting:", {
-          classAvgGrades: classGrades,
-          studentAvgGrades: studentGrades,
-          subjectAvgGrades: subjectGrades,
-          classDistribution: classDistrib,
-          studentDistribution: studentDistrib,
-          subjectDistribution: subjectDistrib,
-        });
       } catch (error) {
         console.error("Error fetching statistics data:", error);
       } finally {
@@ -227,16 +219,6 @@ export const Statistics = () => {
     fetchData();
   }, [token]);
 
-  // После установки состояния добавим проверку текущих значений
-  useEffect(() => {
-    console.log("Current selections:", {
-      selectedClass,
-      selectedStudent,
-      selectedSubject,
-    });
-  }, [selectedClass, selectedStudent, selectedSubject]);
-
-  // Helper functions
   const getInitials = (firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`;
   };
@@ -246,11 +228,11 @@ export const Statistics = () => {
   };
 
   const getGradeColor = (grade: number) => {
-    if (grade >= 4.5) return "#52c41a"; // Green
-    if (grade >= 3.5) return "#1890ff"; // Blue
-    if (grade >= 2.5) return "#faad14"; // Yellow
-    if (grade > 0) return "#f5222d"; // Red
-    return "#d9d9d9"; // Grey for no data
+    if (grade >= 4.5) return "#52c41a";
+    if (grade >= 3.5) return "#1890ff";
+    if (grade >= 2.5) return "#faad14";
+    if (grade > 0) return "#f5222d";
+    return "#d9d9d9";
   };
 
   const calculateTotalGrades = (distribution: GradeDistribution) => {
@@ -275,11 +257,9 @@ export const Statistics = () => {
     );
   };
 
-  // Get overall distribution data
   const getOverallDistribution = () => {
     const overall = { "2": 0, "3": 0, "4": 0, "5": 0 };
 
-    // Check if classDistribution is an array before using forEach
     if (Array.isArray(classDistribution)) {
       classDistribution.forEach((cls) => {
         overall["2"] += cls.distribution["2"];
@@ -297,7 +277,6 @@ export const Statistics = () => {
     ];
   };
 
-  // Render recharts PieChart for grade distribution
   const renderPieChart = (
     data: { name: string; value: number; color: string }[]
   ) => {
@@ -331,7 +310,6 @@ export const Statistics = () => {
     );
   };
 
-  // Render recharts BarChart
   const renderBarChart = (
     data: { name: string; value: number; color: string }[]
   ) => {
@@ -352,8 +330,13 @@ export const Statistics = () => {
             tick={{ fontSize: 10 }}
           />
           <YAxis domain={[0, 5]} />
-          <Tooltip formatter={(value) => [value.toFixed(2), "Средний балл"]} />
-
+          <Tooltip
+            formatter={(value) => {
+              const numValue =
+                typeof value === "number" ? value : parseFloat(value as string);
+              return [numValue.toFixed(2), "Средний балл"];
+            }}
+          />
           <Bar dataKey="value">
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
@@ -364,41 +347,6 @@ export const Statistics = () => {
     );
   };
 
-  // Render recharts LineChart
-  const renderLineChart = (
-    data: { name: string; value: number; color: string }[]
-  ) => {
-    if (!data || data.length === 0) {
-      return <Empty description="Нет данных для отображения" />;
-    }
-
-    return (
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="name"
-            angle={45}
-            textAnchor="start"
-            height={80}
-            interval={0}
-            tick={{ fontSize: 10 }}
-          />
-          <YAxis domain={[0, 5]} />
-          <Tooltip formatter={(value) => [value.toFixed(2), "Средний балл"]} />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="value"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    );
-  };
-
-  // Render horizontal bar chart
   const renderHorizontalBarChart = (
     data: { name: string; value: number; color: string }[]
   ) => {
@@ -422,7 +370,11 @@ export const Statistics = () => {
             tick={{ fontSize: 10 }}
           />
           <Tooltip
-            formatter={(value: number) => [value.toFixed(2), "Средний балл"]}
+            formatter={(value) => {
+              const numValue =
+                typeof value === "number" ? value : parseFloat(value as string);
+              return [numValue.toFixed(2), "Средний балл"];
+            }}
           />
           <Bar dataKey="value">
             {data.map((entry, index) => (
@@ -434,7 +386,6 @@ export const Statistics = () => {
     );
   };
 
-  // Define the tabs items array for the Tabs component
   const items = [
     {
       key: "overview",
@@ -491,18 +442,7 @@ export const Statistics = () => {
                       })
                     ),
                   }}
-                />
-              </Card>
-            </Col>
-            <Col xs={24} sm={12} md={6}>
-              <Card className={styles.statistics__card}>
-                <Statistic
-                  title="Всего учеников"
-                  value={classAvgGrades.reduce(
-                    (sum, cls) => sum + cls.studentCount,
-                    0
-                  )}
-                  groupSeparator=" "
+                  prefix={<TrophyOutlined />}
                 />
               </Card>
             </Col>
@@ -511,6 +451,16 @@ export const Statistics = () => {
                 <Statistic
                   title="Всего классов"
                   value={classAvgGrades.length}
+                  prefix={<TeamOutlined />}
+                />
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} md={6}>
+              <Card className={styles.statistics__card}>
+                <Statistic
+                  title="Всего учеников"
+                  value={studentAvgGrades.length}
+                  prefix={<UserOutlined />}
                 />
               </Card>
             </Col>
@@ -519,401 +469,65 @@ export const Statistics = () => {
                 <Statistic
                   title="Всего предметов"
                   value={subjectAvgGrades.length}
+                  prefix={<BookOutlined />}
                 />
               </Card>
             </Col>
           </Row>
 
           <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-            <Col xs={24} md={12}>
+            <Col xs={24} lg={12}>
               <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <PieChartOutlined /> Распределение оценок
-                  </div>
-                }
+                title="Распределение оценок по школе"
                 className={styles.statistics__chartCard}
               >
-                {calculateTotalGrades({
-                  "2":
-                    getOverallDistribution().find((item) => item.grade === "2")
-                      ?.count || 0,
-                  "3":
-                    getOverallDistribution().find((item) => item.grade === "3")
-                      ?.count || 0,
-                  "4":
-                    getOverallDistribution().find((item) => item.grade === "4")
-                      ?.count || 0,
-                  "5":
-                    getOverallDistribution().find((item) => item.grade === "5")
-                      ?.count || 0,
-                }) > 0 ? (
-                  renderPieChart([
-                    {
-                      name: "Оценка 5",
-                      value:
-                        getOverallDistribution().find(
-                          (item) => item.grade === "5"
-                        )?.count || 0,
-                      color: "#52c41a",
-                    },
-                    {
-                      name: "Оценка 4",
-                      value:
-                        getOverallDistribution().find(
-                          (item) => item.grade === "4"
-                        )?.count || 0,
-                      color: "#1890ff",
-                    },
-                    {
-                      name: "Оценка 3",
-                      value:
-                        getOverallDistribution().find(
-                          (item) => item.grade === "3"
-                        )?.count || 0,
-                      color: "#faad14",
-                    },
-                    {
-                      name: "Оценка 2",
-                      value:
-                        getOverallDistribution().find(
-                          (item) => item.grade === "2"
-                        )?.count || 0,
-                      color: "#f5222d",
-                    },
-                  ])
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
+                {renderPieChart([
+                  {
+                    name: "Отлично (5)",
+                    value:
+                      getOverallDistribution().find(
+                        (item) => item.grade === "5"
+                      )?.count || 0,
+                    color: "#52c41a",
+                  },
+                  {
+                    name: "Хорошо (4)",
+                    value:
+                      getOverallDistribution().find(
+                        (item) => item.grade === "4"
+                      )?.count || 0,
+                    color: "#1890ff",
+                  },
+                  {
+                    name: "Удовлетворительно (3)",
+                    value:
+                      getOverallDistribution().find(
+                        (item) => item.grade === "3"
+                      )?.count || 0,
+                    color: "#faad14",
+                  },
+                  {
+                    name: "Неудовлетворительно (2)",
+                    value:
+                      getOverallDistribution().find(
+                        (item) => item.grade === "2"
+                      )?.count || 0,
+                    color: "#f5222d",
+                  },
+                ])}
               </Card>
             </Col>
-            <Col xs={24} md={12}>
+            <Col xs={24} lg={12}>
               <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <BarChartOutlined /> Средний балл по предметам
-                  </div>
-                }
+                title="Средние баллы по классам"
                 className={styles.statistics__chartCard}
               >
-                {subjectAvgGrades.length > 0 ? (
-                  renderBarChart(
-                    subjectAvgGrades
-                      .filter((subject) => subject.averageGrade > 0)
-                      .map((subject) => ({
-                        name: subject.subjectName,
-                        value: subject.averageGrade,
-                        color: getGradeColor(subject.averageGrade),
-                      }))
-                      .sort((a, b) => b.value - a.value)
-                  )
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
-              </Card>
-            </Col>
-          </Row>
-
-          <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-            <Col xs={24} md={8}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <TrophyOutlined /> Лучший класс
-                  </div>
-                }
-                className={styles.statistics__bestCard}
-              >
-                {classAvgGrades.length > 0 ? (
-                  <div className={styles.statistics__bestItem}>
-                    <div>
-                      <div className={styles.statistics__bestHeader}>
-                        <Avatar size={40} className={styles.statistics__avatar}>
-                          {classAvgGrades
-                            .filter((cls) => cls.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.classNumber || ""}
-                          {classAvgGrades
-                            .filter((cls) => cls.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.classLetter || ""}
-                        </Avatar>
-                        <Title
-                          level={4}
-                          className={styles.statistics__bestTitle}
-                        >
-                          {classAvgGrades
-                            .filter((cls) => cls.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.classNumber || ""}
-                          {classAvgGrades
-                            .filter((cls) => cls.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.classLetter || ""}
-                        </Title>
-                      </div>
-                      <div className={styles.statistics__bestDetails}>
-                        <div>
-                          <Text type="secondary">Средний балл:</Text>{" "}
-                          <Text
-                            strong
-                            style={{
-                              color: getGradeColor(
-                                classAvgGrades
-                                  .filter((cls) => cls.averageGrade > 0)
-                                  .sort(
-                                    (a, b) => b.averageGrade - a.averageGrade
-                                  )[0]?.averageGrade || 0
-                              ),
-                            }}
-                          >
-                            {formatAvgGrade(
-                              classAvgGrades
-                                .filter((cls) => cls.averageGrade > 0)
-                                .sort(
-                                  (a, b) => b.averageGrade - a.averageGrade
-                                )[0]?.averageGrade || 0
-                            )}
-                          </Text>
-                        </div>
-                        <div>
-                          <Text type="secondary">Учеников:</Text>{" "}
-                          <Text strong>
-                            {classAvgGrades
-                              .filter((cls) => cls.averageGrade > 0)
-                              .sort(
-                                (a, b) => b.averageGrade - a.averageGrade
-                              )[0]?.studentCount || 0}
-                          </Text>
-                        </div>
-                        <div>
-                          <Text type="secondary">Классный руководитель:</Text>{" "}
-                          <Text strong>
-                            {classAvgGrades
-                              .filter((cls) => cls.averageGrade > 0)
-                              .sort(
-                                (a, b) => b.averageGrade - a.averageGrade
-                              )[0]?.classTeacher?.lastName || ""}{" "}
-                            {classAvgGrades
-                              .filter((cls) => cls.averageGrade > 0)
-                              .sort(
-                                (a, b) => b.averageGrade - a.averageGrade
-                              )[0]?.classTeacher?.firstName || ""}
-                          </Text>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.statistics__bestGrade}>
-                      <Tag
-                        color={getGradeColor(
-                          classAvgGrades
-                            .filter((cls) => cls.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.averageGrade || 0
-                        )}
-                        style={{ fontSize: 20, padding: "8px 16px" }}
-                      >
-                        {formatAvgGrade(
-                          classAvgGrades
-                            .filter((cls) => cls.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.averageGrade || 0
-                        )}
-                      </Tag>
-                    </div>
-                  </div>
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
-              </Card>
-            </Col>
-
-            <Col xs={24} md={8}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <TrophyOutlined /> Лучший ученик
-                  </div>
-                }
-                className={styles.statistics__bestCard}
-              >
-                {studentAvgGrades.length > 0 ? (
-                  <div className={styles.statistics__bestItem}>
-                    <div>
-                      <div className={styles.statistics__bestHeader}>
-                        <Avatar size={40} className={styles.statistics__avatar}>
-                          {getInitials(
-                            studentAvgGrades
-                              .filter((student) => student.averageGrade > 0)
-                              .sort(
-                                (a, b) => b.averageGrade - a.averageGrade
-                              )[0]?.firstName || "",
-                            studentAvgGrades
-                              .filter((student) => student.averageGrade > 0)
-                              .sort(
-                                (a, b) => b.averageGrade - a.averageGrade
-                              )[0]?.lastName || ""
-                          )}
-                        </Avatar>
-                        <Title
-                          level={4}
-                          className={styles.statistics__bestTitle}
-                        >
-                          {studentAvgGrades
-                            .filter((student) => student.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.lastName || ""}{" "}
-                          {studentAvgGrades
-                            .filter((student) => student.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.firstName || ""}
-                        </Title>
-                      </div>
-                      <div className={styles.statistics__bestDetails}>
-                        <div>
-                          <Text type="secondary">Средний балл:</Text>{" "}
-                          <Text
-                            strong
-                            style={{
-                              color: getGradeColor(
-                                studentAvgGrades
-                                  .filter((student) => student.averageGrade > 0)
-                                  .sort(
-                                    (a, b) => b.averageGrade - a.averageGrade
-                                  )[0]?.averageGrade || 0
-                              ),
-                            }}
-                          >
-                            {formatAvgGrade(
-                              studentAvgGrades
-                                .filter((student) => student.averageGrade > 0)
-                                .sort(
-                                  (a, b) => b.averageGrade - a.averageGrade
-                                )[0]?.averageGrade || 0
-                            )}
-                          </Text>
-                        </div>
-                        <div>
-                          <Text type="secondary">Класс:</Text>{" "}
-                          <Tag
-                            color="blue"
-                            className={styles.statistics__classTag}
-                          >
-                            {studentAvgGrades
-                              .filter((student) => student.averageGrade > 0)
-                              .sort(
-                                (a, b) => b.averageGrade - a.averageGrade
-                              )[0]?.class.classNumber || ""}
-                            {studentAvgGrades
-                              .filter((student) => student.averageGrade > 0)
-                              .sort(
-                                (a, b) => b.averageGrade - a.averageGrade
-                              )[0]?.class.classLetter || ""}
-                          </Tag>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.statistics__bestGrade}>
-                      <Tag
-                        color={getGradeColor(
-                          studentAvgGrades
-                            .filter((student) => student.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.averageGrade || 0
-                        )}
-                        style={{ fontSize: 20, padding: "8px 16px" }}
-                      >
-                        {formatAvgGrade(
-                          studentAvgGrades
-                            .filter((student) => student.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.averageGrade || 0
-                        )}
-                      </Tag>
-                    </div>
-                  </div>
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
-              </Card>
-            </Col>
-
-            <Col xs={24} md={8}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <TrophyOutlined /> Лучший предмет
-                  </div>
-                }
-                className={styles.statistics__bestCard}
-              >
-                {subjectAvgGrades.length > 0 ? (
-                  <div className={styles.statistics__bestItem}>
-                    <div>
-                      <div className={styles.statistics__bestHeader}>
-                        <Avatar size={40} className={styles.statistics__avatar}>
-                          {subjectAvgGrades
-                            .filter((subject) => subject.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.subjectName.charAt(0) || ""}
-                        </Avatar>
-                        <Title
-                          level={4}
-                          className={styles.statistics__bestTitle}
-                        >
-                          {subjectAvgGrades
-                            .filter((subject) => subject.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.subjectName || ""}
-                        </Title>
-                      </div>
-                      <div className={styles.statistics__bestDetails}>
-                        <div>
-                          <Text type="secondary">Средний балл:</Text>{" "}
-                          <Text
-                            strong
-                            style={{
-                              color: getGradeColor(
-                                subjectAvgGrades
-                                  .filter((subject) => subject.averageGrade > 0)
-                                  .sort(
-                                    (a, b) => b.averageGrade - a.averageGrade
-                                  )[0]?.averageGrade || 0
-                              ),
-                            }}
-                          >
-                            {formatAvgGrade(
-                              subjectAvgGrades
-                                .filter((subject) => subject.averageGrade > 0)
-                                .sort(
-                                  (a, b) => b.averageGrade - a.averageGrade
-                                )[0]?.averageGrade || 0
-                            )}
-                          </Text>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.statistics__bestGrade}>
-                      <Tag
-                        color={getGradeColor(
-                          subjectAvgGrades
-                            .filter((subject) => subject.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.averageGrade || 0
-                        )}
-                        style={{ fontSize: 20, padding: "8px 16px" }}
-                      >
-                        {formatAvgGrade(
-                          subjectAvgGrades
-                            .filter((subject) => subject.averageGrade > 0)
-                            .sort((a, b) => b.averageGrade - a.averageGrade)[0]
-                            ?.averageGrade || 0
-                        )}
-                      </Tag>
-                    </div>
-                  </div>
-                ) : (
-                  <Empty description="Нет данных для отображения" />
+                {renderBarChart(
+                  classAvgGrades.map((cls) => ({
+                    name: `${cls.classNumber}${cls.classLetter}`,
+                    value: cls.averageGrade,
+                    color: getGradeColor(cls.averageGrade),
+                  }))
                 )}
               </Card>
             </Col>
@@ -930,256 +544,113 @@ export const Statistics = () => {
       ),
       children: (
         <div className={styles.statistics__classes}>
-          <Row gutter={[16, 16]}>
-            <Col xs={24}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <BarChartOutlined /> Средний балл по классам
-                  </div>
-                }
-                className={styles.statistics__chartCard}
-              >
-                {classAvgGrades.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={400}>
-                    <BarChart
-                      data={classAvgGrades
-                        .filter((cls) => cls.averageGrade > 0)
-                        .map((cls) => ({
-                          name: `${cls.classNumber}${cls.classLetter}`,
-                          grade: cls.averageGrade,
-                          students: cls.studentCount,
-                        }))
-                        .sort((a, b) => a.name.localeCompare(b.name))}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          <Card
+            title="Статистика по классам"
+            className={styles.statistics__card}
+          >
+            <Table
+              dataSource={classAvgGrades}
+              rowKey="idClass"
+              pagination={{ pageSize: 10 }}
+              columns={[
+                {
+                  title: "Класс",
+                  key: "class",
+                  render: (record: ClassAvgGrade) => (
+                    <Tag color="blue">
+                      {record.classNumber}
+                      {record.classLetter}
+                    </Tag>
+                  ),
+                  sorter: (a: ClassAvgGrade, b: ClassAvgGrade) =>
+                    a.classNumber - b.classNumber ||
+                    a.classLetter.localeCompare(b.classLetter),
+                },
+                {
+                  title: "Количество учеников",
+                  dataIndex: "studentCount",
+                  key: "studentCount",
+                  sorter: (a: ClassAvgGrade, b: ClassAvgGrade) =>
+                    a.studentCount - b.studentCount,
+                },
+                {
+                  title: "Средний балл",
+                  dataIndex: "averageGrade",
+                  key: "averageGrade",
+                  render: (grade: number) => (
+                    <Tag
+                      color={
+                        getGradeColor(grade) === "#52c41a"
+                          ? "green"
+                          : getGradeColor(grade) === "#1890ff"
+                          ? "blue"
+                          : getGradeColor(grade) === "#faad14"
+                          ? "orange"
+                          : "red"
+                      }
                     >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis
-                        yAxisId="left"
-                        orientation="left"
-                        domain={[0, 5]}
-                      />
-                      <YAxis yAxisId="right" orientation="right" />
-                      <Tooltip />
-                      <Legend />
-                      <Bar
-                        yAxisId="left"
-                        dataKey="grade"
-                        name="Средний балл"
-                        fill="#8884d8"
-                      >
-                        {classAvgGrades
-                          .filter((cls) => cls.averageGrade > 0)
-                          .map((cls, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={getGradeColor(cls.averageGrade)}
-                            />
-                          ))}
-                      </Bar>
-                      <Bar
-                        yAxisId="right"
-                        dataKey="students"
-                        name="Количество учеников"
-                        fill="#82ca9d"
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
-              </Card>
-            </Col>
-          </Row>
-
-          <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-            <Col xs={24} md={12}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <div>
-                      <PieChartOutlined /> Распределение оценок
-                      {classDistribution.find(
-                        (cls) => cls.idClass === selectedClass
-                      ) && (
-                        <span className={styles.statistics__subtitle}>
-                          {" "}
-                          (
-                          {classDistribution.find(
-                            (cls) => cls.idClass === selectedClass
-                          )?.classNumber || ""}
-                          {classDistribution.find(
-                            (cls) => cls.idClass === selectedClass
-                          )?.classLetter || ""}
-                          )
+                      {formatAvgGrade(grade)}
+                    </Tag>
+                  ),
+                  sorter: (a: ClassAvgGrade, b: ClassAvgGrade) =>
+                    a.averageGrade - b.averageGrade,
+                },
+                {
+                  title: "Классный руководитель",
+                  key: "teacher",
+                  render: (record: ClassAvgGrade) =>
+                    record.classTeacher ? (
+                      <div className={styles.statistics__teacher}>
+                        <Avatar size="small">
+                          {getInitials(
+                            record.classTeacher.firstName,
+                            record.classTeacher.lastName
+                          )}
+                        </Avatar>
+                        <span style={{ marginLeft: 8 }}>
+                          {record.classTeacher.lastName}{" "}
+                          {record.classTeacher.firstName}
                         </span>
-                      )}
-                    </div>
-                    <Select
-                      value={selectedClass}
-                      onChange={setSelectedClass}
-                      className={styles.statistics__select}
-                      placeholder="Выберите класс"
-                    >
-                      {classDistribution.map((cls) => (
-                        <Option key={cls.idClass} value={cls.idClass}>
-                          {cls.classNumber}
-                          {cls.classLetter}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-                }
-                className={styles.statistics__chartCard}
-              >
-                {classDistribution.find(
-                  (cls) => cls.idClass === selectedClass
-                ) &&
-                calculateTotalGrades(
-                  classDistribution.find((cls) => cls.idClass === selectedClass)
-                    ?.distribution || { "2": 0, "3": 0, "4": 0, "5": 0 }
-                ) > 0 ? (
-                  renderPieChart([
-                    {
-                      name: "Оценка 5",
-                      value:
-                        classDistribution.find(
-                          (cls) => cls.idClass === selectedClass
-                        )?.distribution["5"] || 0,
-                      color: "#52c41a",
-                    },
-                    {
-                      name: "Оценка 4",
-                      value:
-                        classDistribution.find(
-                          (cls) => cls.idClass === selectedClass
-                        )?.distribution["4"] || 0,
-                      color: "#1890ff",
-                    },
-                    {
-                      name: "Оценка 3",
-                      value:
-                        classDistribution.find(
-                          (cls) => cls.idClass === selectedClass
-                        )?.distribution["3"] || 0,
-                      color: "#faad14",
-                    },
-                    {
-                      name: "Оценка 2",
-                      value:
-                        classDistribution.find(
-                          (cls) => cls.idClass === selectedClass
-                        )?.distribution["2"] || 0,
-                      color: "#f5222d",
-                    },
-                  ])
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
-              </Card>
-            </Col>
+                      </div>
+                    ) : (
+                      <Text type="secondary">Не назначен</Text>
+                    ),
+                },
+              ]}
+            />
+          </Card>
 
-            <Col xs={24} md={12}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <BarChartOutlined /> Статистика по классам
-                  </div>
-                }
-                className={styles.statistics__chartCard}
+          <Card
+            title="Средние баллы по классам"
+            className={styles.statistics__chartCard}
+            style={{ marginTop: 16 }}
+          >
+            <Space style={{ marginBottom: 16 }}>
+              <Text>Тип диаграммы:</Text>
+              <Radio.Group
+                value={chartType}
+                onChange={(e) => setChartType(e.target.value)}
               >
-                <Table
-                  dataSource={classAvgGrades.map((cls) => ({
-                    key: cls.idClass,
-                    class: `${cls.classNumber}${cls.classLetter}`,
-                    students: cls.studentCount,
-                    avgGrade: cls.averageGrade,
-                    teacher: cls.classTeacher
-                      ? `${
-                          cls.classTeacher.lastName
-                        } ${cls.classTeacher.firstName.charAt(0)}.`
-                      : "Не назначен",
-                    quality: classDistribution.find(
-                      (c) => c.idClass === cls.idClass
-                    )
-                      ? (((classDistribution.find(
-                          (c) => c.idClass === cls.idClass
-                        )?.distribution["4"] || 0) +
-                          (classDistribution.find(
-                            (c) => c.idClass === cls.idClass
-                          )?.distribution["5"] || 0)) /
-                          calculateTotalGrades(
-                            classDistribution.find(
-                              (c) => c.idClass === cls.idClass
-                            )?.distribution || {
-                              "2": 0,
-                              "3": 0,
-                              "4": 0,
-                              "5": 0,
-                            }
-                          )) *
-                        100
-                      : 0,
-                  }))}
-                  columns={[
-                    {
-                      title: "Класс",
-                      dataIndex: "class",
-                      key: "class",
-                      sorter: (a, b) => a.class.localeCompare(b.class),
-                    },
-                    {
-                      title: "Учеников",
-                      dataIndex: "students",
-                      key: "students",
-                      sorter: (a, b) => a.students - b.students,
-                    },
-                    {
-                      title: "Средний балл",
-                      dataIndex: "avgGrade",
-                      key: "avgGrade",
-                      sorter: (a, b) => a.avgGrade - b.avgGrade,
-                      render: (grade) => (
-                        <Tag color={getGradeColor(grade)}>
-                          {formatAvgGrade(grade)}
-                        </Tag>
-                      ),
-                    },
-                    {
-                      title: "Качество знаний",
-                      dataIndex: "quality",
-                      key: "quality",
-                      sorter: (a, b) => a.quality - b.quality,
-                      render: (quality) => (
-                        <Tag
-                          color={
-                            quality >= 70
-                              ? "#52c41a"
-                              : quality >= 50
-                              ? "#1890ff"
-                              : quality >= 30
-                              ? "#faad14"
-                              : "#f5222d"
-                          }
-                        >
-                          {isNaN(quality) ? "Н/Д" : `${quality.toFixed(1)}%`}
-                        </Tag>
-                      ),
-                    },
-                    {
-                      title: "Классный руководитель",
-                      dataIndex: "teacher",
-                      key: "teacher",
-                    },
-                  ]}
-                  pagination={false}
-                  size="middle"
-                  className={styles.statistics__table}
-                />
-              </Card>
-            </Col>
-          </Row>
+                <Radio.Button value="column">Столбцы</Radio.Button>
+                <Radio.Button value="bar">Полосы</Radio.Button>
+              </Radio.Group>
+            </Space>
+            {chartType === "column"
+              ? renderBarChart(
+                  classAvgGrades.map((cls) => ({
+                    name: `${cls.classNumber}${cls.classLetter}`,
+                    value: cls.averageGrade,
+                    color: getGradeColor(cls.averageGrade),
+                  }))
+                )
+              : renderHorizontalBarChart(
+                  classAvgGrades.map((cls) => ({
+                    name: `${cls.classNumber}${cls.classLetter}`,
+                    value: cls.averageGrade,
+                    color: getGradeColor(cls.averageGrade),
+                  }))
+                )}
+          </Card>
         </div>
       ),
     },
@@ -1192,191 +663,70 @@ export const Statistics = () => {
       ),
       children: (
         <div className={styles.statistics__students}>
-          <Row gutter={[16, 16]}>
-            <Col xs={24} md={12}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <div>
-                      <PieChartOutlined /> Распределение оценок
-                      {studentDistribution.find(
-                        (student) => student.studentId === selectedStudent
-                      ) && (
-                        <span className={styles.statistics__subtitle}>
-                          {" "}
-                          (
-                          {studentDistribution.find(
-                            (student) => student.studentId === selectedStudent
-                          )?.lastName || ""}{" "}
-                          {studentDistribution.find(
-                            (student) => student.studentId === selectedStudent
-                          )?.firstName || ""}
-                          )
-                        </span>
-                      )}
+          <Card
+            title="Статистика по ученикам"
+            className={styles.statistics__card}
+          >
+            <Table
+              dataSource={studentAvgGrades}
+              rowKey="idStudent"
+              pagination={{ pageSize: 10 }}
+              columns={[
+                {
+                  title: "ФИО",
+                  key: "name",
+                  render: (record: StudentAvgGrade) => (
+                    <div className={styles.statistics__student}>
+                      <Avatar size="small">
+                        {getInitials(record.firstName, record.lastName)}
+                      </Avatar>
+                      <span style={{ marginLeft: 8 }}>
+                        {record.lastName} {record.firstName}{" "}
+                        {record.middleName || ""}
+                      </span>
                     </div>
-                    <Select
-                      value={selectedStudent}
-                      onChange={setSelectedStudent}
-                      className={styles.statistics__select}
-                      placeholder="Выберите ученика"
-                      showSearch
-                      optionFilterProp="children"
+                  ),
+                  sorter: (a: StudentAvgGrade, b: StudentAvgGrade) =>
+                    a.lastName.localeCompare(b.lastName),
+                },
+                {
+                  title: "Класс",
+                  key: "class",
+                  render: (record: StudentAvgGrade) => (
+                    <Tag color="blue">
+                      {record.class.classNumber}
+                      {record.class.classLetter}
+                    </Tag>
+                  ),
+                  sorter: (a: StudentAvgGrade, b: StudentAvgGrade) =>
+                    a.class.classNumber - b.class.classNumber ||
+                    a.class.classLetter.localeCompare(b.class.classLetter),
+                },
+                {
+                  title: "Средний балл",
+                  dataIndex: "averageGrade",
+                  key: "averageGrade",
+                  render: (grade: number) => (
+                    <Tag
+                      color={
+                        getGradeColor(grade) === "#52c41a"
+                          ? "green"
+                          : getGradeColor(grade) === "#1890ff"
+                          ? "blue"
+                          : getGradeColor(grade) === "#faad14"
+                          ? "orange"
+                          : "red"
+                      }
                     >
-                      {studentDistribution.map((student) => (
-                        <Option
-                          key={student.studentId}
-                          value={student.studentId}
-                        >
-                          {student.lastName} {student.firstName}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-                }
-                className={styles.statistics__chartCard}
-              >
-                {studentDistribution.find(
-                  (student) => student.studentId === selectedStudent
-                ) &&
-                calculateTotalGrades(
-                  studentDistribution.find(
-                    (student) => student.studentId === selectedStudent
-                  )?.distribution || { "2": 0, "3": 0, "4": 0, "5": 0 }
-                ) > 0 ? (
-                  renderPieChart([
-                    {
-                      name: "Оценка 5",
-                      value:
-                        studentDistribution.find(
-                          (student) => student.studentId === selectedStudent
-                        )?.distribution["5"] || 0,
-                      color: "#52c41a",
-                    },
-                    {
-                      name: "Оценка 4",
-                      value:
-                        studentDistribution.find(
-                          (student) => student.studentId === selectedStudent
-                        )?.distribution["4"] || 0,
-                      color: "#1890ff",
-                    },
-                    {
-                      name: "Оценка 3",
-                      value:
-                        studentDistribution.find(
-                          (student) => student.studentId === selectedStudent
-                        )?.distribution["3"] || 0,
-                      color: "#faad14",
-                    },
-                    {
-                      name: "Оценка 2",
-                      value:
-                        studentDistribution.find(
-                          (student) => student.studentId === selectedStudent
-                        )?.distribution["2"] || 0,
-                      color: "#f5222d",
-                    },
-                  ])
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
-              </Card>
-            </Col>
-
-            <Col xs={24} md={12}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <BarChartOutlined /> Лучшие ученики
-                  </div>
-                }
-                className={styles.statistics__chartCard}
-              >
-                <Table
-                  dataSource={studentAvgGrades
-                    .filter((student) => student.averageGrade > 0)
-                    .sort((a, b) => b.averageGrade - a.averageGrade)
-                    .slice(0, 10)
-                    .map((student) => ({
-                      key: student.idStudent,
-                      name: `${student.lastName} ${student.firstName}`,
-                      class: `${student.class.classNumber}${student.class.classLetter}`,
-                      avgGrade: student.averageGrade,
-                      quality: studentDistribution.find(
-                        (s) => s.studentId === student.idStudent
-                      )
-                        ? (((studentDistribution.find(
-                            (s) => s.studentId === student.idStudent
-                          )?.distribution["4"] || 0) +
-                            (studentDistribution.find(
-                              (s) => s.studentId === student.idStudent
-                            )?.distribution["5"] || 0)) /
-                            calculateTotalGrades(
-                              studentDistribution.find(
-                                (s) => s.studentId === student.idStudent
-                              )?.distribution || {
-                                "2": 0,
-                                "3": 0,
-                                "4": 0,
-                                "5": 0,
-                              }
-                            )) *
-                          100
-                        : 0,
-                    }))}
-                  columns={[
-                    {
-                      title: "Ученик",
-                      dataIndex: "name",
-                      key: "name",
-                    },
-                    {
-                      title: "Класс",
-                      dataIndex: "class",
-                      key: "class",
-                      render: (cls) => <Tag color="blue">{cls}</Tag>,
-                    },
-                    {
-                      title: "Средний балл",
-                      dataIndex: "avgGrade",
-                      key: "avgGrade",
-                      sorter: (a, b) => a.avgGrade - b.avgGrade,
-                      render: (grade) => (
-                        <Tag color={getGradeColor(grade)}>
-                          {formatAvgGrade(grade)}
-                        </Tag>
-                      ),
-                    },
-                    {
-                      title: "Качество знаний",
-                      dataIndex: "quality",
-                      key: "quality",
-                      sorter: (a, b) => a.quality - b.quality,
-                      render: (quality) => (
-                        <Tag
-                          color={
-                            quality >= 70
-                              ? "#52c41a"
-                              : quality >= 50
-                              ? "#1890ff"
-                              : quality >= 30
-                              ? "#faad14"
-                              : "#f5222d"
-                          }
-                        >
-                          {isNaN(quality) ? "Н/Д" : `${quality.toFixed(1)}%`}
-                        </Tag>
-                      ),
-                    },
-                  ]}
-                  pagination={false}
-                  size="middle"
-                  className={styles.statistics__table}
-                />
-              </Card>
-            </Col>
-          </Row>
+                      {formatAvgGrade(grade)}
+                    </Tag>
+                  ),
+                  sorter: (a: StudentAvgGrade, b: StudentAvgGrade) =>
+                    a.averageGrade - b.averageGrade,
+                },
+              ]}
+            />
+          </Card>
         </div>
       ),
     },
@@ -1389,301 +739,391 @@ export const Statistics = () => {
       ),
       children: (
         <div className={styles.statistics__subjects}>
-          <Row gutter={[16, 16]}>
-            <Col xs={24} md={12}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <div>
-                      <PieChartOutlined /> Распределение оценок
-                      {subjectDistribution.find(
-                        (subject) => subject.idSubject === selectedSubject
-                      ) && (
-                        <span className={styles.statistics__subtitle}>
-                          {" "}
-                          (
-                          {subjectDistribution.find(
-                            (subject) => subject.idSubject === selectedSubject
-                          )?.subjectName || ""}
-                          )
-                        </span>
-                      )}
-                    </div>
-                    <Select
-                      value={selectedSubject}
-                      onChange={setSelectedSubject}
-                      className={styles.statistics__select}
-                      placeholder="Выберите предмет"
+          <Card
+            title="Статистика по предметам"
+            className={styles.statistics__card}
+          >
+            <Table
+              dataSource={subjectAvgGrades}
+              rowKey="idSubject"
+              pagination={{ pageSize: 10 }}
+              columns={[
+                {
+                  title: "Предмет",
+                  dataIndex: "subjectName",
+                  key: "subjectName",
+                  sorter: (a: SubjectAvgGrade, b: SubjectAvgGrade) =>
+                    a.subjectName.localeCompare(b.subjectName),
+                },
+                {
+                  title: "Средний балл",
+                  dataIndex: "averageGrade",
+                  key: "averageGrade",
+                  render: (grade: number) => (
+                    <Tag
+                      color={
+                        getGradeColor(grade) === "#52c41a"
+                          ? "green"
+                          : getGradeColor(grade) === "#1890ff"
+                          ? "blue"
+                          : getGradeColor(grade) === "#faad14"
+                          ? "orange"
+                          : "red"
+                      }
                     >
-                      {subjectDistribution.map((subject) => (
-                        <Option
-                          key={subject.idSubject}
-                          value={subject.idSubject}
-                        >
-                          {subject.subjectName}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-                }
-                className={styles.statistics__chartCard}
-              >
-                {subjectDistribution.find(
-                  (subject) => subject.idSubject === selectedSubject
-                ) &&
-                calculateTotalGrades(
-                  subjectDistribution.find(
-                    (subject) => subject.idSubject === selectedSubject
-                  )?.distribution || { "2": 0, "3": 0, "4": 0, "5": 0 }
-                ) > 0 ? (
-                  renderPieChart([
-                    {
-                      name: "Оценка 5",
-                      value:
-                        subjectDistribution.find(
-                          (subject) => subject.idSubject === selectedSubject
-                        )?.distribution["5"] || 0,
-                      color: "#52c41a",
-                    },
-                    {
-                      name: "Оценка 4",
-                      value:
-                        subjectDistribution.find(
-                          (subject) => subject.idSubject === selectedSubject
-                        )?.distribution["4"] || 0,
-                      color: "#1890ff",
-                    },
-                    {
-                      name: "Оценка 3",
-                      value:
-                        subjectDistribution.find(
-                          (subject) => subject.idSubject === selectedSubject
-                        )?.distribution["3"] || 0,
-                      color: "#faad14",
-                    },
-                    {
-                      name: "Оценка 2",
-                      value:
-                        subjectDistribution.find(
-                          (subject) => subject.idSubject === selectedSubject
-                        )?.distribution["2"] || 0,
-                      color: "#f5222d",
-                    },
-                  ])
-                ) : (
-                  <Empty description="Нет данных для отображения" />
+                      {formatAvgGrade(grade)}
+                    </Tag>
+                  ),
+                  sorter: (a: SubjectAvgGrade, b: SubjectAvgGrade) =>
+                    a.averageGrade - b.averageGrade,
+                },
+              ]}
+            />
+          </Card>
+
+          <Card
+            title="Средние баллы по предметам"
+            className={styles.statistics__chartCard}
+            style={{ marginTop: 16 }}
+          >
+            {renderHorizontalBarChart(
+              subjectAvgGrades.map((subject) => ({
+                name: subject.subjectName,
+                value: subject.averageGrade,
+                color: getGradeColor(subject.averageGrade),
+              }))
+            )}
+          </Card>
+        </div>
+      ),
+    },
+    {
+      key: "distribution",
+      label: (
+        <span>
+          <PieChartOutlined /> Распределение оценок
+        </span>
+      ),
+      children: (
+        <div className={styles.statistics__distribution}>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} lg={8}>
+              <Card title="По классам" className={styles.statistics__card}>
+                <Select
+                  style={{ width: "100%", marginBottom: 16 }}
+                  placeholder="Выберите класс"
+                  value={selectedClass}
+                  onChange={setSelectedClass}
+                >
+                  {classDistribution.map((cls) => (
+                    <Option key={cls.idClass} value={cls.idClass}>
+                      {cls.classNumber}
+                      {cls.classLetter}
+                    </Option>
+                  ))}
+                </Select>
+                {selectedClass > 0 && (
+                  <>
+                    {(() => {
+                      const selectedClassData = classDistribution.find(
+                        (cls) => cls.idClass === selectedClass
+                      );
+                      return selectedClassData
+                        ? renderPieChart([
+                            {
+                              name: "Отлично (5)",
+                              value: selectedClassData.distribution["5"],
+                              color: "#52c41a",
+                            },
+                            {
+                              name: "Хорошо (4)",
+                              value: selectedClassData.distribution["4"],
+                              color: "#1890ff",
+                            },
+                            {
+                              name: "Удовлетворительно (3)",
+                              value: selectedClassData.distribution["3"],
+                              color: "#faad14",
+                            },
+                            {
+                              name: "Неудовлетворительно (2)",
+                              value: selectedClassData.distribution["2"],
+                              color: "#f5222d",
+                            },
+                          ])
+                        : null;
+                    })()}
+                  </>
                 )}
               </Card>
             </Col>
-
-            <Col xs={24} md={12}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <BarChartOutlined /> Рейтинг предметов
-                  </div>
-                }
-                className={styles.statistics__chartCard}
-              >
-                <Table
-                  dataSource={subjectAvgGrades
-                    .filter((subject) => subject.averageGrade > 0)
-                    .sort((a, b) => b.averageGrade - a.averageGrade)
-                    .map((subject) => ({
-                      key: subject.idSubject,
-                      subject: subject.subjectName,
-                      avgGrade: subject.averageGrade,
-                      quality: subjectDistribution.find(
-                        (s) => s.idSubject === subject.idSubject
-                      )
-                        ? (((subjectDistribution.find(
-                            (s) => s.idSubject === subject.idSubject
-                          )?.distribution["4"] || 0) +
-                            (subjectDistribution.find(
-                              (s) => s.idSubject === subject.idSubject
-                            )?.distribution["5"] || 0)) /
-                            calculateTotalGrades(
-                              subjectDistribution.find(
-                                (s) => s.idSubject === subject.idSubject
-                              )?.distribution || {
-                                "2": 0,
-                                "3": 0,
-                                "4": 0,
-                                "5": 0,
-                              }
-                            )) *
-                          100
-                        : 0,
-                      total: subjectDistribution.find(
-                        (s) => s.idSubject === subject.idSubject
-                      )
-                        ? calculateTotalGrades(
-                            subjectDistribution.find(
-                              (s) => s.idSubject === subject.idSubject
-                            )?.distribution || {
-                              "2": 0,
-                              "3": 0,
-                              "4": 0,
-                              "5": 0,
-                            }
-                          )
-                        : 0,
-                    }))}
-                  columns={[
-                    {
-                      title: "Предмет",
-                      dataIndex: "subject",
-                      key: "subject",
-                    },
-                    {
-                      title: "Средний балл",
-                      dataIndex: "avgGrade",
-                      key: "avgGrade",
-                      sorter: (a, b) => a.avgGrade - b.avgGrade,
-                      render: (grade) => (
-                        <Tag color={getGradeColor(grade)}>
-                          {formatAvgGrade(grade)}
-                        </Tag>
-                      ),
-                    },
-                    {
-                      title: "Качество знаний",
-                      dataIndex: "quality",
-                      key: "quality",
-                      sorter: (a, b) => a.quality - b.quality,
-                      render: (quality) => (
-                        <Tag
-                          color={
-                            quality >= 70
-                              ? "#52c41a"
-                              : quality >= 50
-                              ? "#1890ff"
-                              : quality >= 30
-                              ? "#faad14"
-                              : "#f5222d"
-                          }
-                        >
-                          {isNaN(quality) ? "Н/Д" : `${quality.toFixed(1)}%`}
-                        </Tag>
-                      ),
-                    },
-                    {
-                      title: "Всего оценок",
-                      dataIndex: "total",
-                      key: "total",
-                      sorter: (a, b) => a.total - b.total,
-                    },
-                  ]}
-                  pagination={false}
-                  size="middle"
-                  className={styles.statistics__table}
-                />
+            <Col xs={24} lg={8}>
+              <Card title="По ученикам" className={styles.statistics__card}>
+                <Select
+                  style={{ width: "100%", marginBottom: 16 }}
+                  placeholder="Выберите ученика"
+                  value={selectedStudent}
+                  onChange={setSelectedStudent}
+                  showSearch
+                  optionFilterProp="children"
+                >
+                  {studentDistribution.map((student) => (
+                    <Option key={student.studentId} value={student.studentId}>
+                      {student.lastName} {student.firstName}
+                    </Option>
+                  ))}
+                </Select>
+                {selectedStudent > 0 && (
+                  <>
+                    {(() => {
+                      const selectedStudentData = studentDistribution.find(
+                        (student) => student.studentId === selectedStudent
+                      );
+                      return selectedStudentData
+                        ? renderPieChart([
+                            {
+                              name: "Отлично (5)",
+                              value: selectedStudentData.distribution["5"],
+                              color: "#52c41a",
+                            },
+                            {
+                              name: "Хорошо (4)",
+                              value: selectedStudentData.distribution["4"],
+                              color: "#1890ff",
+                            },
+                            {
+                              name: "Удовлетворительно (3)",
+                              value: selectedStudentData.distribution["3"],
+                              color: "#faad14",
+                            },
+                            {
+                              name: "Неудовлетворительно (2)",
+                              value: selectedStudentData.distribution["2"],
+                              color: "#f5222d",
+                            },
+                          ])
+                        : null;
+                    })()}
+                  </>
+                )}
+              </Card>
+            </Col>
+            <Col xs={24} lg={8}>
+              <Card title="По предметам" className={styles.statistics__card}>
+                <Select
+                  style={{ width: "100%", marginBottom: 16 }}
+                  placeholder="Выберите предмет"
+                  value={selectedSubject}
+                  onChange={setSelectedSubject}
+                >
+                  {subjectDistribution.map((subject) => (
+                    <Option key={subject.idSubject} value={subject.idSubject}>
+                      {subject.subjectName}
+                    </Option>
+                  ))}
+                </Select>
+                {selectedSubject > 0 && (
+                  <>
+                    {(() => {
+                      const selectedSubjectData = subjectDistribution.find(
+                        (subject) => subject.idSubject === selectedSubject
+                      );
+                      return selectedSubjectData
+                        ? renderPieChart([
+                            {
+                              name: "Отлично (5)",
+                              value: selectedSubjectData.distribution["5"],
+                              color: "#52c41a",
+                            },
+                            {
+                              name: "Хорошо (4)",
+                              value: selectedSubjectData.distribution["4"],
+                              color: "#1890ff",
+                            },
+                            {
+                              name: "Удовлетворительно (3)",
+                              value: selectedSubjectData.distribution["3"],
+                              color: "#faad14",
+                            },
+                            {
+                              name: "Неудовлетворительно (2)",
+                              value: selectedSubjectData.distribution["2"],
+                              color: "#f5222d",
+                            },
+                          ])
+                        : null;
+                    })()}
+                  </>
+                )}
               </Card>
             </Col>
           </Row>
 
           <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-            <Col xs={24}>
-              <Card
-                title={
-                  <div className={styles.statistics__cardTitle}>
-                    <BarChartOutlined /> Средний балл по предметам
-                  </div>
-                }
-                className={styles.statistics__chartCard}
-              >
-                {subjectAvgGrades.length > 0 ? (
-                  chartType === "column" ? (
-                    renderBarChart(
-                      subjectAvgGrades
-                        .filter((subject) => subject.averageGrade > 0)
-                        .map((subject) => ({
-                          name: subject.subjectName,
-                          value: subject.averageGrade,
-                          color: getGradeColor(subject.averageGrade),
-                        }))
-                        .sort((a, b) => b.value - a.value)
-                    )
-                  ) : chartType === "pie" ? (
-                    renderPieChart(
-                      subjectAvgGrades
-                        .filter((subject) => subject.averageGrade > 0)
-                        .map((subject) => ({
-                          name: subject.subjectName,
-                          value: subject.averageGrade,
-                          color: getGradeColor(subject.averageGrade),
-                        }))
-                    )
-                  ) : (
-                    renderHorizontalBarChart(
-                      subjectAvgGrades
-                        .filter((subject) => subject.averageGrade > 0)
-                        .map((subject) => ({
-                          name: subject.subjectName,
-                          value: subject.averageGrade,
-                          color: getGradeColor(subject.averageGrade),
-                        }))
-                        .sort((a, b) => a.value - b.value)
-                    )
-                  )
-                ) : (
-                  <Empty description="Нет данных для отображения" />
-                )}
-              </Card>
-            </Col>
+            {selectedClass > 0 && (
+              <Col xs={24} sm={8}>
+                <Card className={styles.statistics__summaryCard}>
+                  <Statistic
+                    title={`Средний балл класса ${
+                      classDistribution.find(
+                        (cls) => cls.idClass === selectedClass
+                      )?.classNumber
+                    }${
+                      classDistribution.find(
+                        (cls) => cls.idClass === selectedClass
+                      )?.classLetter
+                    }`}
+                    value={(() => {
+                      const classData = classDistribution.find(
+                        (cls) => cls.idClass === selectedClass
+                      );
+                      return classData
+                        ? calculateGPA(classData.distribution)
+                        : 0;
+                    })()}
+                    precision={2}
+                    valueStyle={{
+                      color: getGradeColor(
+                        (() => {
+                          const classData = classDistribution.find(
+                            (cls) => cls.idClass === selectedClass
+                          );
+                          return classData
+                            ? calculateGPA(classData.distribution)
+                            : 0;
+                        })()
+                      ),
+                    }}
+                  />
+                </Card>
+              </Col>
+            )}
+            {selectedStudent > 0 && (
+              <Col xs={24} sm={8}>
+                <Card className={styles.statistics__summaryCard}>
+                  <Statistic
+                    title={`Средний балл ученика ${
+                      studentDistribution.find(
+                        (student) => student.studentId === selectedStudent
+                      )?.lastName
+                    } ${
+                      studentDistribution.find(
+                        (student) => student.studentId === selectedStudent
+                      )?.firstName
+                    }`}
+                    value={(() => {
+                      const studentData = studentDistribution.find(
+                        (student) => student.studentId === selectedStudent
+                      );
+                      return studentData
+                        ? calculateGPA(studentData.distribution)
+                        : 0;
+                    })()}
+                    precision={2}
+                    valueStyle={{
+                      color: getGradeColor(
+                        (() => {
+                          const studentData = studentDistribution.find(
+                            (student) => student.studentId === selectedStudent
+                          );
+                          return studentData
+                            ? calculateGPA(studentData.distribution)
+                            : 0;
+                        })()
+                      ),
+                    }}
+                  />
+                </Card>
+              </Col>
+            )}
+            {selectedSubject > 0 && (
+              <Col xs={24} sm={8}>
+                <Card className={styles.statistics__summaryCard}>
+                  <Statistic
+                    title={`Средний балл по предмету ${
+                      subjectDistribution.find(
+                        (subject) => subject.idSubject === selectedSubject
+                      )?.subjectName
+                    }`}
+                    value={(() => {
+                      const subjectData = subjectDistribution.find(
+                        (subject) => subject.idSubject === selectedSubject
+                      );
+                      return subjectData
+                        ? calculateGPA(subjectData.distribution)
+                        : 0;
+                    })()}
+                    precision={2}
+                    valueStyle={{
+                      color: getGradeColor(
+                        (() => {
+                          const subjectData = subjectDistribution.find(
+                            (subject) => subject.idSubject === selectedSubject
+                          );
+                          return subjectData
+                            ? calculateGPA(subjectData.distribution)
+                            : 0;
+                        })()
+                      ),
+                    }}
+                  />
+                </Card>
+              </Col>
+            )}
           </Row>
         </div>
       ),
     },
   ];
 
+  if (loading) {
+    return (
+      <div className={styles.statistics__loading}>
+        <Spin size="large" />
+        <Text style={{ marginTop: 16, display: "block", textAlign: "center" }}>
+          Загрузка статистики...
+        </Text>
+      </div>
+    );
+  }
+
+  const hasData =
+    classAvgGrades.length > 0 ||
+    studentAvgGrades.length > 0 ||
+    subjectAvgGrades.length > 0;
+
+  if (!hasData) {
+    return (
+      <div className={styles.statistics__empty}>
+        <Empty
+          description="Нет данных для отображения статистики"
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+        <Alert
+          message="Информация"
+          description="Статистика будет доступна после добавления оценок в систему."
+          type="info"
+          showIcon
+          style={{ marginTop: 16, maxWidth: 400, margin: "16px auto" }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.statistics}>
       <div className={styles.statistics__header}>
         <Title level={2} className={styles.statistics__title}>
+          <BarChartOutlined className={styles.statistics__titleIcon} />
           Статистика успеваемости
         </Title>
-        <Space>
-          <Radio.Group
-            value={chartType}
-            onChange={(e) => setChartType(e.target.value)}
-            className={styles.statistics__chartTypeSelector}
-          >
-            <Radio.Button value="column">
-              <BarChartOutlined /> Столбцы
-            </Radio.Button>
-            <Radio.Button value="pie">
-              <PieChartOutlined /> Круги
-            </Radio.Button>
-            <Radio.Button value="line">
-              <LineChartOutlined /> Линии
-            </Radio.Button>
-          </Radio.Group>
-        </Space>
       </div>
 
-      {loading ? (
-        <div className={styles.statistics__loading}>
-          <Spin size="large" />
-          <Text className={styles.statistics__loadingText}>
-            Загрузка статистики...
-          </Text>
-        </div>
-      ) : (
-        <Tabs
-          activeKey={activeTab}
-          onChange={setActiveTab}
-          className={styles.statistics__tabs}
-          items={items}
-        />
-      )}
-
-      <Alert
-        message="Информация о статистике"
-        description="Статистика рассчитывается на основе всех оценок в системе. Средний балл рассчитывается только для учеников и предметов, у которых есть оценки. Качество знаний - это процент оценок '4' и '5' от общего числа оценок."
-        type="info"
-        showIcon
-        className={styles.statistics__infoAlert}
+      <Tabs
+        activeKey={activeTab}
+        onChange={setActiveTab}
+        items={items}
+        className={styles.statistics__tabs}
       />
     </div>
   );

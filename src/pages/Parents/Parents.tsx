@@ -16,6 +16,8 @@ import {
   Divider,
   Transfer,
 } from "antd";
+import type { TransferDirection } from "antd/es/transfer";
+import type { Key } from "antd/es/table/interface";
 import {
   UserAddOutlined,
   DeleteOutlined,
@@ -84,7 +86,7 @@ export const Parents: React.FC = () => {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [searchText, setSearchText] = useState<string>("");
   const [filteredParents, setFilteredParents] = useState<ParentData[]>([]);
-  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
+  const [selectedStudents, setSelectedStudents] = useState<Key[]>([]);
   const token = localStorage.getItem("accessToken") || "";
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -211,13 +213,16 @@ export const Parents: React.FC = () => {
       formData.append("passportSeries", values.passportSeries);
       formData.append("passportNumber", values.passportNumber);
       formData.append("registrationAddress", values.registrationAddress);
-      formData.append("childrenIds", JSON.stringify(selectedStudents));
+
+      // Convert Key[] to string[] for JSON serialization
+      const childrenIds = selectedStudents.map((key) => key.toString());
+      formData.append("childrenIds", JSON.stringify(childrenIds));
 
       if (photoFile) {
         formData.append("photo", photoFile);
       }
 
-      console.log("Form Data:", selectedStudents);
+      console.log("Form Data:", childrenIds);
       setLoading(true);
       await registrationUser(formData, "parent", token);
 
@@ -250,7 +255,11 @@ export const Parents: React.FC = () => {
   };
 
   // Handle student selection change
-  const handleStudentChange = (targetKeys: string[]) => {
+  const handleStudentChange = (
+    targetKeys: Key[],
+    direction: TransferDirection,
+    moveKeys: Key[]
+  ) => {
     setSelectedStudents(targetKeys);
   };
 
@@ -418,7 +427,7 @@ export const Parents: React.FC = () => {
       {/* Add Parent Modal */}
       <Modal
         title="Добавить нового родителя"
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         onOk={handleSubmit}
         okText="Добавить"

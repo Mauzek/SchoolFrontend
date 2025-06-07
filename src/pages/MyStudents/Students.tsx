@@ -33,6 +33,7 @@ import {
   getStudentsByClassId,
 } from "../../api/api-utils";
 import { RootState } from "../../store";
+import { ApiClassResponse } from "../../types/api";
 
 const { Title, Text } = Typography;
 
@@ -78,6 +79,28 @@ interface StudentData {
   }[];
 }
 
+// Function to convert API response to local ClassData format
+const convertApiClassToClassData = (apiClass: ApiClassResponse): ClassData => {
+  return {
+    idClass: apiClass.idClass,
+    classNumber: apiClass.classNumber,
+    classLetter: apiClass.classLetter,
+    studyYear: apiClass.stydyYear, // Note: API has typo "stydyYear"
+    classTeacher: apiClass.classTeacher ? {
+      id: apiClass.classTeacher.idEmployee,
+      firstName: apiClass.classTeacher.firstName,
+      lastName: apiClass.classTeacher.lastName,
+      middleName: apiClass.classTeacher.middleName,
+    } : {
+      id: 0,
+      firstName: "",
+      lastName: "",
+      middleName: null,
+    },
+    studentCount: apiClass.studentsCount.toString(),
+  };
+};
+
 export const Students: React.FC = () => {
   const user = useSelector((state: RootState) => state.user.user);
   const navigate = useNavigate();
@@ -96,7 +119,9 @@ export const Students: React.FC = () => {
         setLoading(true);
         const response = await getClassesByEmployeeId(user.id, token);
         if (response && response.classes) {
-          setClasses(response.classes);
+          // Convert API response to local format
+          const convertedClasses = response.classes.map(convertApiClassToClassData);
+          setClasses(convertedClasses);
         }
       } catch (error) {
         console.error("Error fetching classes:", error);
@@ -239,7 +264,6 @@ export const Students: React.FC = () => {
       <div className={styles.studentsContainer}>
         <div className={styles.studentsHeader}>
           <button
-
             onClick={() => setView("classes")}
             className={styles.backButton}
           >
