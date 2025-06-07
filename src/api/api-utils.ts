@@ -387,6 +387,7 @@ const axiosRequest = async (
     const isFormData = data instanceof FormData;
   
     const headers: Record<string, string> = {
+      "bypass-tunnel-reminder": "1",
       ...(!isFormData && { "Content-Type": "application/json" }),
       ...(token && { Authorization: `Bearer ${token}` }),
       ...(options?.headers || {})
