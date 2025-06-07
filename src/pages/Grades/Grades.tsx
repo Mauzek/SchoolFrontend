@@ -63,15 +63,7 @@ interface GradeRecord {
   grades: any[];
 }
 
-interface StudentColumn {
-  title: string;
-  dataIndex: string | string[];
-  key: string;
-  fixed?: 'left' | 'right';
-  width?: number;
-  align?: 'left' | 'right' | 'center';
-  render?: (value: any, record: GradeRecord, index: number) => React.ReactNode;
-}
+
 
 export const Grades = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -607,7 +599,7 @@ export const Grades = () => {
         key: "student",
         fixed: "left",
         width: 200,
-        render: (student: any, record: GradeRecord) => {
+        render: (student: any) => {
           const isCurrentUser =
             user.user.additionalInfo.idStudent === student.idStudent;
           const isSelectedChild =

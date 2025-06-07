@@ -19,7 +19,6 @@ import {
 import {
   BarChartOutlined,
   PieChartOutlined,
-  LineChartOutlined,
   TeamOutlined,
   UserOutlined,
   BookOutlined,
@@ -37,8 +36,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  LineChart,
-  Line,
 } from "recharts";
 import styles from "./Statistics.module.scss";
 import {

@@ -16,7 +16,6 @@ import {
   Divider,
   Transfer,
 } from "antd";
-import type { TransferDirection } from "antd/es/transfer";
 import type { Key } from "antd/es/table/interface";
 import {
   UserAddOutlined,
@@ -257,8 +256,6 @@ export const Parents: React.FC = () => {
   // Handle student selection change
   const handleStudentChange = (
     targetKeys: Key[],
-    direction: TransferDirection,
-    moveKeys: Key[]
   ) => {
     setSelectedStudents(targetKeys);
   };
