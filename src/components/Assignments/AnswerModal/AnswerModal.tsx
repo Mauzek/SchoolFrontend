@@ -112,7 +112,6 @@ export const AnswerModal: React.FC<AnswerModalProps> = ({
       setSubmitting(false);
     }
   };
-
   return (
     <div
       className={`${styles.modal} ${isOpen ? styles.modalVisible : ""}`}
@@ -134,7 +133,7 @@ export const AnswerModal: React.FC<AnswerModalProps> = ({
             ×
           </button>
         </header>
-
+      
         <div className={styles.modal__body}>
           {answer.fileLink && (
             <div className={styles.modal__pdfWrapper}>
