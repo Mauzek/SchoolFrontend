@@ -20,7 +20,7 @@ export const AssignmentDescription: React.FC<AssignmentDescriptionProps> = ({
 
           {assignment.fileLink && (
             <a
-              href={`http://localhost:3000${assignment.fileLink}`}
+              href={`https://iternational-school-server-api.loca.lt/${assignment.fileLink}`}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.description__fileLink}
@@ -32,7 +32,7 @@ export const AssignmentDescription: React.FC<AssignmentDescriptionProps> = ({
 
           {assignment.testing?.fileLink && (
             <a
-              href={`http://localhost:3000${assignment.testing.fileLink}`}
+              href={`https://iternational-school-server-api.loca.lt/${assignment.testing.fileLink}`}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.description__fileLink}
