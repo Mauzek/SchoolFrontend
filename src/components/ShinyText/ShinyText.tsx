@@ -6,17 +6,15 @@ interface ShinyTextProps {
     disabled?: boolean;
     speed?: number;
     className?: string;
-    fontSizes?: number;
 }
 
-export const ShinyText: React.FC<ShinyTextProps> = ({ text, disabled = false, speed = 5, className = '' , fontSizes = 4}) => {
+export const ShinyText: React.FC<ShinyTextProps> = ({ text, disabled = false, speed = 5, className = '' }) => {
     const animationDuration = `${speed}s`;
-    const fontSize = `${fontSizes}em`;
 
     return (
         <div
             className={`${styles['shiny-text']} ${disabled ? styles.disabled : ''} ${className}`}
-            style={{ animationDuration , fontSize }}
+            style={{ animationDuration }}
         >
             {text}
         </div>

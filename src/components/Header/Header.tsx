@@ -155,7 +155,6 @@ export const Header: React.FC = () => {
         <ShinyText
           text="Internation school"
           className={styles["sidebar__logo-text"]}
-          fontSizes={1.5}
         />
       </div>
 
